@@ -61,3 +61,4 @@ def extract_article_data(text_data):
         else: print("Removed article. Date not found")
     print("Loaded", len(articles), "articles")
     return articles, dates
+
