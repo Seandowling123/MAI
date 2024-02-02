@@ -10,6 +10,14 @@ import numpy as np
 import time
 import os
 
+# Class containing info about each article
+class Article:
+    def __init__(self, date, body, sentiment):
+        self.date = date
+        self.body = body
+        self.sentiment = sentiment
+
+# Load articles text file
 def load_text_file(file_path):
     try:
         with open(file_path, 'r', encoding="latin-1") as file:
@@ -21,7 +29,8 @@ def load_text_file(file_path):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return f"An error occurred: {str(e)}"
-    
+
+# Pre-process articles
 def process_text(body):
     try:
         body_split = ((((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0]).replace('\n', '')).replace('  ', '')
