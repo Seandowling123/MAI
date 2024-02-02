@@ -28,7 +28,7 @@ class Article:
         self.sentiment = sentiment
 
 # Load dictionary words from csv
-def load_csv_file(file_path):
+def load_csv(file_path):
     try:
         with open(file_path, 'r', newline='') as csv_file:
             reader = csv.reader(csv_file)
@@ -40,11 +40,13 @@ def load_csv_file(file_path):
         return f"An error occurred: {str(e)}"
 
 # Load articles from text file
-def load_text_file(file_path):
+def load_articles_from_txt(file_path):
     try:
         with open(file_path, 'r', encoding="latin-1") as file:
             content = file.read()
-        return content
+            content = content.replace('\xa0', '')
+            articles = content.split('End of Document')
+        return articles
     except FileNotFoundError:
         print(f"File not found: {file_path}")
         return f"File not found: {file_path}"
@@ -99,5 +101,21 @@ def extract_article_data(text_data):
     print("Loaded", len(articles), "articles")
     return articles, dates
 
+def get_sentiment_scores(articles, positive_dict, negative_dict):
+    
 
+# Load files
+articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+raw_articles = load_articles_from_txt(articles_file_path)
+
+# Extract data & list of dates from articles
+articles, dates = extract_article_data(raw_articles)
+
+positive_dict_path = "Loughran-McDonald_Positive.csv"
+negative_dict_path = "Loughran-McDonald_Negative.csv"
+# Load dictionary from csv
+positive_dict = load_csv(positive_dict_path)
+negative_dict = load_csv(negative_dict_path)
+
+get_sentiment_scores()
 
