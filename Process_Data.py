@@ -62,3 +62,4 @@ def extract_article_data(text_data):
     print("Loaded", len(articles), "articles")
     return articles, dates
 
+
