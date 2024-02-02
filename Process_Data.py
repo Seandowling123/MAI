@@ -1,14 +1,15 @@
-from transformers import BertTokenizer, BertForSequenceClassification
-import torch
-import csv
-from datetime import datetime
-import re
-import matplotlib.pyplot as plt
-import math
-import pandas as pd
 import numpy as np
+import pandas as pd
+import math
+import csv
 import time
+import re
 import os
+from datetime import datetime
+import matplotlib.pyplot as plt
+import nltk
+from nltk.tokenize import word_tokenize
+nltk.download('punkt')
 
 # Data to save for each trading day
 class Trading_Day:
@@ -26,7 +27,19 @@ class Article:
         self.body = body
         self.sentiment = sentiment
 
-# Load articles text file
+# Load dictionary words from csv
+def load_csv_file(file_path):
+    try:
+        with open(file_path, 'r', newline='') as csv_file:
+            reader = csv.reader(csv_file)
+            entries = [row[0] for row in reader]
+        return entries
+    except FileNotFoundError:
+        return f"File not found: {file_path}"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+
+# Load articles from text file
 def load_text_file(file_path):
     try:
         with open(file_path, 'r', encoding="latin-1") as file:
@@ -42,8 +55,11 @@ def load_text_file(file_path):
 # Pre-process articles
 def process_text(body):
     try:
-        body_split = ((((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0]).replace('\n', '')).replace('  ', '')
+        # Extract article body & filter content
+        body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
+        body_split = (body_split.replace('\n', '')).replace('  ', '')
         body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
+        print(body_filtered, "\n")
         return body_filtered
     except Exception as e:
         print("Error processing text")
@@ -55,6 +71,7 @@ def convert_string_to_datetime(date_string):
         datetime_object = datetime.strptime(date_string, '%B %d, %Y')
         return datetime_object
     except ValueError:
+        print(f"Unable to parse the date string: {date_string}")
         return f"Unable to parse the date string: {date_string}"
 
 # Extracts date and body of each news article
@@ -81,5 +98,6 @@ def extract_article_data(text_data):
         else: print("Removed article. Date not found")
     print("Loaded", len(articles), "articles")
     return articles, dates
+
 
 
