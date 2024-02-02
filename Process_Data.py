@@ -10,6 +10,15 @@ import numpy as np
 import time
 import os
 
+# Data to save for each trading day
+class Trading_Day:
+    def __init__(self, date, close, returns, absolute_returns, sentiment):
+        self.date = date
+        self.close = close
+        self.returns = returns
+        self.absolute_returns = absolute_returns
+        self.sentiment = sentiment
+
 # Class containing info about each article
 class Article:
     def __init__(self, date, body, sentiment):
@@ -39,14 +48,16 @@ def process_text(body):
     except Exception as e:
         print("Error processing text")
         return 0, 0
-    
+
+# Returns a dateTime object for news articles
 def convert_string_to_datetime(date_string):
     try:
         datetime_object = datetime.strptime(date_string, '%B %d, %Y')
         return datetime_object
     except ValueError:
         return f"Unable to parse the date string: {date_string}"
-    
+
+# Extracts date and body of each news article
 def extract_article_data(text_data):
     articles = []
     dates = []
