@@ -2,6 +2,9 @@ import pyautogui
 import time
 import random
 
+# Most recent article downloaded
+beginning = 0
+
 time.sleep(4)
 
 # Chrome options
@@ -29,7 +32,7 @@ pyautogui.moveTo(819, 637, duration=random.uniform(.1, .5))
 pyautogui.click()
 
 # If login page
-time.sleep(15)
+time.sleep(10)
 px = pyautogui.pixel(100, 500)
 if px != (0, 24, 46):
     # Tcd email
@@ -69,7 +72,7 @@ pyautogui.click()
 time.sleep(1)
 pyautogui.moveTo(331, 741, duration=random.uniform(.6, 1))
 pyautogui.click()
-time.sleep(5)
+time.sleep(8)
 
 # Sort 
 pyautogui.moveTo(1795, 431, duration=random.uniform(.6, 1))
@@ -92,9 +95,10 @@ time.sleep(5)
 # Download
 pyautogui.moveTo(775, 435, duration=random.uniform(.6, 1))
 pyautogui.click()
+time.sleep(1)
 
 # Options
-pyautogui.moveTo(433, 563, duration=random.uniform(.6, 1))
+pyautogui.moveTo(693, 362, duration=random.uniform(.6, 1))
 pyautogui.click()
 
 # Remove formatting
@@ -104,10 +108,10 @@ pyautogui.click()
 pyautogui.moveTo(431, 603, duration=random.uniform(.6, 1))
 pyautogui.click()
 
-pyautogui.moveTo(678, 638, duration=random.uniform(.6, 1))
+pyautogui.moveTo(432, 638, duration=random.uniform(.6, 1))
 pyautogui.click()
 
-pyautogui.moveTo(432, 678, duration=random.uniform(.6, 1))
+pyautogui.moveTo(431, 678, duration=random.uniform(.6, 1))
 pyautogui.click()
 
 # Basic options
@@ -117,6 +121,18 @@ pyautogui.click()
 # Article numbers
 pyautogui.moveTo(609, 598, duration=random.uniform(.6, 1))
 pyautogui.click()
+article_range = [beginning+1, beginning+500]
+pyautogui.typewrite(f"{article_range[0]}-{article_range[1]}", interval=random.uniform(.01, .1))
+
+# Download
+pyautogui.moveTo(1238, 872, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+px = pyautogui.pixel(102, 296)
+while px == (55, 55, 57):
+    i = 0
+
+time.sleep(1)
 
 
 
