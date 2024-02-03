@@ -27,18 +27,22 @@ pyautogui.scroll(-4000)
 pyautogui.moveTo(819, 637, duration=1.12)
 pyautogui.click()
 
-# Tcd email
-time.sleep(3)
-pyautogui.moveTo(602, 487, duration=0.3534)
-pyautogui.click()
+# If no login page
+time.sleep(15)
+px = pyautogui.pixel(100, 500)
+if px != (0, 24, 46):
+    # Tcd email
+    time.sleep(3)
+    pyautogui.moveTo(602, 487, duration=0.3534)
+    pyautogui.click()
 
-# Autofill
-pyautogui.moveTo(741, 552, duration=0.5347835478)
-pyautogui.click()
+    # Autofill
+    pyautogui.moveTo(741, 552, duration=0.5347835478)
+    pyautogui.click()
 
-# Login
-pyautogui.moveTo(574, 569, duration=0.578635478)
-pyautogui.click()
+    # Login
+    pyautogui.moveTo(574, 569, duration=0.578635478)
+    pyautogui.click()
 
 # News
 time.sleep(15)
