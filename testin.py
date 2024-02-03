@@ -21,6 +21,10 @@ pyautogui.click()
 pyautogui.typewrite("tcd lexisnexis", interval=random.uniform(.01, .1))
 pyautogui.press('enter')
 
+# Privacy notice
+pyautogui.moveTo(1103, 1012, duration=random.uniform(.6, 1))
+pyautogui.click()
+
 # Tcd law website
 pyautogui.moveTo(541, 623, duration=random.uniform(.6, 1))
 pyautogui.click()
@@ -32,7 +36,7 @@ pyautogui.moveTo(819, 637, duration=random.uniform(.1, .5))
 pyautogui.click()
 
 # If login page
-time.sleep(10)
+time.sleep(8)
 px = pyautogui.pixel(100, 500)
 if px != (0, 24, 46):
     # Tcd email
@@ -53,12 +57,12 @@ pyautogui.moveTo(362, 255, duration=random.uniform(.6, 1))
 pyautogui.click()
 
 # Advanced search
-time.sleep(5)
+time.sleep(7)
 pyautogui.moveTo(1511, 595, duration=random.uniform(.6, 1))
 pyautogui.click()
 
 # Search query
-time.sleep(2)
+time.sleep(4)
 pyautogui.moveTo(922, 551, duration=random.uniform(.6, 1))
 pyautogui.click()
 pyautogui.typewrite("company(Ryanair) and >=1/1/2003 <=31/12/2023 and (publication(Wall Street Journal Abstracts) OR publication(Financial Times Online) OR publication(Associated Press Financial Wire) OR publication(AirGuide Business & AirGuideBusiness.com) OR publication(Proactive Investors (UK)) OR publication(BNS News Service in English by Baltic News Service (BNS) English) OR publication(Newstex Blogs) OR publication(Live Briefs PRO Global Markets) OR publication(MT Newswires Live Briefs) OR publication(Business World (Digest)) OR publication(MarketLine NewsWire) OR publication(London Stock Exchange Regulatory News Service) OR publication(Sunday Business Post) OR publication(International Business Times News) OR publication(The Investors Chronicle) OR publication(Financial Times (London, England)) OR publication(AirFinance Journal) OR publication(Flight International) OR publication(dpa-AFX International ProFeed) OR publication(dpa international (Englischer Dienst)) OR publication(RTT News (United States)) OR publication(Citywire) OR publication(City A.M.) OR publication(ANSA English Corporate Service) OR publication(American Banking and Market News) OR publication(Transcript Daily) OR publication(Watchlist News) OR publication(DailyPolitical) OR publication(Alliance News UK) OR publication(Thomson Financial News Super Focus))", interval=random.uniform(.001, .005))
@@ -69,7 +73,6 @@ pyautogui.moveTo(303, 594, duration=random.uniform(.6, 1))
 pyautogui.click()
 
 # Search
-time.sleep(1)
 pyautogui.moveTo(331, 741, duration=random.uniform(.6, 1))
 pyautogui.click()
 time.sleep(8)
@@ -81,7 +84,7 @@ pyautogui.click()
 # Newewst to oldest
 pyautogui.moveTo(1778, 531, duration=random.uniform(.6, 1))
 pyautogui.click()
-time.sleep(5)
+time.sleep(7)
 
 # Actions
 pyautogui.moveTo(470, 302, duration=random.uniform(.6, 1))
@@ -90,7 +93,7 @@ pyautogui.click()
 # Moderate similarity
 pyautogui.moveTo(519, 663, duration=random.uniform(.6, 1))
 pyautogui.click()
-time.sleep(5)
+time.sleep(7)
 
 # Download
 pyautogui.moveTo(775, 435, duration=random.uniform(.6, 1))
@@ -128,12 +131,13 @@ pyautogui.typewrite(f"{article_range[0]}-{article_range[1]}", interval=random.un
 pyautogui.moveTo(1238, 872, duration=random.uniform(.6, 1))
 pyautogui.click()
 
+time.sleep(20)
 px = pyautogui.pixel(102, 296)
 while px == (55, 55, 57):
     i = 0
 
 time.sleep(1)
-
+print("done")
 
 
 # Display the current mouse position
