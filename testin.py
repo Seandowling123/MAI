@@ -25,7 +25,7 @@ time.sleep(1)
 pyautogui.scroll(-4000)
 
 # Lexis Nexis News and Business
-pyautogui.moveTo(819, 637, duration=random.uniform(.6, 1))
+pyautogui.moveTo(819, 637, duration=random.uniform(.1, .5))
 pyautogui.click()
 
 # If login page
@@ -60,7 +60,6 @@ pyautogui.moveTo(922, 551, duration=random.uniform(.6, 1))
 pyautogui.click()
 pyautogui.typewrite("company(Ryanair) and >=1/1/2003 <=31/12/2023 and (publication(Wall Street Journal Abstracts) OR publication(Financial Times Online) OR publication(Associated Press Financial Wire) OR publication(AirGuide Business & AirGuideBusiness.com) OR publication(Proactive Investors (UK)) OR publication(BNS News Service in English by Baltic News Service (BNS) English) OR publication(Newstex Blogs) OR publication(Live Briefs PRO Global Markets) OR publication(MT Newswires Live Briefs) OR publication(Business World (Digest)) OR publication(MarketLine NewsWire) OR publication(London Stock Exchange Regulatory News Service) OR publication(Sunday Business Post) OR publication(International Business Times News) OR publication(The Investors Chronicle) OR publication(Financial Times (London, England)) OR publication(AirFinance Journal) OR publication(Flight International) OR publication(dpa-AFX International ProFeed) OR publication(dpa international (Englischer Dienst)) OR publication(RTT News (United States)) OR publication(Citywire) OR publication(City A.M.) OR publication(ANSA English Corporate Service) OR publication(American Banking and Market News) OR publication(Transcript Daily) OR publication(Watchlist News) OR publication(DailyPolitical) OR publication(Alliance News UK) OR publication(Thomson Financial News Super Focus))", interval=random.uniform(.001, .005))
 pyautogui.scroll(-4000)
-pyautogui.press('enter')
 
 # Language English
 pyautogui.moveTo(303, 594, duration=random.uniform(.6, 1))
@@ -68,8 +67,58 @@ pyautogui.click()
 
 # Search
 time.sleep(1)
-pyautogui.moveTo(359, 684, duration=random.uniform(.6, 1))
+pyautogui.moveTo(331, 741, duration=random.uniform(.6, 1))
 pyautogui.click()
+time.sleep(5)
+
+# Sort 
+pyautogui.moveTo(1795, 431, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+# Newewst to oldest
+pyautogui.moveTo(1778, 531, duration=random.uniform(.6, 1))
+pyautogui.click()
+time.sleep(5)
+
+# Actions
+pyautogui.moveTo(470, 302, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+# Moderate similarity
+pyautogui.moveTo(519, 663, duration=random.uniform(.6, 1))
+pyautogui.click()
+time.sleep(5)
+
+# Download
+pyautogui.moveTo(775, 435, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+# Options
+pyautogui.moveTo(433, 563, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+# Remove formatting
+pyautogui.moveTo(432, 567, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+pyautogui.moveTo(431, 603, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+pyautogui.moveTo(678, 638, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+pyautogui.moveTo(432, 678, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+# Basic options
+pyautogui.moveTo(502, 371, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+# Article numbers
+pyautogui.moveTo(609, 598, duration=random.uniform(.6, 1))
+pyautogui.click()
+
+
 
 # Display the current mouse position
 print(pyautogui.position())
