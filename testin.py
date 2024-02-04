@@ -6,7 +6,7 @@ import random
 #beginning = 500
 with open("Current_Articles_downloaded.txt") as f:
     beginning = int(f.read())
-print("Downloading articles beginning from;", beginning)
+print("Downloading articles beginning from:", beginning)
 
 time.sleep(4)
 
@@ -15,7 +15,7 @@ pyautogui.moveTo(1890, 80, duration=random.uniform(.3, .7))
 pyautogui.click()
 
 # Open tab
-pyautogui.moveTo(1633, 203, duration=random.uniform(.3, .7))
+pyautogui.moveTo(1633, 203, duration=random.uniform(.2, .5))
 pyautogui.click()
 
 # Search bar
@@ -35,15 +35,15 @@ time.sleep(1)
 pyautogui.scroll(-4000)
 
 # Lexis Nexis News and Business
-pyautogui.moveTo(819, 637, duration=random.uniform(.1, .5))
+pyautogui.moveTo(819, 637, duration=random.uniform(.2, .5))
 pyautogui.click()
 
 # If login page
-time.sleep(2)
+time.sleep(1)
 px = pyautogui.pixel(100, 500)
 if px != (0, 24, 46):
     # Tcd email
-    pyautogui.moveTo(602, 487, duration=random.uniform(.5, .7))
+    pyautogui.moveTo(602, 487, duration=random.uniform(.2, .3))
     pyautogui.click()
 
     # Autofill
@@ -84,6 +84,12 @@ time.sleep(8)
 pyautogui.moveTo(1795, 431, duration=random.uniform(.3, .7))
 pyautogui.click()
 
+# If popup -> close
+px = pyautogui.pixel(1593, 459)
+if px == (43, 59, 96):
+    pyautogui.moveTo(1558, 464, duration=random.uniform(.3, .7))
+    pyautogui.click()
+
 # Newewst to oldest
 pyautogui.moveTo(1778, 531, duration=random.uniform(.3, .7))
 pyautogui.click()
@@ -104,11 +110,11 @@ pyautogui.click()
 time.sleep(1)
 
 # Options
-pyautogui.moveTo(693, 362, duration=random.uniform(.3, .7))
+pyautogui.moveTo(693, 362, duration=random.uniform(.2, .5))
 pyautogui.click()
 
 # Remove formatting
-pyautogui.moveTo(432, 567, duration=random.uniform(.3, .5))
+pyautogui.moveTo(432, 567, duration=random.uniform(.1, .3))
 pyautogui.click()
 
 pyautogui.moveTo(431, 603, duration=random.uniform(.1, .3))
