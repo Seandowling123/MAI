@@ -3,7 +3,10 @@ import time
 import random
 
 # Most recent article downloaded
-beginning = 0
+#beginning = 500
+with open("Current_Articles_downloaded.txt") as f:
+    beginning = int(f.read())
+print(beginning)
 
 time.sleep(4)
 
@@ -132,13 +135,18 @@ pyautogui.moveTo(1238, 872, duration=random.uniform(.6, 1))
 pyautogui.click()
 
 time.sleep(20)
-px = pyautogui.pixel(102, 296)
+px = pyautogui.pixel(275, 611)
 while px == (55, 55, 57):
     i = 0
 
-time.sleep(1)
-print("done")
+time.sleep(2)
 
+px = pyautogui.pixel(900, 25)
+while px == (31, 32, 32):
+    i = 0
+
+pyautogui.typewrite(f"Financial({article_range[0]}-{article_range[1]})")
+print("done")
 
 # Display the current mouse position
 print(pyautogui.position())
