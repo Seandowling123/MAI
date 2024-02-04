@@ -80,15 +80,16 @@ pyautogui.moveTo(331, 741, duration=random.uniform(.3, .7))
 pyautogui.click()
 time.sleep(8)
 
+# If popup -> close
+px = pyautogui.pixel(1593, 436)
+if px == (43, 59, 96):
+    pyautogui.moveTo(1855, 444, duration=random.uniform(.3, .7))
+    pyautogui.click()
+    time.sleep(1)
+
 # Sort 
 pyautogui.moveTo(1795, 431, duration=random.uniform(.3, .7))
 pyautogui.click()
-
-# If popup -> close
-px = pyautogui.pixel(1593, 459)
-if px == (43, 59, 96):
-    pyautogui.moveTo(1558, 464, duration=random.uniform(.3, .7))
-    pyautogui.click()
 
 # Newewst to oldest
 pyautogui.moveTo(1778, 531, duration=random.uniform(.3, .7))
