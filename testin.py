@@ -167,5 +167,3 @@ f = open("Current_Articles_downloaded.txt", "w")
 new_beginning = beginning + 500
 f.write(str(new_beginning))
 f.close()
-
-
