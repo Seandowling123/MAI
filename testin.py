@@ -51,7 +51,7 @@ if px != (0, 24, 46):
     pyautogui.click()
 
     # Login
-    pyautogui.moveTo(574, 569, duration=random.uniform(.5, .7))
+    pyautogui.moveTo(574, 569, duration=random.uniform(.2, .3))
     pyautogui.click()
     time.sleep(15)
 
@@ -85,7 +85,6 @@ px = pyautogui.pixel(1593, 436)
 if px == (43, 59, 96):
     pyautogui.moveTo(1855, 444, duration=random.uniform(.3, .7))
     pyautogui.click()
-    time.sleep(1)
 
 # Sort 
 pyautogui.moveTo(1795, 431, duration=random.uniform(.3, .7))
@@ -169,6 +168,4 @@ new_beginning = beginning + 500
 f.write(str(new_beginning))
 f.close()
 
-# Display the current mouse position
-print(pyautogui.position())
 
