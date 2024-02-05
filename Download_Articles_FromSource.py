@@ -29,10 +29,10 @@ pyautogui.moveTo(1103, 1012, duration=random.uniform(.3, .7))
 pyautogui.click()
 
 # Tcd law website
-time.sleep(.5)
-pyautogui.moveTo(468, 595, duration=random.uniform(.5, .7))
-pyautogui.click()
 time.sleep(1)
+pyautogui.moveTo(468, 600, duration=random.uniform(.7, 1))
+pyautogui.click()
+time.sleep(1.5)
 pyautogui.scroll(-4000)
 
 # Lexis Nexis News and Business
@@ -40,7 +40,7 @@ pyautogui.moveTo(819, 637, duration=random.uniform(.2, .5))
 pyautogui.click()
 
 # If login page
-time.sleep(1)
+time.sleep(1.5)
 px = pyautogui.pixel(100, 500)
 if px != (0, 24, 46):
     # Tcd email
@@ -69,7 +69,7 @@ pyautogui.click()
 time.sleep(4)
 pyautogui.moveTo(922, 551, duration=random.uniform(.3, .7))
 pyautogui.click()
-pyautogui.typewrite("company(Ryanair) and >=1/1/2003 <=31/12/2023 and (publication(Wall Street Journal Abstracts) OR publication(Financial Times Online) OR publication(Associated Press Financial Wire) OR publication(AirGuide Business & AirGuideBusiness.com) OR publication(Proactive Investors (UK)) OR publication(BNS News Service in English by Baltic News Service (BNS) English) OR publication(Newstex Blogs) OR publication(Live Briefs PRO Global Markets) OR publication(MT Newswires Live Briefs) OR publication(Business World (Digest)) OR publication(MarketLine NewsWire) OR publication(London Stock Exchange Regulatory News Service) OR publication(Sunday Business Post) OR publication(International Business Times News) OR publication(The Investors Chronicle) OR publication(Financial Times (London, England)) OR publication(AirFinance Journal) OR publication(Flight International) OR publication(dpa-AFX International ProFeed) OR publication(dpa international (Englischer Dienst)) OR publication(RTT News (United States)) OR publication(Citywire) OR publication(City A.M.) OR publication(ANSA English Corporate Service) OR publication(American Banking and Market News) OR publication(Transcript Daily) OR publication(Watchlist News) OR publication(DailyPolitical) OR publication(Alliance News UK) OR publication(Thomson Financial News Super Focus))", interval=random.uniform(.003, .005))
+pyautogui.typewrite("company(Ryanair) and >=1/1/2003 <=31/12/2023", interval=random.uniform(.003, .005))
 pyautogui.scroll(-4000)
 
 # Language English
@@ -79,16 +79,16 @@ pyautogui.click()
 # Search
 pyautogui.moveTo(331, 741, duration=random.uniform(.3, .7))
 pyautogui.click()
-time.sleep(10)
+time.sleep(11)
 
 # If popup -> close
 px = pyautogui.pixel(1593, 436)
 if px == (43, 59, 96):
-    pyautogui.moveTo(1855, 444, duration=random.uniform(.3, .7))
+    pyautogui.moveTo(1855, 444, duration=random.uniform(.5, .1))
     pyautogui.click()
 
 # Sort 
-pyautogui.moveTo(1795, 431, duration=random.uniform(.3, .7))
+pyautogui.moveTo(1795, 431, duration=random.uniform(.7, 1))
 pyautogui.click()
 
 # Newewst to oldest
@@ -104,6 +104,9 @@ pyautogui.click()
 pyautogui.moveTo(519, 663, duration=random.uniform(.3, .7))
 pyautogui.click()
 time.sleep(6)
+
+# Wait to select company
+time.sleep(25)
 
 # Download
 pyautogui.moveTo(775, 435, duration=random.uniform(.3, .7))
@@ -158,9 +161,9 @@ while px == (31, 32, 32):
     i = 0
 print("Download bubble detected.")
 
-# File name
+# File name # London Stock Exchange Regulatory News Service
 time.sleep(1)
-pyautogui.typewrite(f"Financial({article_range[0]}-{article_range[1]})")
+pyautogui.typewrite(f"InvestorsChronicle({article_range[0]}-{article_range[1]})")
 print("Articles Downloaded.")
 
 # Update the number of articles downloaded
