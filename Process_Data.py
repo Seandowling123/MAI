@@ -240,7 +240,6 @@ for article in articles:
 start_date = min(dates)
 end_date = max(dates)
 close_prices = ectract_close_prices("RYAAY.csv", start_date, end_date)
-    
 trading_days = get_trading_day_data(daily_senitment, close_prices)
 
 # Save trading day data to csv
@@ -255,7 +254,7 @@ returns = [trading_days[date].returns for date in trading_days]
 
 # Creating line plot
 plt.plot(dates, returns, color='red', label='Returns')
-plt.plot(dates, sentiments, label='BERT Sentiment')
+plt.plot(dates, sentiments, label='Sentiment')
 plt.title('Values Over Time')
 plt.xlabel('Date')
 plt.ylabel('Value')
@@ -263,18 +262,21 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+
 # Some testing stats
 if mode == "test":
     print("Positive word matches:")
     for word in positive_dict:
         if word in articles[0].body:
-            print(word, sep=',')
+            print(word, sep=' ')
+    print("\n")
             
     print("Negative word matches:")
     for word in negative_dict:
         if word in articles[0].body:
-            print(word, sep=',')
-        
+            print(word, sep=' ')
+    print("\n")
+    
     print(f"Headline: {articles[0].headline}\n")
     print(f"Date: {articles[0].date}\n")
     print(f"Body: {articles[0].body}\n")
