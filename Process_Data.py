@@ -193,8 +193,9 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
     try:
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
-            writer.writerow(["Date", "Close", "Returns", "AbsoluteReturns", "Sentiment"])  # Writing header
-
+            # Header
+            writer.writerow(["Date", "Close", "Returns", "AbsoluteReturns", "Sentiment"])
+            # Save data
             for date, trading_day in trading_days.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
 
