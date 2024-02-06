@@ -65,7 +65,6 @@ def process_text(body):
             body_split = (body_split.replace('\n', '')).replace('  ', '')
             body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
             body_upper = body_filtered.upper()
-            print(body_upper, "\n")
             return body_upper
         else: 
             print("Error: Article body could not be found.")
@@ -84,14 +83,15 @@ def convert_string_to_datetime(date_string):
         return f"Unable to parse the date string: {date_string}"
 
 # Extracts date and body of each news article
-def extract_article_data(text_data):
+def extract_article_data(raw_articles):
     articles = []
     dates = []
     # Extract data
-    for i in range(len(text_data)):
-        # Extract date
+    for i in range(len(raw_articles)):
+        # Extract headline & date 
+        headline = raw_articles[i].split("\n")[0]
         date_pattern = re.compile(r'\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b \d{1,2}, \d{4}')
-        match = date_pattern.search(text_data[i])
+        match = date_pattern.search(raw_articles[i])
         # Check for valid date
         if match:
             date_string = match.group()
@@ -99,16 +99,16 @@ def extract_article_data(text_data):
             # Add to Articles list
             if isinstance(date, datetime):
                 dates.append(date)
-                body = process_text(text_data[i])
+                body = process_text(raw_articles[i])
                 if body != 0:
-                    articles.append(Article(date, body, 0))
+                    articles.append(Article(date, body, headline, 0))
                 else: print("Removed article. Incorrect syntax")
             else: print("Removed article. Date loaded incorrectly")
         else: print("Removed article. Date not found")
     print("Loaded", len(articles), "articles")
     return articles, dates
 
-#def get_sentiment_scores(articles, positive_dict, negative_dict):
+def get_sentiment_scores(articles, positive_dict, negative_dict):
     
 
 # Load files
@@ -117,12 +117,14 @@ raw_articles = load_articles_from_txt(articles_file_path)
 
 # Extract data & list of dates from articles
 articles, dates = extract_article_data(raw_articles)
+print(articles[0].headline)
+print(articles[0].body)
 
+# Load dictionary from csv
 positive_dict_path = "Loughran-McDonald_Positive.csv"
 negative_dict_path = "Loughran-McDonald_Negative.csv"
-# Load dictionary from csv
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 
-#get_sentiment_scores()
+get_sentiment_scores(articles, positive_dict, negative_dict)
 
