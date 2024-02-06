@@ -108,8 +108,21 @@ def extract_article_data(raw_articles):
     print("Loaded", len(articles), "articles")
     return articles, dates
 
+# Count the number of dictionary words in an article
+def get_word_count(article, word_list):
+    word_counts = 0
+    for word in word_list:
+        count = article.count(word)
+        word_counts = word_counts + count
+    return word_counts
+
+# Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict):
-    
+    for article in articles:
+        num_words = len(word_tokenize(article))
+        pos_word_count = get_word_count(article, positive_dict)
+        neg_word_count = get_word_count(article, negative_dict)
+        
 
 # Load files
 articles_file_path = 'Sample_article.txt'
@@ -118,7 +131,7 @@ raw_articles = load_articles_from_txt(articles_file_path)
 # Extract data & list of dates from articles
 articles, dates = extract_article_data(raw_articles)
 print(articles[0].headline)
-print(articles[0].body)
+print(word_tokenize(articles[0].body))
 
 # Load dictionary from csv
 positive_dict_path = "Loughran-McDonald_Positive.csv"
