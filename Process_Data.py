@@ -22,9 +22,10 @@ class Trading_Day:
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, sentiment):
+    def __init__(self, date, body, headline, sentiment):
         self.date = date
         self.body = body
+        self.headline = headline
         self.sentiment = sentiment
 
 # Load dictionary words from csv
@@ -46,6 +47,7 @@ def load_articles_from_txt(file_path):
             content = file.read()
             content = content.replace('\xa0', '')
             articles = content.split('End of Document')
+            del articles[-1]
         return articles
     except FileNotFoundError:
         print(f"File not found: {file_path}")
@@ -58,11 +60,16 @@ def load_articles_from_txt(file_path):
 def process_text(body):
     try:
         # Extract article body & filter content
-        body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
-        body_split = (body_split.replace('\n', '')).replace('  ', '')
-        body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
-        print(body_filtered, "\n")
-        return body_filtered
+        if "\nBody\n" in body:
+            body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
+            body_split = (body_split.replace('\n', '')).replace('  ', '')
+            body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
+            body_upper = body_filtered.upper()
+            print(body_upper, "\n")
+            return body_upper
+        else: 
+            print("Error: Article body could not be found.")
+            return 0, 0
     except Exception as e:
         print("Error processing text")
         return 0, 0
@@ -89,9 +96,9 @@ def extract_article_data(text_data):
         if match:
             date_string = match.group()
             date = convert_string_to_datetime(date_string)
+            # Add to Articles list
             if isinstance(date, datetime):
                 dates.append(date)
-                # Process text body
                 body = process_text(text_data[i])
                 if body != 0:
                     articles.append(Article(date, body, 0))
@@ -101,11 +108,11 @@ def extract_article_data(text_data):
     print("Loaded", len(articles), "articles")
     return articles, dates
 
-def get_sentiment_scores(articles, positive_dict, negative_dict):
+#def get_sentiment_scores(articles, positive_dict, negative_dict):
     
 
 # Load files
-articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+articles_file_path = 'Sample_article.txt'
 raw_articles = load_articles_from_txt(articles_file_path)
 
 # Extract data & list of dates from articles
@@ -117,5 +124,5 @@ negative_dict_path = "Loughran-McDonald_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 
-get_sentiment_scores()
+#get_sentiment_scores()
 
