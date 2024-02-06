@@ -163,11 +163,10 @@ print("Download bubble detected.")
 
 # File name # London Stock Exchange Regulatory News Service
 time.sleep(1)
-pyautogui.typewrite(f"InvestorsChronicle({article_range[0]}-{article_range[1]})")
+pyautogui.typewrite(f"ThomsonFinancial({article_range[0]}-{article_range[1]})")
 print("Articles Downloaded.")
 
 # Update the number of articles downloaded
 f = open("Current_Articles_downloaded.txt", "w")
-new_beginning = beginning + 500
-f.write(str(new_beginning))
+f.write(str(article_range[1]))
 f.close()
