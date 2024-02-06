@@ -19,6 +19,9 @@ class Trading_Day:
         self.returns = returns
         self.absolute_returns = absolute_returns
         self.sentiment = sentiment
+    
+    def to_csv_line(self):
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.sentiment)}"
 
 # Class containing info about each article
 class Article:
