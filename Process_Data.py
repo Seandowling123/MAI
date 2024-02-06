@@ -86,16 +86,18 @@ def convert_string_to_datetime(date_string):
 def extract_article_data(raw_articles):
     articles = []
     dates = []
+    
     # Extract data
     for i in range(len(raw_articles)):
-        # Extract headline & date 
         headline = raw_articles[i].split("\n")[0]
         date_pattern = re.compile(r'\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b \d{1,2}, \d{4}')
         match = date_pattern.search(raw_articles[i])
+        
         # Check for valid date
         if match:
             date_string = match.group()
             date = convert_string_to_datetime(date_string)
+            
             # Add to Articles list
             if isinstance(date, datetime):
                 dates.append(date)
@@ -119,19 +121,35 @@ def get_word_count(article, word_list):
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict):
     for article in articles:
-        num_words = len(word_tokenize(article))
-        pos_word_count = get_word_count(article, positive_dict)
-        neg_word_count = get_word_count(article, negative_dict)
-        
+        try:
+            # Get counts
+            num_words = len(word_tokenize(article.body))
+            pos_word_count = get_word_count(article.body, positive_dict)
+            neg_word_count = get_word_count(article.body, negative_dict)
+            
+            # Calculate relative word frequencies
+            pos_score = pos_word_count/num_words
+            neg_score = neg_word_count/num_words
+            total_score = pos_score - neg_score
+            
+            # Save score
+            article.sentiment = total_score
+        except Exception as e:
+            print(f"An sentiment calculation error occurred: {str(e)}")
+
+# Select mode
+mode  = "test"
+
+if mode == "test":
+    articles_file_path = 'Sample_article.txt'
+else: articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 
 # Load files
-articles_file_path = 'Sample_article.txt'
+#articles_file_path = 'Sample_article.txt'
 raw_articles = load_articles_from_txt(articles_file_path)
 
 # Extract data & list of dates from articles
 articles, dates = extract_article_data(raw_articles)
-print(articles[0].headline)
-print(word_tokenize(articles[0].body))
 
 # Load dictionary from csv
 positive_dict_path = "Loughran-McDonald_Positive.csv"
@@ -140,4 +158,21 @@ positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 
 get_sentiment_scores(articles, positive_dict, negative_dict)
+
+# Some testing stats
+if mode == "test":
+    print("Positive word matches:")
+    for word in positive_dict:
+        if word in articles[0].body:
+            print(word, sep=',')
+            
+    print("Negative word matches:")
+    for word in negative_dict:
+        if word in articles[0].body:
+            print(word, sep=',')
+        
+    print(articles[0].headline)
+    print((articles[0].date))
+    print((articles[0].body))
+    print((articles[0].sentiment))
 
