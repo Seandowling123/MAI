@@ -13,15 +13,17 @@ nltk.download('punkt')
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, absolute_returns, sentiment):
+    def __init__(self, date, close, returns, absolute_returns, monday, january, sentiment):
         self.date = date
         self.close = close
         self.returns = returns
         self.absolute_returns = absolute_returns
+        self.monday = monday
+        self.january = january
         self.sentiment = sentiment
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.sentiment)}"
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.monday)},{str(self.january)},{str(self.sentiment)}"
 
 # Class containing info about each article
 class Article:
@@ -152,17 +154,25 @@ def get_sentiment_scores(articles, positive_dict, negative_dict):
 # Extract financial data 
 def ectract_close_prices(file_path, start_date, end_date):
     filtered_data_dict = {}
+    range_reached = 0
     try:
         with open(file_path, 'r', newline='') as input_file:
             reader = csv.DictReader(input_file)
-
+            print(start_date)
             for row in reader:
                 date_str = row['Date']
                 date_object = datetime.strptime(date_str, '%Y-%m-%d')
+                close_price = float(row['Adj Close'])
 
                 if start_date <= date_object <= end_date:
-                    close_price = float(row['Adj Close'])
+                    # Add the date before range for returns calculation
+                    if range_reached == 0:
+                        filtered_data_dict[prev_date] = prev_close
+                        range_reached = 1
                     filtered_data_dict[date_object] = close_price
+                    
+                prev_date = date_object
+                prev_close = close_price
 
         return filtered_data_dict
     except FileNotFoundError:
@@ -171,6 +181,18 @@ def ectract_close_prices(file_path, start_date, end_date):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
+    
+# Check if a date is a Monday
+def is_monday(date):
+    if date.weekday() == 0:
+        return 1
+    else: return 0
+    
+# Check if a date is in January
+def is_january(date):
+    if date.month == 1:
+        return 1
+    else: return 0
 
 # Collect data for each trading day
 def get_trading_day_data(daily_senitment, close_prices):
@@ -178,14 +200,16 @@ def get_trading_day_data(daily_senitment, close_prices):
     prev_date = 0
     for date in close_prices:
         if prev_date != 0:
-            # Calculate data
+            # Get data
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[prev_date])
+            monday = is_monday(date)
+            january = is_january(date)
             if date in daily_senitment:
                 senitment = daily_senitment[date]
             else: senitment = 0
             # Store in trading days dict
-            trading_days[date] = Trading_Day(date, close, returns, abs(returns), senitment)
+            trading_days[date] = Trading_Day(date, close, returns, abs(returns), monday, january, senitment)
         prev_date = date
     return trading_days
 
@@ -194,7 +218,7 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "AbsoluteReturns", "Sentiment"])
+            writer.writerow(["Date", "Close", "Returns", "AbsoluteReturns", "Monday", "January", "Sentiment"])
             # Save data
             for date, trading_day in trading_days.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -204,7 +228,7 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Select mode
-mode  = "tes"
+mode  = "test"
 
 if mode == "test":
     articles_file_path = 'Sample_article.txt'
@@ -240,7 +264,8 @@ for article in articles:
 # Extract financial data from the time period
 start_date = min(dates)
 end_date = max(dates)
-close_prices = ectract_close_prices("RYAAY.csv", start_date, end_date)
+close_prices = ectract_close_prices("RYAAY.csv", start_date, end_date)#
+
 trading_days = get_trading_day_data(daily_senitment, close_prices)
 
 # Save trading day data to csv
