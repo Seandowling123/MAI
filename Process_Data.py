@@ -147,7 +147,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict):
             # Progress tracker
             calculated = calculated + 1
             progress = "{:.2f}".format((calculated/total)*100)
-            if (calculated % 100) == 0:
+            if (calculated % 10) == 0:
                 print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
             
         except Exception as e:
@@ -157,7 +157,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict):
 def get_logs(input_list):
     logs = []
     for num in input_list:
-        logs.append(math.log(num))
+        logs.append(math.log10(int(num)))
     return logs
 
 # Extract financial data 
@@ -185,8 +185,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
                     close_price_dict[date_object] = close_price
                     
                     # Get detrended trading volume
-                    #detrended_vol = np.mean(get_logs(volume[index-60:index]))
-                    detrended_vol = volume[index-3]
+                    detrended_vol = np.mean(get_logs(volume[index-60:index]))
                     trading_vol_dict[date_object] = detrended_vol
                     
                 prev_date = date_object
@@ -197,7 +196,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
         print(f"File not found: {file_path}")
         return None
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print(f"An error occurred. RYAAY data: {str(e)}")
         return None
     
 def get_VIX_data(file_path, start_date, end_date):
@@ -221,7 +220,7 @@ def get_VIX_data(file_path, start_date, end_date):
         print(f"File not found: {file_path}")
         return None
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print(f"An error occurred. VIX data: {str(e)}")
         return None
     
 # Check if a date is a Monday
@@ -326,6 +325,7 @@ vix = [trading_days[date].vix for date in trading_days]
 # Creating line plot
 plt.plot(dates, returns, color='red', label='Returns')
 plt.plot(dates, sentiments, label='Sentiment')
+plt.plot(vix, sentiments, label='Sentiment')
 plt.title('Values Over Time')
 plt.xlabel('Date')
 plt.ylabel('Value')
