@@ -93,17 +93,24 @@ def extract_article_data(raw_articles):
     num_invalid_bodies = 0
     # Extract data
     for i in range(len(raw_articles)):
-        headline = raw_articles[i].split("\n")[0]
+        headline = raw_articles[i].split("\n")[2]
         
         # Find date pattern
         if "\nBody\n" in raw_articles[i]:
-            date_pattern = re.compile(r'\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, \d{4}')
+            date_pattern = re.compile(r'\n\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
             match = date_pattern.search(raw_articles[i].split("\nBody\n")[0])
-            
-            # Check for valid date
-            if match:
-                # Convert date to datetime object
+            if match: 
                 date_string = match.group()
+            else:
+                # Try another date format if no match
+                date_pattern = re.compile(r'\nLoad-Date: \b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
+                match = date_pattern.search(raw_articles[i])
+                if match: 
+                    date_string = match.group()
+                    date_string = date_string.replace('Load-Date: ', '')
+            
+            # Check for valid date & convert to datetime object
+            if match:
                 date = convert_string_to_datetime(date_string)
                 
                 # Add to Articles list. Initialise senitment to 0
@@ -116,6 +123,7 @@ def extract_article_data(raw_articles):
                 else: num_invalid_dates = num_invalid_dates+1
             else: num_invalid_dates = num_invalid_dates+1
         else: num_invalid_bodies = num_invalid_bodies+1
+        
     
     print(f"Received {len(raw_articles)} articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
