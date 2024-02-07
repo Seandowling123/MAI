@@ -271,7 +271,7 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Select mode
-mode  = "test"
+mode  = "tes"
 
 articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
 #articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
@@ -325,7 +325,7 @@ vix = [trading_days[date].vix for date in trading_days]
 # Creating line plot
 plt.plot(dates, returns, color='red', label='Returns')
 plt.plot(dates, sentiments, label='Sentiment')
-plt.plot(vix, sentiments, label='Sentiment')
+plt.plot(dates, vix, label='VIX')
 plt.title('Values Over Time')
 plt.xlabel('Date')
 plt.ylabel('Value')
