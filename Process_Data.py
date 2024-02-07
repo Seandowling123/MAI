@@ -99,11 +99,10 @@ def extract_article_data(raw_articles):
         if "\nBody\n" in raw_articles[i]:
             date_pattern = re.compile(r'\n\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
             match = date_pattern.search(raw_articles[i].split("\nBody\n")[0])
-            if match: 
-                date_string = match.group().replace('\n', '')
             
             # Check for valid date & convert to datetime object
             if match:
+                date_string = match.group().replace('\n', '')
                 date = convert_string_to_datetime(date_string)
                 
                 # Add to Articles list. Initialise senitment to 0
@@ -120,8 +119,8 @@ def extract_article_data(raw_articles):
     
     print(f"Received {len(raw_articles)} articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
-    print(f"Removed {num_invalid_bodies} articles with invalid artcicle bodies.")
-    print(f"Loaded {len(articles)} articles.")
+    print(f"Removed {num_invalid_bodies} articles with invalid article bodies.")
+    print(f"Loaded {len(articles)} articles.\n")
     return articles, dates
 
 # Count the number of dictionary words in an article
@@ -139,7 +138,7 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
         sentiments_from_backup = load_csv(seniment_backup_path)
         for i in range(len(sentiments_from_backup)):
             articles[i].sentiment = float(sentiments_from_backup[i])
-        print(f"Loaded {len(sentiments_from_backup)} sentiments from backup.")
+        print(f"Loaded {len(sentiments_from_backup)} sentiments from backup.\n")
 
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
@@ -149,18 +148,19 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
         writer = csv.writer(csv_file)
         for article in articles:
             try:
-                # Get counts
-                num_words = len(word_tokenize(article.body))
-                pos_word_count = get_word_count(article.body, positive_dict)
-                neg_word_count = get_word_count(article.body, negative_dict)
+                if article.sentiment == 0:
+                    # Get counts
+                    num_words = len(word_tokenize(article.body))
+                    pos_word_count = get_word_count(article.body, positive_dict)
+                    neg_word_count = get_word_count(article.body, negative_dict)
+                    
+                    # Calculate relative word frequencies
+                    pos_score = pos_word_count/num_words
+                    neg_score = neg_word_count/num_words
+                    total_score = pos_score - neg_score
                 
-                # Calculate relative word frequencies
-                pos_score = pos_word_count/num_words
-                neg_score = neg_word_count/num_words
-                total_score = pos_score - neg_score
-                
-                # Save score
-                article.sentiment = total_score
+                    # Save score
+                    article.sentiment = total_score
                 writer.writerow([article.sentiment])
                 
                 # Progress tracker
@@ -170,7 +170,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                     print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
                 
             except Exception as e:
-                print(f"An sentiment calculation error occurred: {str(e)}")
+                print(f"An sentiment calculation error occurred: {str(e)}\n")
             
 # Compute log of each value in a list   
 def get_logs(input_list):
@@ -211,7 +211,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
                 prev_close = close_price
                 index = index+1
                 
-        print("RYAAY data compiled.")
+        print("RYAAY data compiled.\n")
         return close_price_dict, trading_vol_dict
     except FileNotFoundError:
         print(f"File not found: {file_path}")
@@ -236,7 +236,7 @@ def get_VIX_data(file_path, start_date, end_date):
                         close_price_dict[date_object] = close_price
                 else: close_price_dict[date_object] = 0
                 
-        print("VIX data compiled.")
+        print("VIX data compiled.\n")
         return close_price_dict
     except FileNotFoundError:
         print(f"File not found: {file_path}")
@@ -276,7 +276,7 @@ def get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_pric
             # Store in trading days dict
             trading_days[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment)
         prev_date = date
-    print("Trading Days data compiled.")
+    print("Trading Days data compiled.\n")
     return trading_days
 
 def save_trading_days_to_csv(trading_days, csv_file_path):
@@ -313,7 +313,7 @@ negative_dict_path = "Loughran-McDonald_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
-#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Initialise dict to store daily sentiment
 daily_senitment = {}
