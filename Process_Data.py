@@ -186,7 +186,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
                     
                     # Get detrended trading volume
                     #detrended_vol = np.mean(get_logs(volume[index-60:index]))
-                    detrended_vol = volume[index]
+                    detrended_vol = volume[index-3]
                     trading_vol_dict[date_object] = detrended_vol
                     
                 prev_date = date_object
@@ -274,9 +274,8 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
 # Select mode
 mode  = "test"
 
-if mode == "test":
-    articles_file_path = 'Sample_article.txt'
-else: articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
+#articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 
 # Load files
 #articles_file_path = 'Sample_article.txt'
@@ -325,7 +324,7 @@ volume = [trading_days[date].volume for date in trading_days]
 vix = [trading_days[date].vix for date in trading_days]
 
 # Creating line plot
-plt.plot(dates, volume, color='red', label='Returns')
+plt.plot(dates, returns, color='red', label='Returns')
 plt.plot(dates, sentiments, label='Sentiment')
 plt.title('Values Over Time')
 plt.xlabel('Date')
@@ -353,6 +352,4 @@ if mode == "test":
     print(f"Date: {articles[0].date}\n")
     print(f"Body: {articles[0].body}\n")
     print(f"Sentiment: {articles[0].sentiment}\n")
-    
-    print(daily_senitment)
 
