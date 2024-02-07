@@ -67,15 +67,11 @@ def load_articles_from_txt(file_path):
 def process_text(body):
     try:
         # Extract article body & filter content
-        if "\nBody\n" and 'Load-Date:' in body:
-            body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
-            body_split = (body_split.replace('\n', '')).replace('  ', '')
-            body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
-            body_upper = body_filtered.upper()
-            return body_upper
-        else: 
-            print("Error: Article body could not be found.")
-            return 0, 0
+        body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
+        body_split = (body_split.replace('\n', '')).replace('  ', '')
+        body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
+        body_upper = body_filtered.upper()
+        return body_upper
     except Exception as e:
         print("Error processing text")
         return 0, 0
@@ -93,28 +89,38 @@ def convert_string_to_datetime(date_string):
 def extract_article_data(raw_articles):
     articles = []
     dates = []
-    
+    num_invalid_dates = 0
+    num_invalid_bodies = 0
     # Extract data
     for i in range(len(raw_articles)):
         headline = raw_articles[i].split("\n")[0]
-        date_pattern = re.compile(r'\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b \d{1,2}, \d{4}')
-        match = date_pattern.search(raw_articles[i])
         
-        # Check for valid date
-        if match:
-            date_string = match.group()
-            date = convert_string_to_datetime(date_string)
+        # Find date pattern
+        if "\nBody\n" in raw_articles[i]:
+            date_pattern = re.compile(r'\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b \d{1,2}, \d{4}')
+            match = date_pattern.search(raw_articles[i])
             
-            # Add to Articles list
-            if isinstance(date, datetime):
-                dates.append(date)
-                body = process_text(raw_articles[i])
-                if body != 0:
-                    articles.append(Article(date, body, headline, 0))
-                else: print("Removed article. Incorrect syntax")
-            else: print("Removed article. Date loaded incorrectly")
-        else: print("Removed article. Date not found")
-    print("Loaded", len(articles), "articles")
+            # Check for valid date
+            if match:
+                # Convert date to datetime object
+                date_string = match.group()
+                date = convert_string_to_datetime(date_string)
+                
+                # Add to Articles list. Initialise senitment to 0
+                if isinstance(date, datetime):
+                    dates.append(date)
+                    body = process_text(raw_articles[i])
+                    if body != 0:
+                        articles.append(Article(date, body, headline, 0))
+                    else: num_invalid_bodies = num_invalid_bodies+1
+                else: num_invalid_dates = num_invalid_dates+1
+            else: num_invalid_dates = num_invalid_dates+1
+        else: num_invalid_bodies = num_invalid_bodies+1
+    
+    print(f"Received {len(raw_articles)} articles.")
+    print(f"Removed {num_invalid_dates} articles with invalid dates.")
+    print(f"Removed {num_invalid_bodies} articles with invalid artcicle bodies.")
+    print(f"Loaded {len(articles)} articles.")
     return articles, dates
 
 # Count the number of dictionary words in an article
@@ -125,12 +131,14 @@ def get_word_count(article, word_list):
         word_counts = word_counts + count
     return word_counts
 
+# Load article sentiments from backup file
 def Load_senitments_from_backup(articles, seniment_backup_path):
     if os.path.exists(seniment_backup_path):
         print(f"Loading sentiments from backup file: {seniment_backup_path}.")
         sentiments_from_backup = load_csv(seniment_backup_path)
         for i in range(len(sentiments_from_backup)):
             articles[i].sentiment = float(sentiments_from_backup[i])
+        print(f"Loaded {len(sentiments_from_backup)} sentiments from backup.")
 
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
@@ -196,9 +204,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
                     
                     # Get detrended trading volume
                     detrended_vol = np.mean(get_logs(volume[index-60:index]))
-                    print(volume[index-60:index], np.mean(get_logs(volume[index-60:index])))
                     trading_vol_dict[date_object] = detrended_vol
-                else: print("range not reached")
                     
                 prev_date = date_object
                 prev_close = close_price
@@ -324,7 +330,7 @@ for article in articles:
 # Extract financial data from the time period
 start_date = min(dates)
 end_date = max(dates)
-print(start_date)
+print(end_date)
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
