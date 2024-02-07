@@ -192,7 +192,6 @@ def get_RYAAY_data(file_path, start_date, end_date):
                 prev_date = date_object
                 prev_close = close_price
                 index = index+1
-
         return close_price_dict, trading_vol_dict
     except FileNotFoundError:
         print(f"File not found: {file_path}")
@@ -311,7 +310,6 @@ start_date = min(dates)
 end_date = max(dates)
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
-print(VIX_prices)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
 
 # Save trading day data to csv
