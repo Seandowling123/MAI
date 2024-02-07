@@ -67,7 +67,7 @@ def load_articles_from_txt(file_path):
 def process_text(body):
     try:
         # Extract article body & filter content
-        if "\nBody\n" in body:
+        if "\nBody\n" and 'Load-Date:' in body:
             body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
             body_split = (body_split.replace('\n', '')).replace('  ', '')
             body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
@@ -125,33 +125,43 @@ def get_word_count(article, word_list):
         word_counts = word_counts + count
     return word_counts
 
+def Load_senitments_from_backup(articles, seniment_backup_path):
+    if os.path.exists(seniment_backup_path):
+        print(f"Loading sentiments from backup file: {seniment_backup_path}.")
+        sentiments_from_backup = load_csv(seniment_backup_path)
+        for i in range(len(sentiments_from_backup)):
+            articles[i].sentiment = float(sentiments_from_backup[i])
+
 # Calculate sentiment score
-def get_sentiment_scores(articles, positive_dict, negative_dict):
+def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
     calculated = 0
     total = len(articles)
-    for article in articles:
-        try:
-            # Get counts
-            num_words = len(word_tokenize(article.body))
-            pos_word_count = get_word_count(article.body, positive_dict)
-            neg_word_count = get_word_count(article.body, negative_dict)
-            
-            # Calculate relative word frequencies
-            pos_score = pos_word_count/num_words
-            neg_score = neg_word_count/num_words
-            total_score = pos_score - neg_score
-            
-            # Save score
-            article.sentiment = total_score
-            
-            # Progress tracker
-            calculated = calculated + 1
-            progress = "{:.2f}".format((calculated/total)*100)
-            if (calculated % 10) == 0:
-                print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
-            
-        except Exception as e:
-            print(f"An sentiment calculation error occurred: {str(e)}")
+    with open(seniment_backup_path, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        for article in articles:
+            try:
+                # Get counts
+                num_words = len(word_tokenize(article.body))
+                pos_word_count = get_word_count(article.body, positive_dict)
+                neg_word_count = get_word_count(article.body, negative_dict)
+                
+                # Calculate relative word frequencies
+                pos_score = pos_word_count/num_words
+                neg_score = neg_word_count/num_words
+                total_score = pos_score - neg_score
+                
+                # Save score
+                article.sentiment = total_score
+                writer.writerow([article.sentiment])
+                
+                # Progress tracker
+                calculated = calculated + 1
+                progress = "{:.2f}".format((calculated/total)*100)
+                if (calculated % 10) == 0:
+                    print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
+                
+            except Exception as e:
+                print(f"An sentiment calculation error occurred: {str(e)}")
             
 # Compute log of each value in a list   
 def get_logs(input_list):
@@ -186,11 +196,15 @@ def get_RYAAY_data(file_path, start_date, end_date):
                     
                     # Get detrended trading volume
                     detrended_vol = np.mean(get_logs(volume[index-60:index]))
+                    print(volume[index-60:index], np.mean(get_logs(volume[index-60:index])))
                     trading_vol_dict[date_object] = detrended_vol
+                else: print("range not reached")
                     
                 prev_date = date_object
                 prev_close = close_price
                 index = index+1
+                
+        print("RYAAY data compiled.")
         return close_price_dict, trading_vol_dict
     except FileNotFoundError:
         print(f"File not found: {file_path}")
@@ -214,7 +228,8 @@ def get_VIX_data(file_path, start_date, end_date):
                     if start_date <= date_object <= end_date:
                         close_price_dict[date_object] = close_price
                 else: close_price_dict[date_object] = 0
-
+                
+        print("VIX data compiled.")
         return close_price_dict
     except FileNotFoundError:
         print(f"File not found: {file_path}")
@@ -254,6 +269,7 @@ def get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_pric
             # Store in trading days dict
             trading_days[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment)
         prev_date = date
+    print("Trading Days data compiled.")
     return trading_days
 
 def save_trading_days_to_csv(trading_days, csv_file_path):
@@ -271,10 +287,11 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Select mode
-mode  = "tes"
+mode  = "test"
 
-articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
-#articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+#articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
+articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+seniment_backup_path = "sentiments_backup.csv"
 
 # Load files
 #articles_file_path = 'Sample_article.txt'
@@ -288,7 +305,8 @@ positive_dict_path = "Loughran-McDonald_Positive.csv"
 negative_dict_path = "Loughran-McDonald_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
-get_sentiment_scores(articles, positive_dict, negative_dict)
+Load_senitments_from_backup(articles, seniment_backup_path)
+#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Initialise dict to store daily sentiment
 daily_senitment = {}
@@ -306,6 +324,7 @@ for article in articles:
 # Extract financial data from the time period
 start_date = min(dates)
 end_date = max(dates)
+print(start_date)
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
@@ -325,7 +344,7 @@ vix = [trading_days[date].vix for date in trading_days]
 # Creating line plot
 plt.plot(dates, returns, color='red', label='Returns')
 plt.plot(dates, sentiments, label='Sentiment')
-plt.plot(dates, vix, label='VIX')
+#plt.plot(dates, vix, label='VIX')
 plt.title('Values Over Time')
 plt.xlabel('Date')
 plt.ylabel('Value')
