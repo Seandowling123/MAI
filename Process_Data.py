@@ -100,14 +100,7 @@ def extract_article_data(raw_articles):
             date_pattern = re.compile(r'\n\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
             match = date_pattern.search(raw_articles[i].split("\nBody\n")[0])
             if match: 
-                date_string = match.group()
-            else:
-                # Try another date format if no match
-                date_pattern = re.compile(r'\nLoad-Date: \b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
-                match = date_pattern.search(raw_articles[i])
-                if match: 
-                    date_string = match.group()
-                    date_string = date_string.replace('Load-Date: ', '')
+                date_string = match.group().replace('\n', '')
             
             # Check for valid date & convert to datetime object
             if match:
