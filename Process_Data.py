@@ -97,8 +97,8 @@ def extract_article_data(raw_articles):
         
         # Find date pattern
         if "\nBody\n" in raw_articles[i]:
-            date_pattern = re.compile(r'\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b \d{1,2}, \d{4}')
-            match = date_pattern.search(raw_articles[i])
+            date_pattern = re.compile(r'\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, \d{4}')
+            match = date_pattern.search(raw_articles[i].split("\nBody\n")[0])
             
             # Check for valid date
             if match:
@@ -293,7 +293,7 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Select mode
-mode  = "test"
+mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
@@ -330,7 +330,7 @@ for article in articles:
 # Extract financial data from the time period
 start_date = min(dates)
 end_date = max(dates)
-print(end_date)
+print(start_date, end_date)
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
