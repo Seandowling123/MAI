@@ -331,7 +331,7 @@ for article in articles:
 # Extract financial data from the time period
 start_date = min(dates)
 end_date = max(dates)
-print(start_date, end_date)
+print(f"Start date: {start_date} End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
