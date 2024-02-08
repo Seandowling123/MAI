@@ -77,6 +77,12 @@ def process_text(body):
         print("Error processing text")
         return 0, 0
 
+# Find a string matching the date pattern
+def get_date_match(article):
+    date_pattern = re.compile(r'\n\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
+    match = date_pattern.search(article.split("\nBody\n")[0])
+    return match
+
 # Returns a dateTime object for news articles
 def convert_string_to_datetime(date_string):
     try:
@@ -92,14 +98,14 @@ def extract_article_data(raw_articles):
     dates = []
     num_invalid_dates = 0
     num_invalid_bodies = 0
+    
     # Extract data
     for i in range(len(raw_articles)):
         headline = raw_articles[i].split("\n")[2]
         
         # Find date pattern
         if "\nBody\n" in raw_articles[i]:
-            date_pattern = re.compile(r'\n\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2}, (?:20|19)\d{2}')
-            match = date_pattern.search(raw_articles[i].split("\nBody\n")[0])
+            match = get_date_match(raw_articles[i])
             
             # Check for valid date & convert to datetime object
             if match:
@@ -124,14 +130,7 @@ def extract_article_data(raw_articles):
     print(f"Loaded {len(articles)} articles.\n")
     return articles, dates
 
-# Count the number of dictionary words in an article
-def get_word_count(article, word_list):
-    word_counts = 0
-    for word in word_list:
-        count = article.count(word)
-        word_counts = word_counts + count
-    return word_counts
-
+# Calculate sentiment score using sentiwordnet
 def calculate_sentiwordnet_polarity(articles):
     calculated = 0
     total = len(articles)
@@ -151,7 +150,7 @@ def calculate_sentiwordnet_polarity(articles):
                             word_count += 1
                     
                     if word_count == 0:
-                        return 0  # Return neutral if no valid words found
+                        return 0
                     
                     average_polarity = total_polarity / word_count
                 
@@ -168,6 +167,14 @@ def calculate_sentiwordnet_polarity(articles):
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
 
+# Count the number of dictionary words in an article
+def get_word_count(article, word_list):
+    word_counts = 0
+    for word in word_list:
+        count = article.count(word)
+        word_counts = word_counts + count
+    return word_counts
+
 # Load article sentiments from backup file
 def Load_senitments_from_backup(articles, seniment_backup_path):
     if os.path.exists(seniment_backup_path):
@@ -180,7 +187,7 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
     calculated = 0
-    total = len(articles)
+    num_articles = len(articles)
     with open(seniment_backup_path, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         for article in articles:
@@ -192,9 +199,9 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                     neg_word_count = get_word_count(article.body, negative_dict)
                     
                     # Calculate relative word frequencies
-                    pos_score = pos_word_count/num_words
-                    neg_score = neg_word_count/num_words
-                    total_score = pos_score - neg_score
+                    pos_score = pos_word_count
+                    neg_score = neg_word_count
+                    total_score = (pos_score - neg_score)/num_words
                 
                     # Save score
                     article.sentiment = total_score
@@ -202,7 +209,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                 
                 # Progress tracker
                 calculated = calculated + 1
-                progress = "{:.2f}".format((calculated/total)*100)
+                progress = "{:.2f}".format((calculated/num_articles)*100)
                 if (calculated % 10) == 0:
                     print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
                 
