@@ -9,6 +9,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import word_tokenize
+from nltk.corpus import sentiwordnet as swn
 nltk.download('punkt')
 
 # Data to save for each trading day
@@ -130,6 +131,42 @@ def get_word_count(article, word_list):
         count = article.count(word)
         word_counts = word_counts + count
     return word_counts
+
+def calculate_sentiwordnet_polarity(articles):
+    calculated = 0
+    total = len(articles)
+    with open(seniment_backup_path, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        for article in articles:
+            try:
+                if article.sentiment == 0:
+                    total_polarity = 0
+                    word_count = 0      
+                    tokens = word_tokenize(article.body)
+    
+                    for token in tokens:
+                        synsets = swn.senti_synsets(token)
+                        for synset in synsets:
+                            total_polarity += synset.pos_score() - synset.neg_score()
+                            word_count += 1
+                    
+                    if word_count == 0:
+                        return 0  # Return neutral if no valid words found
+                    
+                    average_polarity = total_polarity / word_count
+                
+                    # Save score
+                    article.sentiment = average_polarity
+                writer.writerow([article.sentiment])
+                
+                # Progress tracker
+                calculated = calculated + 1
+                progress = "{:.2f}".format((calculated/total)*100)
+                if (calculated % 10) == 0:
+                    print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
+                
+            except Exception as e:
+                print(f"An sentiment calculation error occurred: {str(e)}\n")
 
 # Load article sentiments from backup file
 def Load_senitments_from_backup(articles, seniment_backup_path):
@@ -313,7 +350,8 @@ negative_dict_path = "Loughran-McDonald_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
-get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+calculate_sentiwordnet_polarity(articles)
 
 # Initialise dict to store daily sentiment
 daily_senitment = {}
