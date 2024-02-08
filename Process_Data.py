@@ -167,14 +167,6 @@ def calculate_sentiwordnet_polarity(articles):
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
 
-# Count the number of dictionary words in an article
-def get_word_count(article, word_list):
-    word_counts = 0
-    for word in word_list:
-        count = article.count(word)
-        word_counts = word_counts + count
-    return word_counts
-
 # Load article sentiments from backup file
 def Load_senitments_from_backup(articles, seniment_backup_path):
     if os.path.exists(seniment_backup_path):
@@ -183,6 +175,14 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
         for i in range(len(sentiments_from_backup)):
             articles[i].sentiment = float(sentiments_from_backup[i])
         print(f"Loaded {len(sentiments_from_backup)} sentiments from backup.\n")
+        
+# Count the number of dictionary words in an article
+def get_word_count(article, word_list):
+    word_counts = 0
+    for word in tuple(word_list):
+        count = article.count(word)
+        word_counts = word_counts + count
+    return word_counts
 
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
@@ -352,8 +352,10 @@ raw_articles = load_articles_from_txt(articles_file_path)
 articles, dates = extract_article_data(raw_articles)
 
 # Load dictionaries & calculate sentiments
-positive_dict_path = "Loughran-McDonald_Positive.csv"
-negative_dict_path = "Loughran-McDonald_Negative.csv"
+#positive_dict_path = "Loughran-McDonald_Positive.csv"
+#negative_dict_path = "Loughran-McDonald_Negative.csv"
+positive_dict_path = "GI_Positive.csv"
+negative_dict_path = "GI_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)

@@ -17,4 +17,4 @@ def remove_duplicates_and_non_letters(input_file, output_file):
     print(f"Duplicates removed and non-letter characters removed. Result saved to {output_file}")
 
 # Replace 'input.csv' and 'output.csv' with your actual file names
-remove_duplicates_and_non_letters('positive_dict.csv', 'positive_dict.csv')
+remove_duplicates_and_non_letters('GI_Negative.csv', 'GI_Negative.csv')
