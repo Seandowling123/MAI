@@ -37,6 +37,13 @@ class Article:
         self.headline = headline
         self.sentiment = sentiment
         
+# Class containing info about each news source
+class Source:
+    def __init__(self, names):
+        self.name = names[0]
+        if len(names) > 1:
+            self.brands = names[1:len(names)]
+        
 # Load dictionary words from csv
 def load_csv(file_path):
     try:
@@ -44,6 +51,20 @@ def load_csv(file_path):
             reader = csv.reader(csv_file)
             entries = [row[0] for row in reader]
         return entries
+    except FileNotFoundError:
+        return f"File not found: {file_path}"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+    
+# Load source names from csv
+def load_source_names(file_path):
+    try:
+        sources = {}
+        with open(file_path, 'r', newline='') as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                sources[row[0]] = Source(row)
+        return sources
     except FileNotFoundError:
         return f"File not found: {file_path}"
     except Exception as e:
@@ -99,7 +120,7 @@ def convert_string_to_datetime(date_string):
 
 # Get the list of all article sources 
 def get_sources_list():
-    return ["Wall Street Journal Abstracts","WALL STREET JOURNAL ABSTRACTS","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business","Proactive Investors \(UK\)","BNS News Service in English by Baltic News Service \(BNS\) English","Baltic News Service","Newstex Blogs","Live Briefs PRO Global Markets","MT Newswires Live Briefs","Business World \(Digest\)","MarketLine NewsWire","London Stock Exchange","Sunday Business Post","International Business Times News","The Investors Chronicle","AirFinance Journal","Flight International","dpa-AFX International ProFeed","dpa international \(Englischer Dienst\)","RTT News \(United States\)","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus", "Deutsche Presse-Agentur"]
+    return ["Wall Street Journal","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business","Proactive Investors","BNS", "Baltic News Service","Newstex","Live Briefs PRO Global Markets","MT Newswires","Business World","MarketLine","London Stock Exchange Regulatory News Service","London Stock Exchange Aggregated Regulatory News Service","Sunday Business Post","International Business Times News","The Investors Chronicle","AirFinance Journal","Flight International","Deutsche Presse-Agentur","dpa-AFX","AFX","dpa international","RTT News","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus"]
 
 # Find a string matching a source name
 def get_source_match(article):
@@ -129,9 +150,12 @@ def extract_article_data(raw_articles):
             date = get_date_match(raw_articles[i])
             source = get_source_match(raw_articles[i])
             
+            if not source:
+                print(raw_articles[i].split("\nBody\n")[0])
+                
             # Check for valid date & source
             if source:
-                if isinstance(date, datetime) and source:
+                if isinstance(date, datetime):
                     
                     # Add to Articles list. Initialise senitment to 0
                     dates.append(date)

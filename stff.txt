@@ -1,4 +1,11 @@
-﻿Wall street Journal, Wall street Journal
+"Wall Street Journal","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business",
+"Proactive Investors","BNS", "Baltic News Service","Newstex","Live Briefs PRO Global Markets","MT Newswires",
+"Business World","MarketLine","London Stock Exchange","Sunday Business Post","International Business Times News",
+"The Investors Chronicle","AirFinance Journal","Flight International","Deutsche Presse-Agentur","dpa-AFX","dpa international",
+"AFX","RTT News","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News",
+"Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus"
+
+Wall street Journal, Wall street Journal
 Financial Times, Financial Times, FT\.com, The Investors Chronicle
 Associated Press Financial Wire, Associated Press Financial Wire
 AirGuide Business, AirGuide Business
