@@ -127,6 +127,7 @@ def get_source_match(article, sources):
         for source_name in source.brands:
             source_pattern = re.compile(r''+source_name+r'', re.IGNORECASE)
             match = source_pattern.search(article.split("\nBody\n")[0])
+            print(article.split("\nBody\n")[0])
             # return recognised source and increase its count  
             if match:
                 source_string = match.group().replace('\n', '')
@@ -161,8 +162,8 @@ def extract_article_data(raw_articles, sources):
                     if body != 0:
                         articles.append(Article(date, body, source, headline, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
-                else: num_invalid_dates = num_invalid_dates+1
-            else: num_invalid_sources = num_invalid_sources+1
+                else: num_invalid_sources = num_invalid_sources+1
+            else: num_invalid_dates = num_invalid_dates+1 
         else: num_invalid_bodies = num_invalid_bodies+1
     
     # Print stats
