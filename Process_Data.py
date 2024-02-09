@@ -43,6 +43,7 @@ class Source:
         self.name = names[0]
         if len(names) > 1:
             self.brands = names[1:len(names)]
+        else: self.brands = 0
         
 # Load dictionary words from csv
 def load_csv(file_path):
@@ -119,12 +120,13 @@ def convert_string_to_datetime(date_string):
         return f"Unable to parse the date string: {date_string}"
 
 # Get the list of all article sources 
-def get_sources_list():
-    return ["Wall Street Journal","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business","Proactive Investors","BNS", "Baltic News Service","Newstex","Live Briefs PRO Global Markets","MT Newswires","Business World","MarketLine","London Stock Exchange Regulatory News Service","London Stock Exchange Aggregated Regulatory News Service","Sunday Business Post","International Business Times News","The Investors Chronicle","AirFinance Journal","Flight International","Deutsche Presse-Agentur","dpa-AFX","AFX","dpa international","RTT News","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus"]
+def get_sources_list(sources):
+    all_source_names = [value for obj in sources.values() for value in obj.brands]
+    return all_source_names
 
 # Find a string matching a source name
-def get_source_match(article):
-    sources = get_sources_list()
+def get_source_match(article, sources):
+    sources = get_sources_list(sources)
     for source in sources:
         source_pattern = re.compile(r''+source+r'', re.IGNORECASE)
         match = source_pattern.search(article.split("\nBody\n")[0])
@@ -134,7 +136,7 @@ def get_source_match(article):
     return 0
 
 # Extracts date and body of each news article
-def extract_article_data(raw_articles):
+def extract_article_data(raw_articles, sources):
     articles = []
     dates = []
     num_invalid_dates = 0
@@ -148,10 +150,7 @@ def extract_article_data(raw_articles):
         # Find date pattern
         if "\nBody\n" in raw_articles[i]:
             date = get_date_match(raw_articles[i])
-            source = get_source_match(raw_articles[i])
-            
-            if not source:
-                print(raw_articles[i].split("\nBody\n")[0])
+            source = get_source_match(raw_articles[i], sources)
                 
             # Check for valid date & source
             if source:
@@ -349,14 +348,16 @@ mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "sentiments_backup.csv"
 
 # Load files
 #articles_file_path = 'Sample_article.txt'
 raw_articles = load_articles_from_txt(articles_file_path)
+sources = load_source_names(sources_file_path)
 
 # Extract data & list of dates from articles
-articles, dates = extract_article_data(raw_articles)
+articles, dates = extract_article_data(raw_articles, sources)
 
 # Load dictionaries & calculate sentiments
 #positive_dict_path = "Loughran-McDonald_Positive.csv"
