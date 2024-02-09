@@ -99,7 +99,7 @@ def convert_string_to_datetime(date_string):
 
 # Get the list of all article sources 
 def get_sources_list():
-    return ["Wall Street Journal Abstracts","WALL STREET JOURNAL ABSTRACTS","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business","Proactive Investors \(UK\)","BNS News Service in English by Baltic News Service \(BNS\) English","Baltic News Service","Newstex Blogs","Live Briefs PRO Global Markets","MT Newswires Live Briefs","Business World \(Digest\)","MarketLine NewsWire","London Stock Exchange Regulatory News Service","Sunday Business Post","International Business Times News","The Investors Chronicle","AirFinance Journal","Flight International","dpa-AFX International ProFeed","dpa international \(Englischer Dienst\)","RTT News \(United States\)","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus", "Deutsche Presse-Agentur"]
+    return ["Wall Street Journal Abstracts","WALL STREET JOURNAL ABSTRACTS","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business","Proactive Investors \(UK\)","BNS News Service in English by Baltic News Service \(BNS\) English","Baltic News Service","Newstex Blogs","Live Briefs PRO Global Markets","MT Newswires Live Briefs","Business World \(Digest\)","MarketLine NewsWire","London Stock Exchange","Sunday Business Post","International Business Times News","The Investors Chronicle","AirFinance Journal","Flight International","dpa-AFX International ProFeed","dpa international \(Englischer Dienst\)","RTT News \(United States\)","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus", "Deutsche Presse-Agentur"]
 
 # Find a string matching a source name
 def get_source_match(article):
@@ -129,20 +129,18 @@ def extract_article_data(raw_articles):
             date = get_date_match(raw_articles[i])
             source = get_source_match(raw_articles[i])
             
-            if not source:
-                print(raw_articles[i].split("\nBody\n")[0])
-                num_invalid_sources = num_invalid_sources+1
-            
             # Check for valid date & source
-            if isinstance(date, datetime) and source:
-                
-                # Add to Articles list. Initialise senitment to 0
-                dates.append(date)
-                body = process_text(raw_articles[i])
-                if body != 0:
-                    articles.append(Article(date, body, source, headline, 0))
-                else: num_invalid_bodies = num_invalid_bodies+1
-            else: num_invalid_dates = num_invalid_dates+1
+            if source:
+                if isinstance(date, datetime) and source:
+                    
+                    # Add to Articles list. Initialise senitment to 0
+                    dates.append(date)
+                    body = process_text(raw_articles[i])
+                    if body != 0:
+                        articles.append(Article(date, body, source, headline, 0))
+                    else: num_invalid_bodies = num_invalid_bodies+1
+                else: num_invalid_dates = num_invalid_dates+1
+            else: num_invalid_sources = num_invalid_sources+1
         else: num_invalid_bodies = num_invalid_bodies+1
     
     print(f"Received {len(raw_articles)} articles.")
