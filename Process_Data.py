@@ -42,8 +42,10 @@ class Source:
         self.name = names[0]
         if len(names) > 1:
             self.brands = names[1:len(names)]
-        else: self.brands = 0
-        self.count = 0
+        else: 
+            print(f"Error loading source: {self.name}")
+            self.brands = 0
+        self.article_count = 0
         
 # Load dictionary words from csv
 def load_csv(file_path):
@@ -121,18 +123,20 @@ def convert_string_to_datetime(date_string):
 
 # Get the list of all article sources 
 def get_sources_list(sources):
-    all_source_names = [value for obj in sources.values() for value in obj.brands]
+    all_source_names = [source_name for obj in sources.values() for source_name in obj.brands]
     return all_source_names
 
 # Find a string matching a source name
 def get_source_match(article, sources):
-    sources = get_sources_list(sources)
-    for source in sources:
-        source_pattern = re.compile(r''+source+r'', re.IGNORECASE)
-        match = source_pattern.search(article.split("\nBody\n")[0])
-        if match:
-            source_string = match.group().replace('\n', '')
-            return source_string 
+    for source in sources.values():
+        for source_name in source.brands:
+            source_pattern = re.compile(r''+source_name+r'', re.IGNORECASE)
+            match = source_pattern.search(article.split("\nBody\n")[0])
+            # return recognised source and increase its count  
+            if match:
+                source_string = match.group().replace('\n', '')
+                source.article_count = source.article_count+1
+                return source_string
     return 0
 
 # Extracts date and body of each news article
@@ -150,11 +154,11 @@ def extract_article_data(raw_articles, sources):
         # Find date pattern
         if "\nBody\n" in raw_articles[i]:
             date = get_date_match(raw_articles[i])
-            source = get_source_match(raw_articles[i], sources)
-                
+            
             # Check for valid date & source
-            if source:
-                if isinstance(date, datetime):
+            if isinstance(date, datetime):
+                source = get_source_match(raw_articles[i], sources)
+                if source:
                     
                     # Add to Articles list. Initialise senitment to 0
                     dates.append(date)
@@ -166,11 +170,18 @@ def extract_article_data(raw_articles, sources):
             else: num_invalid_sources = num_invalid_sources+1
         else: num_invalid_bodies = num_invalid_bodies+1
     
+    # Print stats
     print(f"Received {len(raw_articles)} articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
-    print(f"Removed {num_invalid_bodies} articles with invalid article bodies.")
+    print(f"Removed {num_invalid_bodies} articles with invalid article bodies.\n")
     print(f"Loaded {len(articles)} articles.\n")
+    print("Sources found: Num articles")
+    articles_sum = 0
+    for source in sources: 
+        print(f"{sources[source].name}: {sources[source].article_count}")
+        articles_sum = articles_sum + sources[source].article_count
+    print(f"TOTAL: {articles_sum}\n")
     return articles, dates
 
 # Load article sentiments from backup file
