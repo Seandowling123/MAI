@@ -121,11 +121,6 @@ def convert_string_to_datetime(date_string):
         print(f"Unable to parse the date string: {date_string}")
         return f"Unable to parse the date string: {date_string}"
 
-# Get the list of all article sources 
-def get_sources_list(sources):
-    all_source_names = [source_name for obj in sources.values() for source_name in obj.brands]
-    return all_source_names
-
 # Find a string matching a source name
 def get_source_match(article, sources):
     for source in sources.values():
@@ -179,7 +174,7 @@ def extract_article_data(raw_articles, sources):
     print("Sources found: Num articles")
     articles_sum = 0
     for source in sources: 
-        print(f"{sources[source].name}: {sources[source].article_count}")
+        print(f"{sources[source].brands}: {sources[source].article_count}")
         articles_sum = articles_sum + sources[source].article_count
     print(f"TOTAL: {articles_sum}\n")
     return articles, dates
@@ -358,7 +353,8 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
 mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
-articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+#articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+articles_file_path = "Sample_article.txt"
 sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "sentiments_backup.csv"
 
