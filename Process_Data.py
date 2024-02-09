@@ -9,7 +9,6 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import word_tokenize
-from nltk.corpus import sentiwordnet as swn
 nltk.download('punkt')
 
 # Data to save for each trading day
@@ -44,6 +43,7 @@ class Source:
         if len(names) > 1:
             self.brands = names[1:len(names)]
         else: self.brands = 0
+        self.count = 0
         
 # Load dictionary words from csv
 def load_csv(file_path):
