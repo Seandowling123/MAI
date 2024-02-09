@@ -105,7 +105,7 @@ def get_sources_list():
 def get_source_match(article):
     sources = get_sources_list()
     for source in sources:
-        source_pattern = re.compile(r''+source+r'')
+        source_pattern = re.compile(r'\n'+source+r'')
         match = source_pattern.search(article.split("\nBody\n")[0])
         if match:
             source_string = match.group().replace('\n', '')
