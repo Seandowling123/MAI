@@ -127,7 +127,6 @@ def get_source_match(article, sources):
         for source_name in source.brands:
             source_pattern = re.compile(r''+source_name+r'', re.IGNORECASE)
             match = source_pattern.search(article.split("\nBody\n")[0])
-            print(article.split("\nBody\n")[0])
             # return recognised source and increase its count  
             if match:
                 source_string = match.group().replace('\n', '')
@@ -175,9 +174,10 @@ def extract_article_data(raw_articles, sources):
     print("Sources found: Num articles")
     articles_sum = 0
     for source in sources: 
-        print(f"{sources[source].brands}: {sources[source].article_count}")
+        print(f"{sources[source].name}: {sources[source].article_count}")
         articles_sum = articles_sum + sources[source].article_count
     print(f"TOTAL: {articles_sum}\n")
+    
     return articles, dates
 
 # Load article sentiments from backup file
@@ -354,8 +354,8 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
 mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
-#articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
-articles_file_path = "Sample_article.txt"
+#articles_file_path = "Sample_article.txt"
+articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "sentiments_backup.csv"
 
