@@ -99,13 +99,13 @@ def convert_string_to_datetime(date_string):
 
 # Get the list of all article sources 
 def get_sources_list():
-    return ["Wall Street Journal Abstracts","Financial Times Online","Associated Press Financial Wire","Airguide Business & AirguideBusiness\.com","Proactive Investors \(UK\)","BNS News Service in English by Baltic News Service \(BNS\) English","Newstex Blogs","Live Briefs PRO Global Markets","MT Newswires Live Briefs","Business World \(Digest\)","MarketLine NewsWire","London Stock Exchange Regulatory News Service","Sunday Business Post","International Business Times News","The Investors Chronicle","Financial Times \(London, England\)","AirFinance Journal","Flight International","dpa-AFX International ProFeed","dpa international \(Englischer Dienst\)","RTT News \(United States\)","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News UK","Thomson Financial News Super Focus"]
+    return ["Wall Street Journal Abstracts","WALL STREET JOURNAL ABSTRACTS","Financial Times","FT\.com","Associated Press Financial Wire","Airguide Business","Proactive Investors \(UK\)","BNS News Service in English by Baltic News Service \(BNS\) English","Baltic News Service","Newstex Blogs","Live Briefs PRO Global Markets","MT Newswires Live Briefs","Business World \(Digest\)","MarketLine NewsWire","London Stock Exchange Regulatory News Service","Sunday Business Post","International Business Times News","The Investors Chronicle","AirFinance Journal","Flight International","dpa-AFX International ProFeed","dpa international \(Englischer Dienst\)","RTT News \(United States\)","Citywire","City A\.M\.","ANSA English Corporate Service","American Banking and Market News","Transcript Daily","Watchlist News","DailyPolitical","Alliance News","Thomson Financial News Super Focus", "Deutsche Presse-Agentur"]
 
 # Find a string matching a source name
 def get_source_match(article):
     sources = get_sources_list()
     for source in sources:
-        source_pattern = re.compile(r'\n'+source+r'')
+        source_pattern = re.compile(r''+source+r'', re.IGNORECASE)
         match = source_pattern.search(article.split("\nBody\n")[0])
         if match:
             source_string = match.group().replace('\n', '')
@@ -131,24 +131,23 @@ def extract_article_data(raw_articles):
             
             if not source:
                 print(raw_articles[i].split("\nBody\n")[0])
+                num_invalid_sources = num_invalid_sources+1
             
             # Check for valid date & source
-            if date and source:
+            if isinstance(date, datetime) and source:
                 
                 # Add to Articles list. Initialise senitment to 0
-                if isinstance(date, datetime):
-                    dates.append(date)
-                    body = process_text(raw_articles[i])
-                    if body != 0:
-                        articles.append(Article(date, body, source, headline, 0))
-                    else: num_invalid_bodies = num_invalid_bodies+1
-                else: num_invalid_dates = num_invalid_dates+1
+                dates.append(date)
+                body = process_text(raw_articles[i])
+                if body != 0:
+                    articles.append(Article(date, body, source, headline, 0))
+                else: num_invalid_bodies = num_invalid_bodies+1
             else: num_invalid_dates = num_invalid_dates+1
         else: num_invalid_bodies = num_invalid_bodies+1
-        
     
     print(f"Received {len(raw_articles)} articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
+    print(f"Removed {num_invalid_sources} articles with invalid sources.")
     print(f"Removed {num_invalid_bodies} articles with invalid article bodies.")
     print(f"Loaded {len(articles)} articles.\n")
     return articles, dates
@@ -326,8 +325,8 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
 # Select mode
 mode  = "tes"
 
-articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
-#articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+#articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
+articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 seniment_backup_path = "sentiments_backup.csv"
 
 # Load files
