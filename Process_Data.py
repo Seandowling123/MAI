@@ -404,10 +404,10 @@ def convert_to_weekly(daily_data):
         
         # Average the data for the week
         for data in intra_week_data:
-            mean_return = mean_return + daily_data[data].returns / len(intra_week_data)
-            mean_volume = mean_volume + daily_data[data].volume / len(intra_week_data)
-            mean_VIX = mean_VIX + daily_data[data].vix / len(intra_week_data)
-            mean_sentiment = mean_sentiment + daily_data[data].sentiment / len(intra_week_data)
+            mean_return = mean_return + (daily_data[data].returns / len(intra_week_data))
+            mean_volume = mean_volume + (daily_data[data].volume / len(intra_week_data))
+            mean_VIX = mean_VIX + (daily_data[data].vix / len(intra_week_data))
+            mean_sentiment = mean_sentiment + (daily_data[data].sentiment / len(intra_week_data))
         january = is_january(get_thursday_of_week(intra_week_data[0]))
         
         # Save data in weekly data dict
@@ -488,7 +488,6 @@ close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 daily_data = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
 weekly_data = convert_to_weekly(daily_data)
-print(weekly_data)
 
 # Save data to csv
 daily_csv_file_path = 'XX_daily_data.csv'
@@ -502,7 +501,6 @@ plotting_variable = weekly_data
 # Variables for plot
 dates = list(plotting_variable.keys())
 sentiments = [plotting_variable[date].sentiment for date in plotting_variable]
-closes = [plotting_variable[date].close for date in plotting_variable]
 returns = [plotting_variable[date].returns for date in plotting_variable]
 volume = [plotting_variable[date].volume for date in plotting_variable]
 vix = [plotting_variable[date].vix for date in plotting_variable]
