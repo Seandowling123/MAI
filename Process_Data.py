@@ -395,7 +395,6 @@ def convert_to_weekly(trading_days):
         while current_date.weekday() != 0 or days_traversed == 0:
             days_traversed = days_traversed+1
             if (current_date) in trading_days:
-                print(current_date)
                 intra_week_data.append(current_date)
             current_date = current_date + timedelta(days=1)
 
@@ -426,6 +425,20 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
                 writer.writerow(trading_day.to_csv_line().split(','))
 
         print(f"Trading days data saved to {csv_file_path}")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        
+def save_weekly_data_to_csv(weekly_data, csv_file_path):
+    try:
+        with open(csv_file_path, 'w', newline='') as csv_file:
+            writer = csv.writer(csv_file)
+            # Header
+            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX", "January", "Sentiment"])
+            # Save data
+            for date, week in weekly_data.items():
+                writer.writerow(week.to_csv_line().split(','))
+
+        print(f"Weekly data data saved to {csv_file_path}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
@@ -475,6 +488,7 @@ close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
 weekly_data = convert_to_weekly(trading_days)
+print(weekly_data)
 
 # Save trading day data to csv
 csv_file_path = 'trading_days_data.csv'
