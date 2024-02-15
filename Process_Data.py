@@ -29,17 +29,16 @@ class Trading_Day:
 
 # Data to save for each trading day
 class Trading_Week:
-    def __init__(self, date, returns, volume, vix, monday, january, sentiment):
+    def __init__(self, date, returns, volume, vix, january, sentiment):
         self.date = date
         self.returns = returns
         self.volume = volume
         self.vix = vix
-        self.monday = monday
         self.january = january
         self.sentiment = sentiment
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.returns)},{str(self.volume)},{str(self.vix)},{str(self.monday)},{str(self.january)},{str(self.sentiment)}"
+        return f"{str(self.date)},{str(self.returns)},{str(self.volume)},{str(self.vix)},{str(self.january)},{str(self.sentiment)}"
 
 # Class containing info about each article
 class Article:
@@ -379,10 +378,10 @@ def convert_to_weekly(trading_days):
     
     # Iterate through every date in trading days
     while current_date < max(trading_days.keys()):
-        sum_return = 0
-        sum_volume = 0
-        sum_VIX = 0
-        sum_sentiment = 0
+        mean_return = 0
+        mean_volume = 0
+        mean_VIX = 0
+        mean_sentiment = 0
         january = 0
         intra_week_data = []
         days_traversed = 0
@@ -392,28 +391,25 @@ def convert_to_weekly(trading_days):
             days_traversed = days_traversed+1
             if (current_date) in trading_days:
                 intra_week_data.append(current_date)
-            print(current_date.weekday(), get_monday_of_week(current_date))
+            #print(current_date.weekday(), get_monday_of_week(current_date))
             current_date = current_date + timedelta(days=1)
         
-        # Check if the loop terminated on a Sunday
+        # Check if the loop terminated on a Monday
         if days_traversed != 7:
             print("A weekly data conversion error occured.", days_traversed)
         
         # Average the data for the week
         for data in intra_week_data:
-            sum_return = sum_return + trading_days[data].returns
-            sum_volume = sum_volume + trading_days[data].volume
-            sum_VIX = sum_VIX + trading_days[data].vix
-            sum_sentiment = sum_sentiment + trading_days[data].sentiment
+            mean_return = mean_return + trading_days[data].returns / len(intra_week_data)
+            mean_volume = mean_volume + trading_days[data].volume / len(intra_week_data)
+            mean_VIX = mean_VIX + trading_days[data].vix / len(intra_week_data)
+            mean_sentiment = mean_sentiment + trading_days[data].sentiment / len(intra_week_data)
         january = is_january(get_monday_of_week(current_date))
         
-        #current_date = current_date + timedelta(days=1)
-        
         # Save data in weekly data dict
-        #weekly_data[get_monday_of_week(current_date)] = Trading_Week(get_monday_of_week(current_date))
-                
-        #date, returns, volume, vix, monday, january, sentiment
+        weekly_data[get_monday_of_week(current_date)] = Trading_Week(get_monday_of_week(current_date),mean_return,mean_volume,mean_VIX,mean_sentiment)
        
+    return weekly_data
 
 def save_trading_days_to_csv(trading_days, csv_file_path):
     try:
