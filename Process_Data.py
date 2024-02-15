@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import word_tokenize
-nltk.download('punkt')
+#nltk.download('punkt')
 
 # Data to save for each trading day
 class Trading_Day:
@@ -374,41 +374,45 @@ def get_monday_of_week(date):
 def convert_to_weekly(trading_days):
     weekly_data = {}
     
-    start_date = min(trading_days.keys())
+    start_date = get_monday_of_week(min(trading_days.keys()))
     current_date = start_date
     
-    sum_return = 0
-    sum_volume = 0
-    sum_VIX = 0
-    sum_sentiment = 0
-    january = 0
-    intra_week_data = []
-    
-    days_traversed = 0
-    # Collect trading data for each day in the week
-    while current_date.weekday() != 6:
-        days_traversed = days_traversed+1
-        if (current_date) in trading_days:
-            intra_week_data.append(current_date)
-            print(current_date.weekday())
+    # Iterate through every date in trading days
+    while current_date < max(trading_days.keys()):
+        sum_return = 0
+        sum_volume = 0
+        sum_VIX = 0
+        sum_sentiment = 0
+        january = 0
+        intra_week_data = []
+        days_traversed = 0
+        
+        # Collect trading data for each day in the week
+        while current_date.weekday() != 0 or days_traversed == 0:
+            days_traversed = days_traversed+1
+            if (current_date) in trading_days:
+                intra_week_data.append(current_date)
+            print(current_date.weekday(), get_monday_of_week(current_date))
             current_date = current_date + timedelta(days=1)
-    
-    # Check if the loop terminated on a Sunday
-    if days_traversed != 6:
-        print("A weekly data conversion error occured.")
-    
-    # Average the data for the week
-    for data in intra_week_data:
-        sum_return = trading_days[data].returns
-        sum_volume = trading_days[data].volume
-        sum_VIX = trading_days[data].vix
-        sum_sentiment = trading_days[data].sentiment
-    january = is_january(get_monday_of_week(current_date))
-    
-    # Save data in weekly data dict
-    weekly_data[get_monday_of_week(current_date)] = Trading_Week()
-            
-            
+        
+        # Check if the loop terminated on a Sunday
+        if days_traversed != 7:
+            print("A weekly data conversion error occured.", days_traversed)
+        
+        # Average the data for the week
+        for data in intra_week_data:
+            sum_return = sum_return + trading_days[data].returns
+            sum_volume = sum_volume + trading_days[data].volume
+            sum_VIX = sum_VIX + trading_days[data].vix
+            sum_sentiment = sum_sentiment + trading_days[data].sentiment
+        january = is_january(get_monday_of_week(current_date))
+        
+        #current_date = current_date + timedelta(days=1)
+        
+        # Save data in weekly data dict
+        #weekly_data[get_monday_of_week(current_date)] = Trading_Week(get_monday_of_week(current_date))
+                
+        #date, returns, volume, vix, monday, january, sentiment
        
 
 def save_trading_days_to_csv(trading_days, csv_file_path):
