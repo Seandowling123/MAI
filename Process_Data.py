@@ -147,7 +147,7 @@ def extract_article_data(raw_articles, sources):
     
     # Remove any duplicate articles
     len_orig = len(raw_articles)
-    raw_articles = remove_duplicates(raw_articles)
+    raw_articles = remove_duplicates(raw_articles).copy()
     num_duplicates = len_orig - len(raw_articles)
     
     # Extract data
@@ -180,7 +180,6 @@ def extract_article_data(raw_articles, sources):
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
     print(f"Removed {num_invalid_bodies} articles with invalid article bodies.\n")
     print(f"Loaded {len(articles)} articles.\n")
-    print("Sources found: Num articles")
     articles_sum = 0
     for source in sources: 
         print(f"{sources[source].name}: {sources[source].article_count}")
