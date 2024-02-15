@@ -363,16 +363,21 @@ def get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_pric
     print("Trading Days data compiled.\n")
     return trading_days
 
-# Given a date, calculate the date of monday of that week
+# Given a date, calculate the date of Monday of that week
 def get_monday_of_week(date):
     days_since_monday = date.weekday()
+    monday_of_week = date - timedelta(days=days_since_monday)
+    return monday_of_week
+
+# Given a date, calculate the date of Thursday of that week
+def get_thursday_of_week(date):
+    days_since_monday = date.weekday() - 3
     monday_of_week = date - timedelta(days=days_since_monday)
     return monday_of_week
 
 # Convert trading days data to weekly data
 def convert_to_weekly(trading_days):
     weekly_data = {}
-    
     start_date = get_monday_of_week(min(trading_days.keys()))
     current_date = start_date
     
@@ -391,9 +396,8 @@ def convert_to_weekly(trading_days):
             days_traversed = days_traversed+1
             if (current_date) in trading_days:
                 intra_week_data.append(current_date)
-            #print(current_date.weekday(), get_monday_of_week(current_date))
             current_date = current_date + timedelta(days=1)
-        
+
         # Check if the loop terminated on a Monday
         if days_traversed != 7:
             print("A weekly data conversion error occured.", days_traversed)
@@ -404,11 +408,10 @@ def convert_to_weekly(trading_days):
             mean_volume = mean_volume + trading_days[data].volume / len(intra_week_data)
             mean_VIX = mean_VIX + trading_days[data].vix / len(intra_week_data)
             mean_sentiment = mean_sentiment + trading_days[data].sentiment / len(intra_week_data)
-        january = is_january(get_monday_of_week(current_date))
+        january = is_january(get_thursday_of_week(current_date))
         
         # Save data in weekly data dict
-        weekly_data[get_monday_of_week(current_date)] = Trading_Week(get_monday_of_week(current_date),mean_return,mean_volume,mean_VIX,mean_sentiment)
-       
+        weekly_data[get_monday_of_week(current_date)] = Trading_Week(get_monday_of_week(current_date),mean_return,mean_volume,mean_VIX,january,mean_sentiment)
     return weekly_data
 
 def save_trading_days_to_csv(trading_days, csv_file_path):
@@ -429,13 +432,11 @@ def save_trading_days_to_csv(trading_days, csv_file_path):
 mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
-#articles_file_path = "Sample_article.txt"
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "sentiments_backup.csv"
 
 # Load files
-#articles_file_path = 'Sample_article.txt'
 raw_articles = load_articles_from_txt(articles_file_path)
 sources = load_source_names(sources_file_path)
 
@@ -472,11 +473,11 @@ print(f"Start date: {start_date} End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 trading_days = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
+weekly_data = convert_to_weekly(trading_days)
 
 # Save trading day data to csv
 csv_file_path = 'trading_days_data.csv'
 save_trading_days_to_csv(trading_days, csv_file_path)
-convert_to_weekly(trading_days)
 
 # Variables for plot
 dates = list(trading_days.keys())
