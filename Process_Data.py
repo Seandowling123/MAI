@@ -244,6 +244,12 @@ def get_logs(input_list):
         logs.append(math.log10(int(num)))
     return logs
 
+def get_detrended_volume(volume, index):
+    log_vol = get_logs(volume)
+    mean_vol = np.mean(log_vol[index-60:index])
+    detrended_vol = log_vol[index] - mean_vol
+    return detrended_vol
+
 # Extract financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
     close_price_dict = {}
@@ -269,7 +275,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
                     close_price_dict[date_object] = close_price
                     
                     # Get detrended trading volume
-                    detrended_vol = np.mean(get_logs(volume[index-60:index]))
+                    detrended_vol = get_detrended_volume(volume, index)
                     trading_vol_dict[date_object] = detrended_vol
                     
                 prev_date = date_object
