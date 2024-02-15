@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import word_tokenize
+from collections import Counter
 #nltk.download('punkt')
 
 # Data to save for each trading day
@@ -185,7 +186,7 @@ def extract_article_data(raw_articles, sources):
                 else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1 
         else: num_invalid_bodies = num_invalid_bodies+1
-    
+        
     # Print stats
     print(f"Received {len(raw_articles)} articles.")
     print(f"Removed {num_duplicates} duplicate articles.")
@@ -360,7 +361,7 @@ def get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_pric
             # Store in trading days dict
             daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment)
         prev_date = date
-    print("Trading Days data compiled.\n")
+    print("Trading data compiled.\n")
     return daily_data
 
 # Given a date, calculate the date of Monday of that week
@@ -483,7 +484,7 @@ for article in articles:
 # Extract financial data from the time period
 start_date = min(dates)
 end_date = max(dates)
-print(f"Start date: {start_date} End date: {end_date}\n")
+print(f"Start date: {start_date} | End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 daily_data = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
