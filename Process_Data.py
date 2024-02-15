@@ -134,6 +134,9 @@ def get_source_match(article, sources):
                 return source_string
     return 0
 
+def remove_duplicates(articles):
+    return list(set(articles))
+
 # Extracts date and body of each news article
 def extract_article_data(raw_articles, sources):
     articles = []
@@ -141,6 +144,11 @@ def extract_article_data(raw_articles, sources):
     num_invalid_dates = 0
     num_invalid_sources = 0
     num_invalid_bodies = 0
+    
+    # Remove any duplicate articles
+    len_orig = len(raw_articles)
+    raw_articles = remove_duplicates(raw_articles)
+    num_duplicates = len_orig - len(raw_articles)
     
     # Extract data
     for i in range(len(raw_articles)):
@@ -167,6 +175,7 @@ def extract_article_data(raw_articles, sources):
     
     # Print stats
     print(f"Received {len(raw_articles)} articles.")
+    print(f"Removed {num_duplicates} duplicate articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
     print(f"Removed {num_invalid_bodies} articles with invalid article bodies.\n")
