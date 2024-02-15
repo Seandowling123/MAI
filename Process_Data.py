@@ -395,6 +395,7 @@ def convert_to_weekly(trading_days):
         while current_date.weekday() != 0 or days_traversed == 0:
             days_traversed = days_traversed+1
             if (current_date) in trading_days:
+                print(current_date)
                 intra_week_data.append(current_date)
             current_date = current_date + timedelta(days=1)
 
@@ -408,10 +409,10 @@ def convert_to_weekly(trading_days):
             mean_volume = mean_volume + trading_days[data].volume / len(intra_week_data)
             mean_VIX = mean_VIX + trading_days[data].vix / len(intra_week_data)
             mean_sentiment = mean_sentiment + trading_days[data].sentiment / len(intra_week_data)
-        january = is_january(get_thursday_of_week(current_date))
+        january = is_january(get_thursday_of_week(intra_week_data[0]))
         
         # Save data in weekly data dict
-        weekly_data[get_monday_of_week(current_date)] = Trading_Week(get_monday_of_week(current_date),mean_return,mean_volume,mean_VIX,january,mean_sentiment)
+        weekly_data[get_monday_of_week(intra_week_data[0])] = Trading_Week(get_monday_of_week(intra_week_data[0]),mean_return,mean_volume,mean_VIX,january,mean_sentiment)
     return weekly_data
 
 def save_trading_days_to_csv(trading_days, csv_file_path):
