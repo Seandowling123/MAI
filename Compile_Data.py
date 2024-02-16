@@ -549,10 +549,12 @@ get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_pat
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
 
-# Extract financial data from the time period
+# Get the time period
 start_date = min(dates)
 end_date = max(dates)
 print(f"Start date: {start_date} | End date: {end_date}\n")
+
+# Extract financial data from the time period
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
