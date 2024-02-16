@@ -3,3 +3,6 @@ Articles_txt_combined/*
 
 # Ignore testing.py
 testing.py
+
+# Ignore Articles_backup.pkl
+Articles_backup.pkl
