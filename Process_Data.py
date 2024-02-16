@@ -272,34 +272,28 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
     with open(seniment_backup_path, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         
-        # Open the stemmed sentiment csv file
-        stemmed_seniment_backup_path = seniment_backup_path.split('.')[0] + "_stemmed.csv"
-        with open(stemmed_seniment_backup_path, 'w', newline='') as csv_file2:
-            stemmed_writer = csv.writer(csv_file2)
-            
-            # Iterate through each article
-            for article in articles:
-                try:
-                    # Get sentiment score for the article
-                    if article.sentiment == 0:
-                        sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
-                        #stemmed_sentiment  = calculate_sentiment(article.body, positive_dict, negative_dict)
-                        print("sentiment", sentiment)
-                    
-                        # Save score
-                        article.sentiment = sentiment
-                        #article.stemmed_sentiment = stemmed_sentiment
-                    writer.writerow([article.sentiment])
-                    #stemmed_writer.writerow([article.stemmed_sentiment])
-                    
-                    # Progress tracker
-                    calculated = calculated + 1
-                    progress = "{:.2f}".format((calculated/num_articles)*100)
-                    if (calculated % 10) == 0:
-                        print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
-                    
-                except Exception as e:
-                    print(f"An sentiment calculation error occurred: {str(e)}\n")
+        # Iterate through each article
+        for article in articles:
+            try:
+                # Get sentiment score for the article
+                if article.sentiment == 0:
+                    sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
+                    stemmed_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict)
+                    print("sentiment", sentiment, stemmed_sentiment)
+                
+                    # Save score
+                    article.sentiment = sentiment
+                    article.stemmed_sentiment = stemmed_sentiment
+                writer.writerow([article.sentiment, article.stemmed_sentiment])
+                
+                # Progress tracker
+                calculated = calculated + 1
+                progress = "{:.2f}".format((calculated/num_articles)*100)
+                if (calculated % 10) == 0:
+                    print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
+                
+            except Exception as e:
+                print(f"An sentiment calculation error occurred: {str(e)}\n")
             
 # Compute log of each value in a list   
 def get_logs(input_list):
@@ -502,15 +496,14 @@ articles_backup_path = 'Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "sentiments_backup.csv"
 
-# Load files
-sources = load_source_names(sources_file_path)
-# Check for articles backup
+# Check for backup and load files
 if os.path.exists(articles_backup_path):
     with open(articles_backup_path, 'rb') as file:
         articles, dates = pickle.load(file)
         print(f"Loaded {len(articles)} articles from backup file.")
 else:  
     # Extract data & list of dates from the articles
+    sources = load_source_names(sources_file_path)
     raw_articles = load_articles_from_txt(articles_file_path)
     articles, dates = extract_article_data(raw_articles, sources, articles_backup_path)
 
