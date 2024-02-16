@@ -46,9 +46,10 @@ class Trading_Week:
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, source, headline, sentiment, stemmed_sentiment):
+    def __init__(self, date, body, stemmed_body, source, headline, sentiment, stemmed_sentiment):
         self.date = date
         self.body = body
+        self.stemmed_body = stemmed_body
         self.source = source
         self.headline = headline
         self.sentiment = sentiment
@@ -201,7 +202,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                     body = process_text(raw_articles[i])
                     stemmed_body = stem_text(body)
                     if body != 0:
-                        articles.append(Article(date, body, stemmed_body, source, headline, 0))
+                        articles.append(Article(date, body, stemmed_body, source, headline, 0, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
                 else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1 
@@ -227,8 +228,8 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
     print(f"TOTAL: {articles_sum}\n")
 
     # Save the article data to the backup file
-    with open(articles_backup_path, 'rb') as file:
-        articles, dates = pickle.load(file)
+    with open(articles_backup_path, 'wb') as file:
+        pickle.dump((articles, dates), file)
         
     return articles, dates
 
@@ -282,14 +283,14 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                     # Get sentiment score for the article
                     if article.sentiment == 0:
                         sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
-                        stemmed_sentiment  = calculate_sentiment(article.body, positive_dict, negative_dict)
-                        print(sentiment, stemmed_sentiment)
+                        #stemmed_sentiment  = calculate_sentiment(article.body, positive_dict, negative_dict)
+                        print("sentiment", sentiment)
                     
                         # Save score
                         article.sentiment = sentiment
-                        article.stemmed_sentiment = stemmed_sentiment
+                        #article.stemmed_sentiment = stemmed_sentiment
                     writer.writerow([article.sentiment])
-                    stemmed_writer.writerow([article.stemmed_sentiment])
+                    #stemmed_writer.writerow([article.stemmed_sentiment])
                     
                     # Progress tracker
                     calculated = calculated + 1
@@ -507,6 +508,7 @@ sources = load_source_names(sources_file_path)
 if os.path.exists(articles_backup_path):
     with open(articles_backup_path, 'rb') as file:
         articles, dates = pickle.load(file)
+        print(f"Loaded {len(articles)} articles from backup file.")
 else:  
     # Extract data & list of dates from the articles
     raw_articles = load_articles_from_txt(articles_file_path)
