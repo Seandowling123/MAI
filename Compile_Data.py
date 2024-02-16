@@ -319,6 +319,23 @@ def get_detrended_volume(volume, index):
     detrended_vol = log_vol[index] - mean_vol
     return detrended_vol
 
+# Calculate a sentiment time series from the article sentiments
+def get_daily_sentiments(articles):
+    daily_sentiment = defaultdict(list)
+    daily_stemmed_sentiment = defaultdict(list)
+
+    # Add sentiments for each day
+    for article in articles:
+        daily_sentiment[article.date].append(article.sentiment)
+        daily_stemmed_sentiment[article.date].append(article.stemmed_sentiment)
+        
+    # Average sentiments for each day
+    for article in articles:
+        daily_sentiment[article.date] = np.mean(daily_sentiment[article.date])
+        daily_stemmed_sentiment[article.date] = np.mean(daily_stemmed_sentiment[article.date])
+        
+    return daily_sentiment, daily_stemmed_sentiment
+
 # Extract financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
     close_price_dict = {}
@@ -529,19 +546,8 @@ negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
-# Initialise dict to store daily sentiment
-daily_sentiment = defaultdict(list)
-daily_stemmed_sentiment = defaultdict(list)
-
-# Add sentiments for each day
-for article in articles:
-    daily_sentiment[article.date].append(article.sentiment)
-    daily_stemmed_sentiment[article.date].append(article.stemmed_sentiment)
-    
-# Average sentiments for each day
-for article in articles:
-    daily_sentiment[article.date] = np.mean(daily_sentiment[article.date])
-    daily_stemmed_sentiment[article.date] = np.mean(daily_stemmed_sentiment[article.date])
+# Get sentiment time series    
+daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
 
 # Extract financial data from the time period
 start_date = min(dates)
