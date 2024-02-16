@@ -11,6 +11,7 @@ import pickle
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import SnowballStemmer
+from collections import defaultdict
 #nltk.download('punkt')
 
 # Data to save for each trading day
@@ -397,7 +398,7 @@ def is_january(date):
     else: return 0
 
 # Collect data for each trading day
-def get_trading_day_data(daily_senitment, daily_stemmed_senitment, close_prices, trading_volume, VIX_prices):
+def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
     daily_data = {}
     prev_date = 0
     for date in close_prices:
@@ -409,9 +410,9 @@ def get_trading_day_data(daily_senitment, daily_stemmed_senitment, close_prices,
             january = is_january(date)
             volume = trading_volume[date]
             vix = VIX_prices[date]
-            if date in daily_senitment:
-                senitment = daily_senitment[date]
-                stemmed_sentiment = daily_stemmed_senitment[date]
+            if date in daily_sentiment:
+                senitment = daily_sentiment[date]
+                stemmed_sentiment = daily_stemmed_sentiment[date]
             else: senitment = 0
             # Store in trading days dict
             daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
@@ -529,21 +530,18 @@ Load_senitments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Initialise dict to store daily sentiment
-daily_senitment = {}
-daily_stemmed_senitment = {}
-for article in articles:
-    daily_senitment[article.date] = []
-    daily_stemmed_senitment[article.date] = []
+daily_sentiment = defaultdict(list)
+daily_stemmed_sentiment = defaultdict(list)
 
 # Add sentiments for each day
 for article in articles:
-    daily_senitment[article.date].append(article.sentiment)
-    daily_stemmed_senitment[article.date].append(article.stemmed_sentiment)
+    daily_sentiment[article.date].append(article.sentiment)
+    daily_stemmed_sentiment[article.date].append(article.stemmed_sentiment)
     
 # Average sentiments for each day
 for article in articles:
-    daily_senitment[article.date] = np.mean(daily_senitment[article.date])
-    daily_stemmed_senitment[article.date] = np.mean(daily_stemmed_senitment[article.date])
+    daily_sentiment[article.date] = np.mean(daily_sentiment[article.date])
+    daily_stemmed_sentiment[article.date] = np.mean(daily_stemmed_sentiment[article.date])
 
 # Extract financial data from the time period
 start_date = min(dates)
@@ -551,7 +549,7 @@ end_date = max(dates)
 print(f"Start date: {start_date} | End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
-daily_data = get_trading_day_data(daily_senitment, daily_stemmed_senitment, close_prices, trading_volume, VIX_prices)
+daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
 weekly_data = convert_to_weekly(daily_data)
 
 # Save data to csv
