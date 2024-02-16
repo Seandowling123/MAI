@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import word_tokenize
-from collections import Counter
+from nltk.stem.snowball import SnowballStemmer
 #nltk.download('punkt')
 
 # Data to save for each trading day
@@ -43,9 +43,10 @@ class Trading_Week:
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, source, headline, sentiment):
+    def __init__(self, date, body, stemmed_body, source, headline, sentiment):
         self.date = date
         self.body = body
+        self.stemmed_body = stemmed_body
         self.source = source
         self.headline = headline
         self.sentiment = sentiment
@@ -148,8 +149,21 @@ def get_source_match(article, sources):
                 return source_string
     return 0
 
+# Returns a list of articles with the duplicates removed
 def remove_duplicates(articles):
     return list(set(articles))
+
+# Converts words in an article body to their stems
+def stem_text(text):
+    stemmer = SnowballStemmer("english")
+    words = word_tokenize(text)
+    stemmed_text = ""
+    
+    for word in words:
+        stemmed_word = stemmer.stem(word)
+        stemmed_text = stemmed_text + " " + stemmed_word
+        
+    print(stemmed_text)
 
 # Extracts date and body of each news article
 def extract_article_data(raw_articles, sources):
@@ -180,8 +194,10 @@ def extract_article_data(raw_articles, sources):
                     # Add to Articles list. Initialise senitment to 0
                     dates.append(date)
                     body = process_text(raw_articles[i])
+                    stemmed_body = stem_text(body)
+                    stemmed_body = 0
                     if body != 0:
-                        articles.append(Article(date, body, source, headline, 0))
+                        articles.append(Article(date, body, stemmed_body, source, headline, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
                 else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1 
