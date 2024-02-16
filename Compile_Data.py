@@ -25,10 +25,10 @@ class Trading_Day:
         self.monday = monday
         self.january = january
         self.sentiment = sentiment
-        #self.stemmed_sentiment = stemmed_sentiment
+        self.stemmed_sentiment = stemmed_sentiment
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.monday)},{str(self.january)},{str(self.sentiment)}"
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.monday)},{str(self.january)},{str(self.sentiment)},{str(self.stemmed_sentiment)}"
 
 # Data to save for each trading day
 class Trading_Week:
@@ -39,10 +39,10 @@ class Trading_Week:
         self.vix = vix
         self.january = january
         self.sentiment = sentiment
-        #self.stemmed_sentiment = stemmed_sentiment
+        self.stemmed_sentiment = stemmed_sentiment
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.returns)},{str(self.volume)},{str(self.vix)},{str(self.january)},{str(self.sentiment)}"
+        return f"{str(self.date)},{str(self.returns)},{str(self.volume)},{str(self.vix)},{str(self.january)},{str(self.sentiment)},{str(self.stemmed_sentiment)}"
 
 # Class containing info about each article
 class Article:
@@ -397,7 +397,7 @@ def is_january(date):
     else: return 0
 
 # Collect data for each trading day
-def get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices):
+def get_trading_day_data(daily_senitment, daily_stemmed_senitment, close_prices, trading_volume, VIX_prices):
     daily_data = {}
     prev_date = 0
     for date in close_prices:
@@ -411,9 +411,10 @@ def get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_pric
             vix = VIX_prices[date]
             if date in daily_senitment:
                 senitment = daily_senitment[date]
+                stemmed_sentiment = daily_stemmed_senitment[date]
             else: senitment = 0
             # Store in trading days dict
-            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment)
+            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
         prev_date = date
     print("Trading data compiled.\n")
     return daily_data
@@ -474,7 +475,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX", "Monday", "January", "Sentiment"])
+            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX", "Monday", "January", "Sentiment","stemmed_sentiment"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -529,16 +530,20 @@ get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_pat
 
 # Initialise dict to store daily sentiment
 daily_senitment = {}
+daily_stemmed_senitment = {}
 for article in articles:
     daily_senitment[article.date] = []
+    daily_stemmed_senitment[article.date] = []
 
 # Add sentiments for each day
 for article in articles:
     daily_senitment[article.date].append(article.sentiment)
+    daily_stemmed_senitment[article.date].append(article.stemmed_sentiment)
     
 # Average sentiments for each day
 for article in articles:
     daily_senitment[article.date] = np.mean(daily_senitment[article.date])
+    daily_stemmed_senitment[article.date] = np.mean(daily_stemmed_senitment[article.date])
 
 # Extract financial data from the time period
 start_date = min(dates)
@@ -546,7 +551,7 @@ end_date = max(dates)
 print(f"Start date: {start_date} | End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
-daily_data = get_trading_day_data(daily_senitment, close_prices, trading_volume, VIX_prices)
+daily_data = get_trading_day_data(daily_senitment, daily_stemmed_senitment, close_prices, trading_volume, VIX_prices)
 weekly_data = convert_to_weekly(daily_data)
 
 # Save data to csv
