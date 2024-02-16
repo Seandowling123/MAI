@@ -43,13 +43,13 @@ class Trading_Week:
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, stemmed_body, source, headline, sentiment):
+    def __init__(self, date, body, source, headline, sentiment, stemmed_sentiment):
         self.date = date
         self.body = body
-        self.stemmed_body = stemmed_body
         self.source = source
         self.headline = headline
         self.sentiment = sentiment
+        self.stemmed_sentiment = stemmed_sentiment
         
 # Class containing info about each news source
 class Source:
@@ -159,11 +159,13 @@ def stem_text(text):
     words = word_tokenize(text)
     stemmed_text = ""
     
+    # Stem each word
     for word in words:
         stemmed_word = stemmer.stem(word)
         stemmed_text = stemmed_text + " " + stemmed_word
         
-    print(stemmed_text)
+    print(stemmed_text.upper())
+    return stemmed_text.upper()
 
 # Extracts date and body of each news article
 def extract_article_data(raw_articles, sources):
@@ -195,7 +197,6 @@ def extract_article_data(raw_articles, sources):
                     dates.append(date)
                     body = process_text(raw_articles[i])
                     stemmed_body = stem_text(body)
-                    stemmed_body = 0
                     if body != 0:
                         articles.append(Article(date, body, stemmed_body, source, headline, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
@@ -235,37 +236,55 @@ def get_word_count(article, word_list):
         word_counts = word_counts + count
     return word_counts
 
+def calculate_sentiment(text_body, positive_dict, negative_dict):
+    # Get counts
+    num_words = len(word_tokenize(text_body))
+    pos_word_count = get_word_count(text_body, positive_dict)
+    neg_word_count = get_word_count(text_body, negative_dict)
+    
+    # Calculate relative word frequencies
+    pos_score = pos_word_count
+    neg_score = neg_word_count
+    total_score = (pos_score - neg_score)/num_words
+    
+    return total_score
+
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
     calculated = 0
     num_articles = len(articles)
+    
+    # Open first csv file
     with open(seniment_backup_path, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
-        for article in articles:
-            try:
-                if article.sentiment == 0:
-                    # Get counts
-                    num_words = len(word_tokenize(article.body))
-                    pos_word_count = get_word_count(article.body, positive_dict)
-                    neg_word_count = get_word_count(article.body, negative_dict)
+        
+        # Open the stemmed sentiment csv file
+        stemmed_seniment_backup_path = seniment_backup_path.split('.')[0] + "_stemmed.csv"
+        with open(stemmed_seniment_backup_path, 'w', newline='') as csv_file2:
+            stemmed_writer = csv.writer(csv_file2)
+            
+            # Iterate through each article
+            for article in articles:
+                try:
+                    # Get sentiment score for the article
+                    if article.sentiment == 0:
+                        sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
+                        stemmed_sentiment  = calculate_sentiment(article.body, positive_dict, negative_dict)
                     
-                    # Calculate relative word frequencies
-                    pos_score = pos_word_count
-                    neg_score = neg_word_count
-                    total_score = (pos_score - neg_score)/num_words
-                
-                    # Save score
-                    article.sentiment = total_score
-                writer.writerow([article.sentiment])
-                
-                # Progress tracker
-                calculated = calculated + 1
-                progress = "{:.2f}".format((calculated/num_articles)*100)
-                if (calculated % 10) == 0:
-                    print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
-                
-            except Exception as e:
-                print(f"An sentiment calculation error occurred: {str(e)}\n")
+                        # Save score
+                        article.sentiment = sentiment
+                        article.stemmed_sentiment = stemmed_sentiment
+                    writer.writerow([article.sentiment])
+                    stemmed_writer.writerow([article.stemmed_sentiment])
+                    
+                    # Progress tracker
+                    calculated = calculated + 1
+                    progress = "{:.2f}".format((calculated/num_articles)*100)
+                    if (calculated % 10) == 0:
+                        print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
+                    
+                except Exception as e:
+                    print(f"An sentiment calculation error occurred: {str(e)}\n")
             
 # Compute log of each value in a list   
 def get_logs(input_list):
