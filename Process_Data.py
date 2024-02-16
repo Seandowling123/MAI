@@ -7,6 +7,7 @@ import re
 import os
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
+import pickle
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import SnowballStemmer
@@ -14,7 +15,7 @@ from nltk.stem.snowball import SnowballStemmer
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, absolute_returns, volume, vix, monday, january, sentiment):
+    def __init__(self, date, close, returns, absolute_returns, volume, vix, monday, january, sentiment, stemmed_sentiment=0):
         self.date = date
         self.close = close
         self.returns = returns
@@ -24,19 +25,21 @@ class Trading_Day:
         self.monday = monday
         self.january = january
         self.sentiment = sentiment
+        #self.stemmed_sentiment = stemmed_sentiment
     
     def to_csv_line(self):
         return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.monday)},{str(self.january)},{str(self.sentiment)}"
 
 # Data to save for each trading day
 class Trading_Week:
-    def __init__(self, date, returns, volume, vix, january, sentiment):
+    def __init__(self, date, returns, volume, vix, january, sentiment, stemmed_sentiment=0):
         self.date = date
         self.returns = returns
         self.volume = volume
         self.vix = vix
         self.january = january
         self.sentiment = sentiment
+        #self.stemmed_sentiment = stemmed_sentiment
     
     def to_csv_line(self):
         return f"{str(self.date)},{str(self.returns)},{str(self.volume)},{str(self.vix)},{str(self.january)},{str(self.sentiment)}"
@@ -163,17 +166,16 @@ def stem_text(text):
     for word in words:
         stemmed_word = stemmer.stem(word)
         stemmed_text = stemmed_text + " " + stemmed_word
-        
-    print(stemmed_text.upper())
     return stemmed_text.upper()
 
 # Extracts date and body of each news article
-def extract_article_data(raw_articles, sources):
+def extract_article_data(raw_articles, sources, articles_backup_path):
     articles = []
     dates = []
     num_invalid_dates = 0
     num_invalid_sources = 0
     num_invalid_bodies = 0
+    calculated = 0
     
     # Remove any duplicate articles
     len_orig = len(raw_articles)
@@ -182,6 +184,7 @@ def extract_article_data(raw_articles, sources):
     
     # Extract data
     for i in range(len(raw_articles)):
+        
         headline = raw_articles[i].split("\n")[1]
         
         # Find date pattern
@@ -204,6 +207,12 @@ def extract_article_data(raw_articles, sources):
             else: num_invalid_dates = num_invalid_dates+1 
         else: num_invalid_bodies = num_invalid_bodies+1
         
+        # Progress tracker
+        calculated = calculated + 1
+        progress = "{:.2f}".format((calculated/len(raw_articles))*100)
+        if (calculated % 10) == 0:
+            print(f"Loading articles: {progress}%\r", end='', flush=True)
+        
     # Print stats
     print(f"Received {len(raw_articles)} articles.")
     print(f"Removed {num_duplicates} duplicate articles.")
@@ -216,7 +225,11 @@ def extract_article_data(raw_articles, sources):
         print(f"{sources[source].name}: {sources[source].article_count}")
         articles_sum = articles_sum + sources[source].article_count
     print(f"TOTAL: {articles_sum}\n")
-    
+
+    # Save the article data to the backup file
+    with open(articles_backup_path, 'rb') as file:
+        articles, dates = pickle.load(file)
+        
     return articles, dates
 
 # Load article sentiments from backup file
@@ -270,6 +283,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                     if article.sentiment == 0:
                         sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
                         stemmed_sentiment  = calculate_sentiment(article.body, positive_dict, negative_dict)
+                        print(sentiment, stemmed_sentiment)
                     
                         # Save score
                         article.sentiment = sentiment
@@ -483,15 +497,20 @@ mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
+articles_backup_path = 'Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "sentiments_backup.csv"
 
 # Load files
-raw_articles = load_articles_from_txt(articles_file_path)
 sources = load_source_names(sources_file_path)
-
-# Extract data & list of dates from articles
-articles, dates = extract_article_data(raw_articles, sources)
+# Check for articles backup
+if os.path.exists(articles_backup_path):
+    with open(articles_backup_path, 'rb') as file:
+        articles, dates = pickle.load(file)
+else:  
+    # Extract data & list of dates from the articles
+    raw_articles = load_articles_from_txt(articles_file_path)
+    articles, dates = extract_article_data(raw_articles, sources, articles_backup_path)
 
 # Load dictionaries & calculate sentiments
 #positive_dict_path = "Loughran-McDonald_Positive.csv"
