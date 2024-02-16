@@ -236,11 +236,22 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
 # Load article sentiments from backup file
 def Load_senitments_from_backup(articles, seniment_backup_path):
     if os.path.exists(seniment_backup_path):
+        sentiments = []
+        stemmed_sentiments = []
         print(f"Loading sentiments from backup file: {seniment_backup_path}.")
-        sentiments_from_backup = load_csv(seniment_backup_path)
-        for i in range(len(sentiments_from_backup)):
-            articles[i].sentiment = float(sentiments_from_backup[i])
-        print(f"Loaded {len(sentiments_from_backup)} sentiments from backup.\n")
+        
+        # Open the csv file and read its contents
+        with open(seniment_backup_path, 'r', newline='') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                sentiments.append(row[0])
+                stemmed_sentiments.append(row[1])
+        
+        print((stemmed_sentiments))
+        for i in range(len(sentiments)):
+            articles[i].sentiment = float(sentiments[i])
+            articles[i].stemmed_sentiment = float(stemmed_sentiments[i])
+        print(f"Loaded {len(sentiments)} sentiments from backup.\n")
         
 # Count the number of dictionary words in an article
 def get_word_count(article, word_list):
@@ -279,7 +290,6 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                 if article.sentiment == 0:
                     sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
                     stemmed_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict)
-                    print("sentiment", sentiment, stemmed_sentiment)
                 
                     # Save score
                     article.sentiment = sentiment
