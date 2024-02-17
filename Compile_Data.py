@@ -15,20 +15,21 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, absolute_returns, volume, vix, monday, january, sentiment, stemmed_sentiment=0):
+    def __init__(self, date, close, returns, absolute_returns, volume, vix, vix_close, monday, january, sentiment, stemmed_sentiment=0):
         self.date = date
         self.close = close
         self.returns = returns
         self.absolute_returns = absolute_returns
         self.volume = volume
         self.vix = vix
+        self.vix_close = vix_close
         self.monday = monday
         self.january = january
         self.sentiment = sentiment
         self.stemmed_sentiment = stemmed_sentiment
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.monday)},{str(self.january)},{str(self.sentiment)},{str(self.stemmed_sentiment)}"
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.vix_close)},{str(self.monday)},{str(self.january)},{str(self.sentiment)},{str(self.stemmed_sentiment)}"
 
 # Data to save for each trading day
 class Trading_Week:
@@ -454,13 +455,14 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[get_previous_trading_day(date, close_prices)])
             volume = trading_volume[date]
+            vix_close = VIX_prices[date]
             vix = math.log(VIX_prices[date]/VIX_prices[get_previous_trading_day(date, VIX_prices)])
             monday = is_monday(date)
             january = is_january(date)
             if date in daily_sentiment:
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
-            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
+            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, vix_close, monday, january, senitment, stemmed_sentiment)
         
     print("Trading data compiled.\n")
     return daily_data
@@ -541,7 +543,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "Monday", "January", "Sentiment","stemmed_sentiment"])
+            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "VIX_close", "Monday", "January", "Sentiment","stemmed_sentiment"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
