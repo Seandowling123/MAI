@@ -435,7 +435,7 @@ def is_january(date):
 # Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
     daily_data = {}
-    prev_date = 0
+    first_date = 0
     
     # Iterate through dates and compile the data
     for date in close_prices:
@@ -446,8 +446,10 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
         monday = 0
         january = 0
         
-        if prev_date != 0:
-            
+        # Skip the first trading day date
+        if first_date == 0:
+            first_date = 1
+        else:
             # Collect data and store it in trading days dict
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[get_previous_trading_day(date, close_prices)])
@@ -459,8 +461,6 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
             daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
-            
-        prev_date = date
         
     print("Trading data compiled.\n")
     return daily_data
