@@ -380,6 +380,8 @@ def get_RYAAY_data(file_path, start_date, end_date):
     
 def get_VIX_data(file_path, start_date, end_date):
     close_price_dict = {}
+    prev_date = 0
+    range_reached = 0
     try:
         with open(file_path, 'r', newline='') as input_file:
             reader = csv.DictReader(input_file)
@@ -392,8 +394,15 @@ def get_VIX_data(file_path, start_date, end_date):
                 if row['Adj Close'] != "null":
                     close_price = float(row['Adj Close'])
                     if start_date <= date_object <= end_date:
+                        # Add the date before range for use in returns calculation
+                        if range_reached == 0:
+                            close_price_dict[prev_date] = prev_close
+                            range_reached = 1
                         close_price_dict[date_object] = close_price
-                else: close_price_dict[date_object] = 0
+                        
+                    prev_date = date_object
+                    prev_close = close_price
+                else: close_price_dict[date_object] = prev_close
                 
         print("VIX data compiled.\n")
         return close_price_dict
@@ -482,7 +491,6 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
             if days_traversed == 0:
                 monday_date = get_monday_of_week(current_date)
             days_traversed = days_traversed+1
-            print(current_date, intra_week_sentiment)
             if current_date in close_prices:
                 if prev_date != 0:
                     intra_week_return.append(math.log(close_prices[current_date]/close_prices[prev_date]))
@@ -490,7 +498,8 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
             if current_date in trading_volume:
                 intra_week_volume.append(trading_volume[current_date])
             if current_date in VIX_prices:
-                intra_week_VIX.append(VIX_prices[current_date])
+                if VIX_prices[current_date] != 0:
+                    intra_week_VIX.append(VIX_prices[current_date])
             if current_date in daily_sentiment:
                 intra_week_sentiment.append(daily_sentiment[current_date])
             if current_date in daily_stemmed_sentiment:
@@ -499,12 +508,16 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
         january = is_january(get_thursday_of_week(monday_date))
         
         # Compute daily averages
-        mean_return = np.mean(intra_week_return)
-        mean_volume = np.mean(intra_week_volume)
-        mean_VIX = np.mean(intra_week_VIX)
-        mean_sentiment = np.mean(intra_week_sentiment)
-        mean_stemmed_sentiment = np.mean(intra_week_stemmed_sentiment)
-        print("MEAN: ", mean_sentiment)
+        if len(intra_week_return) > 0:
+            mean_return = np.mean(intra_week_return)
+        if len(intra_week_volume) > 0:
+            mean_volume = np.mean(intra_week_volume)
+        if len(intra_week_VIX) > 0:
+            mean_VIX = np.mean(intra_week_VIX)
+        if len(intra_week_sentiment) > 0:
+            mean_sentiment = np.mean(intra_week_sentiment)
+        if len(intra_week_stemmed_sentiment) > 0:
+            mean_stemmed_sentiment = np.mean(intra_week_stemmed_sentiment)
         
         # Save data in weekly data dict
         weekly_data[monday_date] = Trading_Week(monday_date,mean_return,mean_volume,mean_VIX,january,mean_sentiment,mean_stemmed_sentiment)
