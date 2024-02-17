@@ -8,7 +8,6 @@ import os
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pickle
-import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import SnowballStemmer
 from collections import defaultdict
@@ -354,7 +353,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
                 volume.append(row['Volume'])
 
                 if start_date <= date_object <= end_date:
-                    # Add the date before range for returns calculation
+                    # Add the date before range for use in returns calculation
                     if range_reached == 0:
                         close_price_dict[prev_date] = prev_close
                         range_reached = 1
@@ -419,9 +418,12 @@ def is_january(date):
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
     daily_data = {}
     prev_date = 0
+    
+    # Iterate through dates and compile the data
     for date in close_prices:
         if prev_date != 0:
-            # Compile data
+            
+            # Collect data and store it in trading days dict
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[prev_date])
             monday = is_monday(date)
@@ -432,8 +434,8 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
             else: senitment = 0
-            # Store in trading days dict
             daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
+        
         prev_date = date
     print("Trading data compiled.\n")
     return daily_data
