@@ -413,6 +413,13 @@ def get_VIX_data(file_path, start_date, end_date):
         print(f"An error occurred. VIX data: {str(e)}")
         return None
     
+# Get the date of the previous trading day
+def get_previous_trading_day(day, trading_data):
+    previous_day = day - timedelta(days=1)
+    while previous_day not in trading_data:
+        previous_day -= timedelta(days=1)
+    return previous_day
+    
 # Check if a date is a Monday
 def is_monday(date):
     if date.weekday() == 0:
@@ -432,24 +439,29 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
     
     # Iterate through dates and compile the data
     for date in close_prices:
+        close = 0
+        returns = 0
+        volume = 0
+        vix = 0
+        monday = 0
+        january = 0
+        
         if prev_date != 0:
             
             # Collect data and store it in trading days dict
             close = close_prices[date]
-            returns = math.log(close_prices[date]/close_prices[prev_date])
+            returns = math.log(close_prices[date]/close_prices[get_previous_trading_day(date, close_prices)])
+            volume = trading_volume[date]
+            vix = math.log(VIX_prices[date]/VIX_prices[get_previous_trading_day(date, VIX_prices)])
             monday = is_monday(date)
             january = is_january(date)
-            volume = trading_volume[date]
-            vix = VIX_prices[date]
             if date in daily_sentiment:
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
-            else: 
-                senitment = 0
-                stemmed_sentiment = 0
             daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
-        
+            
         prev_date = date
+        
     print("Trading data compiled.\n")
     return daily_data
 
@@ -529,7 +541,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX", "Monday", "January", "Sentiment","stemmed_sentiment"])
+            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "Monday", "January", "Sentiment","stemmed_sentiment"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -543,7 +555,7 @@ def save_weekly_data_to_csv(weekly_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX", "January", "Sentiment"])
+            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX_Returns", "January", "Sentiment"])
             # Save data
             for date, week in weekly_data.items():
                 writer.writerow(week.to_csv_line().split(','))
