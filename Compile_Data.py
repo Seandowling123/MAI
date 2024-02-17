@@ -109,12 +109,12 @@ def load_articles_from_txt(file_path):
         return f"An error occurred: {str(e)}"
 
 # Pre-process articles
-def process_text(body):
+def process_text(raw_article):
     try:
         # Extract article body & filter content
-        body_split = (((body.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
-        body_split = (body_split.replace('\n', '')).replace('  ', '')
-        body_filtered = re.sub(r'[^a-zA-Z ]', '', body_split)
+        body = (((raw_article.split("\nBody\n")[1]).split('Load-Date:')[0]).split("\nNotes\n")[0])
+        body = body.replace('\n', ' ')
+        body_filtered = re.sub(r'[^a-zA-Z ]', ' ', body)
         body_upper = body_filtered.upper()
         return body_upper
     except Exception as e:
