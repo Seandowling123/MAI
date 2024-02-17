@@ -435,7 +435,9 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
             if date in daily_sentiment:
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
-            else: senitment = 0
+            else: 
+                senitment = 0
+                stemmed_sentiment = 0
             daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
         
         prev_date = date
@@ -480,19 +482,19 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
             if days_traversed == 0:
                 monday_date = get_monday_of_week(current_date)
             days_traversed = days_traversed+1
-            print(current_date, daily_sentiment[current_date])
+            print(current_date, intra_week_sentiment)
             if current_date in close_prices:
                 if prev_date != 0:
-                    intra_week_return = intra_week_return + math.log(close_prices[current_date]/close_prices[prev_date])
+                    intra_week_return.append(math.log(close_prices[current_date]/close_prices[prev_date]))
                 prev_date = current_date
             if current_date in trading_volume:
-                intra_week_volume = intra_week_volume + trading_volume[current_date]
+                intra_week_volume.append(trading_volume[current_date])
             if current_date in VIX_prices:
-                intra_week_VIX = intra_week_VIX + VIX_prices[current_date]
+                intra_week_VIX.append(VIX_prices[current_date])
             if current_date in daily_sentiment:
-                intra_week_sentiment = intra_week_sentiment + daily_sentiment[current_date]
+                intra_week_sentiment.append(daily_sentiment[current_date])
             if current_date in daily_stemmed_sentiment:
-                intra_week_stemmed_sentiment = intra_week_stemmed_sentiment + daily_stemmed_sentiment[current_date]
+                intra_week_stemmed_sentiment.append(daily_stemmed_sentiment[current_date])
             current_date = current_date + timedelta(days=1)
         january = is_january(get_thursday_of_week(monday_date))
         
