@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pickle
 from nltk.tokenize import word_tokenize
-from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.snowball import SnowballStemmer, PorterStemmer
 from collections import defaultdict
 #nltk.download('punkt')
 
@@ -159,7 +159,7 @@ def remove_duplicates(articles):
 
 # Converts words in an article body to their stems
 def stem_text(text):
-    stemmer = SnowballStemmer("english")
+    stemmer = PorterStemmer()
     words = word_tokenize(text)
     stemmed_text = ""
     
@@ -167,6 +167,7 @@ def stem_text(text):
     for word in words:
         stemmed_word = stemmer.stem(word)
         stemmed_text = stemmed_text + " " + stemmed_word
+    #print(text, stemmed_text)
     return stemmed_text.upper()
 
 # Extracts date and body of each news article
@@ -255,9 +256,10 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
 # Count the number of dictionary words in an article
 def get_word_count(article, word_list):
     word_counts = 0
-    for word in tuple(word_list):
-        count = article.count(word)
-        word_counts = word_counts + count
+    article_words = article.split()
+    for word in word_list:
+        count = article_words.count(word)
+        word_counts += count
     return word_counts
 
 def calculate_sentiment(text_body, positive_dict, negative_dict):
@@ -481,12 +483,10 @@ def convert_to_weekly(daily_data):
         
         # Average the data for the week
         for day in days_with_data:
-            print(day, daily_data[day].vix)
             mean_return = mean_return + (daily_data[day].returns / len(days_with_data))
             mean_volume = mean_volume + (daily_data[day].volume / len(days_with_data))
             mean_VIX = mean_VIX + (daily_data[day].vix / len(days_with_data))
             mean_sentiment = mean_sentiment + (daily_data[day].sentiment / len(days_with_data))
-        #print("Mean: ", mean_VIX)
         january = is_january(get_thursday_of_week(days_with_data[0]))
         
         # Save data in weekly data dict
@@ -522,7 +522,7 @@ def save_weekly_data_to_csv(weekly_data, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Select mode
-mode  = "tes"
+mode  = "test"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
@@ -548,8 +548,8 @@ positive_dict_path = "GI_Positive.csv"
 negative_dict_path = "GI_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
-#Load_senitments_from_backup(articles, seniment_backup_path)
-#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+Load_senitments_from_backup(articles, seniment_backup_path)
+get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
@@ -595,17 +595,18 @@ plt.show()
 
 # Some testing stats
 if mode == "test":
-    print("Positive word matches:")
-    for word in positive_dict:
-        if word in articles[0].body:
-            print(word, sep=' ')
-    print("\n")
-            
-    print("Negative word matches:")
-    for word in negative_dict:
-        if word in articles[0].body:
-            print(word, sep=' ')
-    print("\n")
+    for article in articles:
+        print("Positive word matches:")
+        for word in positive_dict:
+            if word in articles[0].body:
+                print(word, sep=' ')
+        print("\n")
+                
+        print("Negative word matches:")
+        for word in negative_dict:
+            if word in articles[0].body:
+                print(word, sep=' ')
+        print("\n")
     
     print(f"Headline: {articles[0].headline}\n")
     print(f"Date: {articles[0].date}\n")
