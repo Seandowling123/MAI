@@ -468,35 +468,50 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
     current_date = start_date
     
     while current_date < max(daily_sentiment.keys()):
-        sum_return = 0
-        sum_volume = 0
-        sum_VIX = 0
-        sum_sentiment = 0
-        sum_stemmed_sentiment = 0
+        intra_week_return = []
+        intra_week_volume = []
+        intra_week_VIX = []
+        intra_week_sentiment = []
+        intra_week_stemmed_sentiment = []
         mean_return = 0
         mean_volume = 0
         mean_VIX = 0
         mean_sentiment = 0
         mean_stemmed_sentiment = 0
-        days_with_data = []
         days_traversed = 0
+        monday_date = 0
         
-        # Create a list of the days with trading data
+        # Collect data from each day in the week
         while current_date.weekday() != 0 or days_traversed == 0:
+            if days_traversed == 0:
+                monday_date = get_monday_of_week(current_date)
             days_traversed = days_traversed+1
-            days_with_data.append(current_date)
+            print(current_date, daily_sentiment[current_date])
+            if current_date in close_prices:
+                intra_week_return = intra_week_return + math.log(close_prices[current_date]/close_prices[get_previous_trading_day(current_date, close_prices)])
+            if current_date in trading_volume:
+                intra_week_volume = intra_week_volume + trading_volume[current_date]
+            if current_date in VIX_prices:
+                intra_week_VIX = intra_week_VIX + VIX_prices[current_date]
+            if current_date in daily_sentiment:
+                intra_week_sentiment = intra_week_sentiment + daily_sentiment[current_date]
+            if current_date in daily_stemmed_sentiment:
+                intra_week_stemmed_sentiment = intra_week_stemmed_sentiment + daily_stemmed_sentiment[current_date]
             current_date = current_date + timedelta(days=1)
-            
-        # Average the data for the week
-        for day in days_with_data:
-            if day in close_prices:
-                sum_return = sum_return + math.log(close_prices[date]/close_prices[get_previous_trading_day(day, close_prices)])
-            if day in trading_volume:
-                sum_volume = sum_volume + trading_volume[day]
-            if day in VIX_prices:
-                sum_VIX = sum_VIX + VIX_prices[day]
-            if day in daily_sentiment:
-                sum_sentiment = sum_sentiment + daily_sentiment[day] sum_sentiment
+        january = is_january(get_thursday_of_week(monday_date))
+        
+        # Compute daily averages
+        mean_return = np.mean(intra_week_return)
+        mean_volume = np.mean(intra_week_volume)
+        mean_VIX = np.mean(intra_week_VIX)
+        mean_sentiment = np.mean(intra_week_sentiment)
+        mean_stemmed_sentiment = np.mean(intra_week_stemmed_sentiment)
+        print("MEAN: ", mean_sentiment)
+        
+        # Save data in weekly data dict
+        weekly_data[monday_date] = Trading_Week(monday_date,mean_return,mean_volume,mean_VIX,january,mean_sentiment,mean_stemmed_sentiment)
+    return weekly_data
+        
     
     # Iterate through dates and compile the data
     for date in close_prices:
