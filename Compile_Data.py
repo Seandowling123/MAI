@@ -415,13 +415,6 @@ def is_january(date):
     if date.month == 1:
         return 1
     else: return 0
-
-# Get the previous trading day
-def get_previous_trading_day(day, close_prices):
-    previous_day = day - timedelta(days=1)
-    while previous_day not in close_prices:
-        previous_day -= timedelta(days=1)
-    return previous_day
     
 # Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
@@ -464,6 +457,7 @@ def get_thursday_of_week(date):
 # Collect data for each trading day start_date, end_date
 def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
     weekly_data = {}
+    prev_date = 0
     start_date = get_monday_of_week(min(daily_sentiment.keys()))
     current_date = start_date
     
@@ -488,7 +482,9 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
             days_traversed = days_traversed+1
             print(current_date, daily_sentiment[current_date])
             if current_date in close_prices:
-                intra_week_return = intra_week_return + math.log(close_prices[current_date]/close_prices[get_previous_trading_day(current_date, close_prices)])
+                if prev_date != 0:
+                    intra_week_return = intra_week_return + math.log(close_prices[current_date]/close_prices[prev_date])
+                prev_date = current_date
             if current_date in trading_volume:
                 intra_week_volume = intra_week_volume + trading_volume[current_date]
             if current_date in VIX_prices:
@@ -511,69 +507,8 @@ def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trad
         # Save data in weekly data dict
         weekly_data[monday_date] = Trading_Week(monday_date,mean_return,mean_volume,mean_VIX,january,mean_sentiment,mean_stemmed_sentiment)
     return weekly_data
-        
-    
-    # Iterate through dates and compile the data
-    for date in close_prices:
-        if prev_date != 0:
-            
-            # Collect data and store it in trading days dict
-            close = close_prices[date]
-            returns = math.log(close_prices[date]/close_prices[prev_date])
-            monday = is_monday(date)
-            january = is_january(date)
-            volume = trading_volume[date]
-            vix = VIX_prices[date]
-            if date in daily_sentiment:
-                senitment = daily_sentiment[date]
-                stemmed_sentiment = daily_stemmed_sentiment[date]
-            else: senitment = 0
-            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
-        
-        prev_date = date
-    print("Trading data compiled.\n")
-    return daily_data
 
-
-# Convert trading days data to weekly data
-def convert_to_weekly(daily_data):
-    weekly_data = {}
-    start_date = get_monday_of_week(min(daily_data.keys()))
-    current_date = start_date
-    
-    # Iterate through every date in trading days
-    while current_date < max(daily_data.keys()):
-        mean_return = 0
-        mean_volume = 0
-        mean_VIX = 0
-        mean_sentiment = 0
-        january = 0
-        days_with_data = []
-        days_traversed = 0
-        
-        # Create a list of the days with trading data
-        while current_date.weekday() != 0 or days_traversed == 0:
-            days_traversed = days_traversed+1
-            if (current_date) in daily_data:
-                days_with_data.append(current_date)
-            current_date = current_date + timedelta(days=1)
-
-        # Check if the loop terminated on a Monday
-        if days_traversed != 7:
-            print("A weekly data conversion error occured.", days_traversed)
-        
-        # Average the data for the week
-        for day in days_with_data:
-            mean_return = mean_return + (daily_data[day].returns / len(days_with_data))
-            mean_volume = mean_volume + (daily_data[day].volume / len(days_with_data))
-            mean_VIX = mean_VIX + (daily_data[day].vix / len(days_with_data))
-            mean_sentiment = mean_sentiment + (daily_data[day].sentiment / len(days_with_data))
-        january = is_january(get_thursday_of_week(days_with_data[0]))
-        
-        # Save data in weekly data dict
-        weekly_data[get_monday_of_week(days_with_data[0])] = Trading_Week(get_monday_of_week(days_with_data[0]),mean_return,mean_volume,mean_VIX,january,mean_sentiment)
-    return weekly_data
-
+# Save collected data to csv
 def save_daily_data_to_csv(daily_data, csv_file_path):
     try:
         with open(csv_file_path, 'w', newline='') as csv_file:
@@ -603,7 +538,7 @@ def save_weekly_data_to_csv(weekly_data, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Select mode
-mode  = "test"
+mode  = "tes"
 
 #articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
@@ -630,7 +565,7 @@ negative_dict_path = "GI_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
-get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
@@ -644,7 +579,7 @@ print(f"Start date: {start_date} | End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
-weekly_data = convert_to_weekly(daily_data)
+weekly_data = get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
 daily_csv_file_path = 'XX_daily_data.csv'
