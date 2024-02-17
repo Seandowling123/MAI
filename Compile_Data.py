@@ -312,6 +312,7 @@ def get_logs(input_list):
         logs.append(math.log10(int(num)))
     return logs
 
+# Calculate detrended daily trading volume
 def get_detrended_volume(volume, index):
     log_vol = get_logs(volume)
     mean_vol = np.mean(log_vol[index-60:index])
@@ -335,7 +336,7 @@ def get_daily_sentiments(articles):
         
     return daily_sentiment, daily_stemmed_sentiment
 
-# Extract financial data 
+# Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
     close_price_dict = {}
     trading_vol_dict = {}
