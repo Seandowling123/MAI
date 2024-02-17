@@ -384,10 +384,11 @@ def get_VIX_data(file_path, start_date, end_date):
             
             for row in reader:
                 date_str = row['Date']
+                date_object = datetime.strptime(date_str, '%Y-%m-%d')
+                
+                # If there is data for this day, then add it to the dict
                 if row['Adj Close'] != "null":
-                    date_object = datetime.strptime(date_str, '%Y-%m-%d')
                     close_price = float(row['Adj Close'])
-
                     if start_date <= date_object <= end_date:
                         close_price_dict[date_object] = close_price
                 else: close_price_dict[date_object] = 0
@@ -461,14 +462,14 @@ def convert_to_weekly(daily_data):
         mean_VIX = 0
         mean_sentiment = 0
         january = 0
-        intra_week_data = []
+        days_with_data = []
         days_traversed = 0
         
-        # Collect trading data for each day in the week
+        # Create a list of the days with trading data
         while current_date.weekday() != 0 or days_traversed == 0:
             days_traversed = days_traversed+1
             if (current_date) in daily_data:
-                intra_week_data.append(current_date)
+                days_with_data.append(current_date)
             current_date = current_date + timedelta(days=1)
 
         # Check if the loop terminated on a Monday
@@ -476,17 +477,17 @@ def convert_to_weekly(daily_data):
             print("A weekly data conversion error occured.", days_traversed)
         
         # Average the data for the week
-        for day in intra_week_data:
+        for day in days_with_data:
             print(day, daily_data[day].vix)
-            mean_return = mean_return + (daily_data[day].returns / len(intra_week_data))
-            mean_volume = mean_volume + (daily_data[day].volume / len(intra_week_data))
-            mean_VIX = mean_VIX + (daily_data[day].vix / len(intra_week_data))
-            mean_sentiment = mean_sentiment + (daily_data[day].sentiment / len(intra_week_data))
-        print("Mean: ", mean_VIX)
-        january = is_january(get_thursday_of_week(intra_week_data[0]))
+            mean_return = mean_return + (daily_data[day].returns / len(days_with_data))
+            mean_volume = mean_volume + (daily_data[day].volume / len(days_with_data))
+            mean_VIX = mean_VIX + (daily_data[day].vix / len(days_with_data))
+            mean_sentiment = mean_sentiment + (daily_data[day].sentiment / len(days_with_data))
+        #print("Mean: ", mean_VIX)
+        january = is_january(get_thursday_of_week(days_with_data[0]))
         
         # Save data in weekly data dict
-        weekly_data[get_monday_of_week(intra_week_data[0])] = Trading_Week(get_monday_of_week(intra_week_data[0]),mean_return,mean_volume,mean_VIX,january,mean_sentiment)
+        weekly_data[get_monday_of_week(days_with_data[0])] = Trading_Week(get_monday_of_week(days_with_data[0]),mean_return,mean_volume,mean_VIX,january,mean_sentiment)
     return weekly_data
 
 def save_daily_data_to_csv(daily_data, csv_file_path):
@@ -544,8 +545,8 @@ positive_dict_path = "GI_Positive.csv"
 negative_dict_path = "GI_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
-Load_senitments_from_backup(articles, seniment_backup_path)
-get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+#Load_senitments_from_backup(articles, seniment_backup_path)
+#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
