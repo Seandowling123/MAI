@@ -248,7 +248,6 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
                 sentiments.append(row[0])
                 stemmed_sentiments.append(row[1])
         
-        print((stemmed_sentiments))
         for i in range(len(sentiments)):
             articles[i].sentiment = float(sentiments[i])
             articles[i].stemmed_sentiment = float(stemmed_sentiments[i])
@@ -477,11 +476,13 @@ def convert_to_weekly(daily_data):
             print("A weekly data conversion error occured.", days_traversed)
         
         # Average the data for the week
-        for data in intra_week_data:
-            mean_return = mean_return + (daily_data[data].returns / len(intra_week_data))
-            mean_volume = mean_volume + (daily_data[data].volume / len(intra_week_data))
-            mean_VIX = mean_VIX + (daily_data[data].vix / len(intra_week_data))
-            mean_sentiment = mean_sentiment + (daily_data[data].sentiment / len(intra_week_data))
+        for day in intra_week_data:
+            print(day, daily_data[day].vix)
+            mean_return = mean_return + (daily_data[day].returns / len(intra_week_data))
+            mean_volume = mean_volume + (daily_data[day].volume / len(intra_week_data))
+            mean_VIX = mean_VIX + (daily_data[day].vix / len(intra_week_data))
+            mean_sentiment = mean_sentiment + (daily_data[day].sentiment / len(intra_week_data))
+        print("Mean: ", mean_VIX)
         january = is_january(get_thursday_of_week(intra_week_data[0]))
         
         # Save data in weekly data dict
