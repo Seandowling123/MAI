@@ -416,7 +416,14 @@ def is_january(date):
         return 1
     else: return 0
 
-# Collect data for each trading day
+# Get the previous trading day
+def get_previous_trading_day(day, close_prices):
+    previous_day = day - timedelta(days=1)
+    while previous_day not in close_prices:
+        previous_day -= timedelta(days=1)
+    return previous_day
+    
+# Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
     daily_data = {}
     prev_date = 0
@@ -453,6 +460,65 @@ def get_thursday_of_week(date):
     days_since_monday = date.weekday() - 3
     monday_of_week = date - timedelta(days=days_since_monday)
     return monday_of_week
+
+# Collect data for each trading day start_date, end_date
+def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
+    weekly_data = {}
+    start_date = get_monday_of_week(min(daily_sentiment.keys()))
+    current_date = start_date
+    
+    while current_date < max(daily_sentiment.keys()):
+        sum_return = 0
+        sum_volume = 0
+        sum_VIX = 0
+        sum_sentiment = 0
+        sum_stemmed_sentiment = 0
+        mean_return = 0
+        mean_volume = 0
+        mean_VIX = 0
+        mean_sentiment = 0
+        mean_stemmed_sentiment = 0
+        days_with_data = []
+        days_traversed = 0
+        
+        # Create a list of the days with trading data
+        while current_date.weekday() != 0 or days_traversed == 0:
+            days_traversed = days_traversed+1
+            days_with_data.append(current_date)
+            current_date = current_date + timedelta(days=1)
+            
+        # Average the data for the week
+        for day in days_with_data:
+            if day in close_prices:
+                sum_return = sum_return + math.log(close_prices[date]/close_prices[get_previous_trading_day(day, close_prices)])
+            if day in trading_volume:
+                sum_volume = sum_volume + trading_volume[day]
+            if day in VIX_prices:
+                sum_VIX = sum_VIX + VIX_prices[day]
+            if day in daily_sentiment:
+                sum_sentiment = sum_sentiment + daily_sentiment[day] sum_sentiment
+    
+    # Iterate through dates and compile the data
+    for date in close_prices:
+        if prev_date != 0:
+            
+            # Collect data and store it in trading days dict
+            close = close_prices[date]
+            returns = math.log(close_prices[date]/close_prices[prev_date])
+            monday = is_monday(date)
+            january = is_january(date)
+            volume = trading_volume[date]
+            vix = VIX_prices[date]
+            if date in daily_sentiment:
+                senitment = daily_sentiment[date]
+                stemmed_sentiment = daily_stemmed_sentiment[date]
+            else: senitment = 0
+            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, monday, january, senitment, stemmed_sentiment)
+        
+        prev_date = date
+    print("Trading data compiled.\n")
+    return daily_data
+
 
 # Convert trading days data to weekly data
 def convert_to_weekly(daily_data):
@@ -595,7 +661,7 @@ plt.show()
 
 # Some testing stats
 if mode == "test":
-    for article in articles:
+    for i in range(0, len(articles), 1000):
         print("Positive word matches:")
         for word in positive_dict:
             if word in articles[0].body:
@@ -606,7 +672,7 @@ if mode == "test":
         for word in negative_dict:
             if word in articles[0].body:
                 print(word, sep=' ')
-        print("\n")
+        print("-------------------------------------------------\n")
     
     print(f"Headline: {articles[0].headline}\n")
     print(f"Date: {articles[0].date}\n")
