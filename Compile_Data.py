@@ -268,8 +268,6 @@ def convert_to_zscore(articles):
     mean_stemmed = statistics.mean(stemmed_sentiments)
     std_dev_stemmed = statistics.stdev(stemmed_sentiments)
     
-    print("u, std:",mean, std_dev)
-    
     # Convert senitments to Z-scores
     for article in articles:
         article.sentiment = (article.sentiment - mean) / std_dev
@@ -328,10 +326,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
     
-        print(articles[0].sentiment)
         # Convert the sentiments to Z-scores
         convert_to_zscore(articles)
-        print(articles[0].sentiment)
             
 # Compute log of each value in a list   
 def get_logs(input_list):
