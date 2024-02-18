@@ -5,6 +5,7 @@ import csv
 import time
 import re
 import os
+import statistics
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pickle
@@ -253,7 +254,25 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
             articles[i].sentiment = float(sentiments[i])
             articles[i].stemmed_sentiment = float(stemmed_sentiments[i])
         print(f"Loaded {len(sentiments)} sentiments from backup.\n")
-        
+
+# Convert the raw sentiments to Z-scores
+def convert_to_zscore(articles):
+    
+    # Extract senitments
+    sentiments = [obj.sentiment for obj in articles.values()]
+    stemmed_sentiments = [obj.stemmed_sentiment for obj in articles.values()]
+
+    # Calculate the mean & standard deviation
+    mean = statistics.mean(sentiments)
+    std_dev = statistics.stdev(sentiments)
+    mean_stemmed = statistics.mean(stemmed_sentiments)
+    std_dev_stemmed = statistics.stdev(stemmed_sentiments)
+    
+    # Convert senitments to Z-scores
+    for article in articles:
+        article.sentiment = (article.sentiment - mean) / std_dev
+        article.stemmed_sentiment = (article.stemmed_sentiment - mean_stemmed) / std_dev_stemmed
+
 # Count the number of dictionary words in an article
 def get_word_count(article, word_list):
     word_counts = 0
@@ -306,6 +325,9 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                 
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
+        
+        # Convert the sentiments to Z-scores
+        convert_to_zscore(articles)
             
 # Compute log of each value in a list   
 def get_logs(input_list):
