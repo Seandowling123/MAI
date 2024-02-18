@@ -16,7 +16,7 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, absolute_returns, volume, vix, vix_close, monday, january, sentiment, stemmed_sentiment=0):
+    def __init__(self, date, close, returns, absolute_returns, volume, vix, vix_close, monday, january, sentiment, stemmed_sentiment):
         self.date = date
         self.close = close
         self.returns = returns
@@ -565,7 +565,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "VIX_close", "Monday", "January", "Sentiment","stemmed_sentiment"])
+            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "VIX_close", "Monday", "January", "Sentiment","Stemmed_Sentiment"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -579,7 +579,7 @@ def save_weekly_data_to_csv(weekly_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX_Returns", "January", "Sentiment"])
+            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX_Returns", "January", "Sentiment","Stemmed_Sentiment"])
             # Save data
             for date, week in weekly_data.items():
                 writer.writerow(week.to_csv_line().split(','))
