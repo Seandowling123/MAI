@@ -259,14 +259,16 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
 def convert_to_zscore(articles):
     
     # Extract senitments
-    sentiments = [obj.sentiment for obj in articles.values()]
-    stemmed_sentiments = [obj.stemmed_sentiment for obj in articles.values()]
+    sentiments = [article.sentiment for article in articles]
+    stemmed_sentiments = [article.stemmed_sentiment for article in articles]
 
     # Calculate the mean & standard deviation
     mean = statistics.mean(sentiments)
     std_dev = statistics.stdev(sentiments)
     mean_stemmed = statistics.mean(stemmed_sentiments)
     std_dev_stemmed = statistics.stdev(stemmed_sentiments)
+    
+    print("u, std:",mean, std_dev)
     
     # Convert senitments to Z-scores
     for article in articles:
@@ -307,8 +309,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
         # Iterate through each article
         for article in articles:
             try:
-                # Get sentiment score for the article
-                if article.sentiment == 0:
+                # If the article has no senitment, calculate it
+                if article.sentiment == 0 and article.stemmed_sentiment == 0:
                     sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
                     stemmed_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict)
                 
@@ -325,9 +327,11 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
                 
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
-        
+    
+        print(articles[0].sentiment)
         # Convert the sentiments to Z-scores
         convert_to_zscore(articles)
+        print(articles[0].sentiment)
             
 # Compute log of each value in a list   
 def get_logs(input_list):
@@ -616,7 +620,7 @@ negative_dict_path = "GI_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
-#get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
