@@ -16,7 +16,7 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, absolute_returns, volume, vix, vix_close, monday, january, sentiment, stemmed_sentiment):
+    def __init__(self, date, close, returns, absolute_returns, volume, vix, vix_close, monday, january, sentiment, stemmed_sentiment, media_volume):
         self.date = date
         self.close = close
         self.returns = returns
@@ -28,9 +28,10 @@ class Trading_Day:
         self.january = january
         self.sentiment = sentiment
         self.stemmed_sentiment = stemmed_sentiment
+        self.media_volume = media_volume
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.vix_close)},{str(self.monday)},{str(self.january)},{str(self.sentiment)},{str(self.stemmed_sentiment)}"
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix)},{str(self.vix_close)},{str(self.monday)},{str(self.january)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.media_volume)}"
 
 # Data to save for each trading day
 class Trading_Week:
@@ -347,18 +348,24 @@ def get_detrended_volume(volume, index):
 def get_daily_sentiments(articles):
     daily_sentiment = defaultdict(list)
     daily_stemmed_sentiment = defaultdict(list)
+    daily_media_volume = {}
 
     # Add sentiments for each day
     for article in articles:
         daily_sentiment[article.date].append(article.sentiment)
         daily_stemmed_sentiment[article.date].append(article.stemmed_sentiment)
         
+        # Update media volume for that day
+        if article.date in daily_media_volume:
+            daily_media_volume[article.date] = daily_media_volume[article.date]+1
+        else: daily_media_volume[article.date] = 1
+        
     # Average sentiments for each day
     for article in articles:
         daily_sentiment[article.date] = np.mean(daily_sentiment[article.date])
         daily_stemmed_sentiment[article.date] = np.mean(daily_stemmed_sentiment[article.date])
         
-    return daily_sentiment, daily_stemmed_sentiment
+    return daily_sentiment, daily_stemmed_sentiment, daily_media_volume
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
@@ -456,7 +463,7 @@ def is_january(date):
     else: return 0
     
 # Collect data for each trading day start_date, end_date
-def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
+def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
     daily_data = {}
     first_date = 0
     
@@ -468,6 +475,9 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
         vix = 0
         monday = 0
         january = 0
+        senitment = 0
+        stemmed_sentiment = 0
+        media_volume = 0
         
         # Skip the first trading day date
         if first_date == 0:
@@ -484,7 +494,8 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices,
             if date in daily_sentiment:
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
-            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, vix_close, monday, january, senitment, stemmed_sentiment)
+                media_volume = daily_media_volume[date]
+            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, vix_close, monday, january, senitment, stemmed_sentiment, media_volume)
         
     print("Trading data compiled.\n")
     return daily_data
@@ -565,7 +576,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "VIX_close", "Monday", "January", "Sentiment","Stemmed_Sentiment"])
+            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Returns", "VIX_close", "Monday", "January", "Sentiment","Stemmed_Sentiment", "Media_Volume"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -579,7 +590,7 @@ def save_weekly_data_to_csv(weekly_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX_Returns", "January", "Sentiment","Stemmed_Sentiment"])
+            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX_Returns", "January", "Sentiment", "Stemmed_Sentiment"])
             # Save data
             for date, week in weekly_data.items():
                 writer.writerow(week.to_csv_line().split(','))
@@ -619,7 +630,7 @@ Load_senitments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
 
 # Get sentiment time series    
-daily_sentiment, daily_stemmed_sentiment = get_daily_sentiments(articles)
+daily_sentiment, daily_stemmed_sentiment, daily_media_volume = get_daily_sentiments(articles)
 
 # Get the time period
 start_date = min(dates)
@@ -629,7 +640,7 @@ print(f"Start date: {start_date} | End date: {end_date}\n")
 # Extract financial data from the time period
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
-daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
+daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
 weekly_data = get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
