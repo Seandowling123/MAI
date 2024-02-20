@@ -453,13 +453,13 @@ def is_january(date):
 # Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
     daily_data = {}
+    returns_list = []
     days_parsed = 0
     
     # Iterate through dates and compile the data
     for date in close_prices:
         close = 0
         returns = 0
-        returns_list = []
         volatility = 0
         volume = 0
         vix = 0
