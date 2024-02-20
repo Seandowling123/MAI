@@ -33,21 +33,6 @@ class Trading_Day:
     def to_csv_line(self):
         return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
 
-# Data to save for each trading day
-class Trading_Week:
-    def __init__(self, date, returns, volume, vix_close, vix_returns, january, sentiment, stemmed_sentiment=0):
-        self.date = date
-        self.returns = returns
-        self.volume = volume
-        self.vix_close = vix_close
-        self.vix_returns = vix_returns
-        self.january = january
-        self.sentiment = sentiment
-        self.stemmed_sentiment = stemmed_sentiment
-    
-    def to_csv_line(self):
-        return f"{str(self.date)},{str(self.returns)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.january)}"
-
 # Class containing info about each article
 class Article:
     def __init__(self, date, body, stemmed_body, source, headline, sentiment, stemmed_sentiment):
@@ -503,88 +488,6 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_v
     print("Trading data compiled.\n")
     return daily_data
 
-# Given a date, calculate the date of Monday of that week
-def get_monday_of_week(date):
-    days_since_monday = date.weekday()
-    monday_of_week = date - timedelta(days=days_since_monday)
-    return monday_of_week
-
-# Given a date, calculate the date of Thursday of that week
-def get_thursday_of_week(date):
-    days_since_monday = date.weekday() - 3
-    monday_of_week = date - timedelta(days=days_since_monday)
-    return monday_of_week
-
-# Collect data for each trading day start_date, end_date
-def get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices):
-    try:
-        weekly_data = {}
-        prev_close = 0
-        prev_vix = 0
-        start_date = get_monday_of_week(min(daily_sentiment.keys()))
-        current_date = start_date
-        
-        while current_date < max(daily_sentiment.keys()):
-            intra_week_return = []
-            intra_week_volume = []
-            intra_week_VIX = []
-            intra_week_VIX_returns = []
-            intra_week_sentiment = []
-            intra_week_stemmed_sentiment = []
-            mean_return = 0
-            mean_volume = 0
-            mean_VIX = 0
-            mean_VIX_returns = 0
-            mean_sentiment = 0
-            mean_stemmed_sentiment = 0
-            days_traversed = 0
-            monday_date = 0
-            
-            # Collect data from each day in the week
-            while current_date.weekday() != 0 or days_traversed == 0:
-                if days_traversed == 0:
-                    monday_date = get_monday_of_week(current_date)
-                days_traversed = days_traversed+1
-                if current_date in close_prices:
-                    if prev_close != 0:
-                        intra_week_return.append(math.log(close_prices[current_date]/prev_close))
-                    prev_close = close_prices[current_date]
-                if current_date in trading_volume:
-                    intra_week_volume.append(trading_volume[current_date])
-                if current_date in VIX_prices:
-                    if VIX_prices[current_date] != 0:
-                        intra_week_VIX.append(VIX_prices[current_date])
-                if current_date in VIX_prices:
-                    if prev_vix != 0:
-                        intra_week_VIX_returns.append(math.log(VIX_prices[current_date]/prev_vix))
-                    prev_vix = VIX_prices[current_date]
-                if current_date in daily_sentiment:
-                    intra_week_sentiment.append(daily_sentiment[current_date])
-                if current_date in daily_stemmed_sentiment:
-                    intra_week_stemmed_sentiment.append(daily_stemmed_sentiment[current_date])
-                current_date = current_date + timedelta(days=1)
-            january = is_january(get_thursday_of_week(monday_date))
-            
-            # Compute daily averages
-            if len(intra_week_return) > 0:
-                mean_return = np.mean(intra_week_return)
-            if len(intra_week_volume) > 0:
-                mean_volume = np.mean(intra_week_volume)
-            if len(intra_week_VIX) > 0:
-                mean_VIX = np.mean(intra_week_VIX)
-            if len(intra_week_VIX_returns) > 0:
-                mean_VIX_returns = np.mean(intra_week_VIX_returns)
-            if len(intra_week_sentiment) > 0:
-                mean_sentiment = np.mean(intra_week_sentiment)
-            if len(intra_week_stemmed_sentiment) > 0:
-                mean_stemmed_sentiment = np.mean(intra_week_stemmed_sentiment)
-            
-            # Save data in weekly data dict
-            weekly_data[monday_date] = Trading_Week(monday_date,mean_return,mean_volume,mean_VIX,mean_VIX_returns,january,mean_sentiment,mean_stemmed_sentiment)
-        return weekly_data
-    except Exception as e:
-        print(f"A weekly sentiment calculation error occurred: {str(e)}")
-
 # Save collected data to csv
 def save_daily_data_to_csv(daily_data, csv_file_path):
     try:
@@ -597,20 +500,6 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
                 writer.writerow(trading_day.to_csv_line().split(','))
 
         print(f"Trading days data saved to {csv_file_path}")
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
-        
-def save_weekly_data_to_csv(weekly_data, csv_file_path):
-    try:
-        with open(csv_file_path, 'w', newline='') as csv_file:
-            writer = csv.writer(csv_file)
-            # Header
-            writer.writerow(["Date", "Returns", "Detrended_Volume", "VIX_Close", "VIX_Returns", "Sentiment", "Stemmed_Sentiment", "January"])
-            # Save data
-            for date, week in weekly_data.items():
-                writer.writerow(week.to_csv_line().split(','))
-
-        print(f"Weekly data data saved to {csv_file_path}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
@@ -657,13 +546,11 @@ print(f"Start date: {start_date} | End date: {end_date}\n")
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
 daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
-weekly_data = get_weekly_data(daily_sentiment, daily_stemmed_sentiment, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
 daily_csv_file_path = 'XX_daily_data.csv'
 weekly_csv_file_path = 'XX_weekly_data.csv'
 save_daily_data_to_csv(daily_data, daily_csv_file_path)
-save_weekly_data_to_csv(weekly_data, weekly_csv_file_path)
 
 # To plot daily or weekly data
 plotting_variable = daily_data
