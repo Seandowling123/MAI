@@ -15,8 +15,8 @@ def save_words_to_csv(words, file_path):
         writer = csv.writer(file)
         for word in words:
             word = word.encode('utf-8', 'ignore').decode('utf-8')  # Encode to UTF-8 and ignore non-UTF-8 characters
-            word_filtered = word.split('(')[0].replace((' ', ''))
-            word_filtered = re.sub(r'[^a-zA-Z ]', ' ', word_filtered)
+            word_filtered = (word.split(' (')[0])
+            word_filtered = re.sub(r'[^a-zA-Z0-9 ]', '', word_filtered)
             word_upper = word_filtered.upper()
             writer.writerow([word_upper])
 
