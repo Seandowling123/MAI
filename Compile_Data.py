@@ -276,19 +276,21 @@ def convert_to_zscore(articles):
         article.stemmed_sentiment = (article.stemmed_sentiment - mean_stemmed) / std_dev_stemmed
 
 # Count the number of dictionary words in an article
-def get_word_count(article, word_list):
+def get_word_count(article, word_list, glossary):
     word_counts = 0
     article_words = article.split()
     for word in word_list:
-        count = article_words.count(word)
-        word_counts += count
+        # Check if the word appears in the glossary
+        if word not in glossary:
+            count = article_words.count(word)
+            word_counts += count
     return word_counts
 
-def calculate_sentiment(text_body, positive_dict, negative_dict):
+def calculate_sentiment(text_body, positive_dict, negative_dict, glossary):
     # Get counts
     num_words = len(word_tokenize(text_body))
-    pos_word_count = get_word_count(text_body, positive_dict)
-    neg_word_count = get_word_count(text_body, negative_dict)
+    pos_word_count = get_word_count(text_body, positive_dict, glossary)
+    neg_word_count = get_word_count(text_body, negative_dict, glossary)
     
     # Calculate relative word frequencies
     pos_score = pos_word_count
@@ -298,7 +300,7 @@ def calculate_sentiment(text_body, positive_dict, negative_dict):
     return total_score
 
 # Calculate sentiment score
-def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path):
+def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path):
     calculated = 0
     num_articles = len(articles)
     
@@ -311,8 +313,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup
             try:
                 # If the article has no senitment, calculate it
                 if article.sentiment == 0 and article.stemmed_sentiment == 0:
-                    sentiment = calculate_sentiment(article.body, positive_dict, negative_dict)
-                    stemmed_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict)
+                    sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
+                    stemmed_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict, glossary)
                 
                     # Save score
                     article.sentiment = sentiment
@@ -640,7 +642,7 @@ positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
-get_sentiment_scores(articles, positive_dict, negative_dict, seniment_backup_path)
+get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment, daily_media_volume = get_daily_sentiments(articles)
