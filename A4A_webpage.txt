@@ -1,0 +1,857 @@
+Accident
+As defined by the National Transportation Safety Board (NTSB), an occurrence incidental to flight in which, as a result of the operation of an aircraft, any person (occupant or nonoccupant) receives fatal or serious injury, or any aircraft receives substantial damage.
+
+Active Aircraft 
+All legally registered civil aircraft that flew one or more hours.
+
+Aerial Application Flying 
+The operation of aircraft for the purposes of dispensing any substances required for agriculture, health, forestry, seeding, firefighting or insect-control purposes.
+
+Aerial Observation Flying 
+Any use of an aircraft for aerial mapping and photography, surveying, patrolling, fish spotting, search and rescue, hunting, sightseeing or highway traffic advisory not included under Federal Aviation Regulations (FAR) Part 135.
+
+Aerodrome 
+A defined area on land or water (including any buildings, installations and equipment) intended to be used either wholly or in part for the arrival, departure and surface movement of aircraft.
+
+Aileron
+A control surface located on the trailing edge of each aircraft wing tip. Deflection of these surfaces controls the roll or bank angle of the aircraft.
+
+Air Cargo 
+Freight, mail and express traffic transported by air, including: (1) Freight and Express - commodities of all kinds, including small-package counter services, express services and priority reserved freight; and (2) Mail - all classes of mail transported for the U.S. Postal Service (USPS).
+
+Air Carrier 
+An entity that undertakes directly, by lease or other arrangement, to engage in air transportation. More specifically, large certificated air carriers, small certificated air carriers, commuter air carriers, on-demand air taxis, supplemental air carriers and air-travel clubs.
+
+Aircraft
+Any machine capable of atmospheric flight. May be heavier or lighter than air.
+
+Airfoil
+Any surface, such as an airplane wing, aileron or rudder, designed to obtain a useful reaction from the air moving past it.
+
+Airline
+A business that provides scheduled or chartered air transport of passengers and/or cargo.
+
+Air Navigation Service Provider 
+Used generically to refer to the organization, personnel and facilities that provide separation assurance, traffic management, infrastructure management, aviation information, navigation, landing, airspace-management or aviation-assistance services for airspace users. Examples include NAV CANADA and NATS UK. Can be government-owned or a private entity.
+
+Airport
+An area of land or water that is used or intended to be used for the landing and takeoff of aircraft, and includes any associated buildings and facilities.
+
+Airport and Airway Trust Fund (AATF, Trust Fund)
+Created by the Airport and Airway Revenue Act of 1970, the AATF provides funding for improvements to the nation’s airports and air traffic control system. Money in the fund comes solely from users of the system, principally from collections related to passenger tickets, passenger flight segments, international arrivals/departures, cargo waybills, aviation fuels and frequent-flyer mileage awards from nonairline sources like credit cards. Additional Information: The Federal Aviation Administration (FAA) provides services to commercial, private, corporate and military aircraft. In large part, the General Fund of the U.S. Treasury supports the FAA noncommercial aviation functions. The balance of the FAA budget is funded primarily by airlines and their customers through the Airport and Airway Trust Fund (AATF), which Congress established in 1970 “to provide for the expansion and improvement of the nation’s airport and airway system.” The Trust Fund initially aimed to address capital needs, such as runways and taxiways at airports and new computers and radar equipment for the air traffic control (ATC) system. Since then, however, Congress also has used Trust Fund revenues to cover much of the FAA operating budget. Trust Fund revenues come from several excise taxes paid by air carriers, air travelers, shippers and other users of the nation’s airports and ATC services. Congress has increased these taxes, both in scope and size, several times in the last two decades. The cash balance has historically been counted as a credit against federal obligations, thus helping (albeit artificially) to balance the nation’s budget. With enactment of AIR-21, however, Congress mandated that all taxes and interest paid into the fund in any given year be expended the following year, ensuring that capital-development projects critical to FAA modernization are no longer neglected. NOTE: Trust Fund taxes expired 1/1/96-8/26/96 and 1/1/97-3/6/97. Sources: Airport and Airway Development and Airport and Airway Revenue Acts (Titles I and II, P.L. 91-258) FAA Office of Financial Services Office of Management and Budget, Appendices, Budget of the United States U.S. House of Representatives, House Report No. 91-601 Congressional Budget Office, “The Status of the Airport and Airway Trust Fund: A Special Study,” December 1988
+
+Airport Improvement Program (AIP)
+Established under the Airport and Airway Improvement Act of 1982, this program provides grants to public agencies and, in some cases, to private owners and entities for the planning and development of public-use airports that are included in the National Plan of Integrated Airport Systems (NPIAS). Eligible projects include those improvements related to enhancing airport safety, capacity, security and environmental concerns.
+
+Air Route Traffic Control Center
+An air traffic control facility, usually called an en route center. Centers handle en route traffic, generally flying on instrument flight plans, as they move across the United States. There are 20 centers in the continental United States.
+
+Air Taxi 
+An aircraft operator who conducts services for hire in an aircraft with 60 or fewer passenger seats and a payload capacity of 18,000 pounds or less. An air taxi company provides seats on demand. For example, instead of chartering an aircraft, a customer purchases a seat on a private jet.
+
+Air Traffic Control (ATC)
+A service provided under appropriate authority to promote the safe, orderly and expeditious flow of air traffic.
+
+Air Traffic Management (ATM)
+The dynamic, integrated management of air traffic and airspace - safely, economically and efficiently - through the provision of facilities and seamless services in collaboration with all parties.
+
+Air Traffic Organization (ATO) 
+A performance-based division of FAA, created to operate the nation’s air traffic control system.
+
+Airworthiness
+A term used to describe both the legal and mechanical status of an aircraft with regard to its readiness for flight.
+
+Alternative Fuels
+The Energy Policy Act of 1992 defines alternative fuels as methanol, denatured ethanol and other alcohol; mixtures containing 85 percent or more (but not less than 70 percent as determined by the Secretary of Energy by rule to provide for requirements relating to cold start, safety or vehicle functions) by volume of methanol, denatured ethanol and other alcohols with gasoline or other fuels. Includes compressed natural gas, liquid petroleum gas, hydrogen, coal-derived liquid fuels, fuels other than alcohols derived from biological materials, electricity or any other fuel that the Secretary of Energy determines by rule is substantially not petroleum and would yield substantial energy security and environmental benefits.
+
+Altimeter
+An instrument that displays the altitude above mean sea level (MSL) of an aircraft.
+
+Ancillary Revenue
+In the case of passenger transportation, revenue from nonticket sources.
+
+Appropriations
+Created by an act of Congress, appropriations enable the federal government to fund its activities. Appropriations allow FAA to incur obligations and make payments out of the Treasury for specified purposes.
+
+Area Navigation (RNAV)
+Area Navigation (RNAV) is a system that allows navigation on any desired flight path, rather than one defined by ground-based fixed airways. An RNAV system can determine position by referencing the position of ground- or space-based navigation aids, such as the Global Positioning System (GPS), using onboard flight management computers.
+
+Artificial Horizon
+An instrument that enables a pilot to determine the attitude of the aircraft in relation to the horizon, i.e. whether the aircraft is nose-up, nose-down or banking left or right.
+
+Automated Flight Service Station (AFSS)
+A Flight Service Station (FSS) is an air traffic facility that provides information and services to pilots before, during and after flights but does not separate aircraft. Typical services to pilots include opening and closing of flight plans, traffic advisories, emergency assistance, preflight briefings (including weather briefings and notices to airmen (NOTAMs). In 2005, the Federal Aviation Administration (FAA) began a process to provide services to general aviation pilots utilizing a government network of Automated Flight Service Stations via a performance-based contract with Lockheed Martin. In 2007, services previously provided by 58 FAA sites were consolidated into 3 hubs and 15 refurbished existing facilities.
+
+Automatic Dependent Surveillance-Broadcast (ADS-B)
+An aircraft-based surveillance service capable of replacing today’s ground-based radar system. With ADS-B, the aircraft GPS determines aircraft location. ADS-B then broadcasts that position, via a radio transmission, approximately once-per-second, to controllers on the ground and other aircraft. ADS-B would give controllers and other traffic a more precise location for each aircraft. By doing this, a portion of the current infrastructure is, in essence, being shifted to the aircraft. Two major elements of ADS-B comprise the total system. ADS-B Out refers to messages transmitted to ground stations and other aircraft through an onboard transmitter known as a transponder. These messages, using a GPS-derived position, contain information regarding accuracy and position-reliability information. This ensures that the transmitted position meets the requirements necessary for an aircraft to utilize certain airspace or advanced procedures. A robust ground-based system then receives, processes and displays this information for use by air traffic control facilities. ADS-B In refers to the aircraft and ground software and hardware that unlock the potential for greatly advanced air-traffic procedures. Several applications, currently under development, leverage the foundational elements created by the ADS-B Out rule and the associated ground infrastructure. Much greater safety, efficiency, environmental benefits and capacity will be available, compared to the current dated system of ground-based radars and voice communications.
+
+Available Seat Mile (ASM)
+One seat transported one mile; the most common measure of airline seating capacity or supply. For example, an aircraft with 100 passenger seats, flown a distance of 100 miles, produces 10,000 ASMs. Sometimes measured as an available seat kilometer (ASK).
+
+Available Ton Mile (ATM)
+One ton of capacity (passenger and/or cargo) transported one mile. Sometimes measured as an available ton kilometer (ATK).
+
+Average Haul
+The average distance one ton is carried. It is computed by dividing ton miles or ton kilometers by tons of freight originated.
+
+Aviation Safety Information Analysis and Sharing (ASIAS)
+A system that enables users to perform integrated queries across multiple databases, search an extensive warehouse of safety data and display pertinent elements in an array of useful formats.
+
+Bermuda I Agreement
+The agreement that governed scheduled air-transport services between the United States and the United Kingdom until it was replaced in 1977, was signed on February 11, 1946, and came to be known as the Bermuda Agreement. Term is now commonly used for any agreements that contain capacity and pricing provisions patterned on the first U.S.-U.K. agreement. Such agreements include: (1) Capacity Principles: Requirements that an airline’s capacity must meet in providing services over agreed routes. (2) Designation: Each party is entitled to designate “an airline or airlines” for operation of services over the agreed routes, subject to appropriate laws and regulations; (3) Pricing Article: This sets forth requirements for establishing prices to be charged by designated airlines for services over the agreed routes. The article specifies what consultative procedures are to be followed if a party is dissatisfied with a price proposed by an airline, and ultimately allows that party to exercise unilateral control if agreement is not reached.
+
+Bermuda II Agreement
+Following British denunciation of the Bermuda I Agreement in 1976, a replacement was negotiated and approved on July 23, 1977, to govern air services between the United States and the United Kingdom. Referred to as Bermuda II, this bilateral agreement was subsequently amended in April 1978, December 1980 and November 1982. The revised and amended agreement covers scheduled and charter air transportation. Its principles differ from Bermuda I in three primary respects: First, while the authority for multiple designation still is included, this right is limited for specific passenger and combination routes over the North Atlantic. Second, capacity principles are similar to Bermuda I, except for additional consultative procedures to deal with excess passenger or combination capacity on North Atlantic routes. (The Annex on Capacity was rewritten in 1986.) Third, all U.S.-U.K. North Atlantic cargo operations - scheduled and charter - are covered by an annex, which phased out governmental regulation in 1983 (i.e., full deregulation of cargo).
+
+Bonding Authority
+An ability to issue bonds to raise funds.
+
+Break-even Load Factor
+The load factor at which a flight or collection of flights, earns revenue equating to its expenses; i.e., at which operating or pretax profit equals zero. See load factor.
+
+Broad-area Precision Navigation
+Performance-based area navigation that provides the ability to operate on flight paths that are independent of the location of ground-based navigation aids. The navigation is capable of determining a three-dimensional position with precision sufficient to support the operation.
+
+Budget Authority
+Authority provided by Congress to enter into obligations resulting in immediate or future outlays of federal funds. Budget authority may be one year or multiyear. Budget authority for FAA programs consists of appropriations and contract authority.
+
+Bureau of Labor Statistics (BLS)
+The principal fact-finding agency for the federal government in the broad field of labor economics and statistics. BLS is an independent national statistical agency that collects, processes, analyzes and disseminates essential statistical data to the American public, the U.S. congress, other federal agencies, state and local governments, business and labor.
+
+Bureau of Transportation Statistics (BTS)
+An agency created by the Intermodal Surface Transportation Efficiency Act to administer data collection, analysis and reporting, and to ensure the most cost-effective use of transportation-monitoring resources.
+
+Business Aviation
+Nonairline civil aircraft operations, including fractional and corporate flying, but not including personal aviation.
+
+Capacity
+The maximum number of aircraft, cargo or passengers which can be accommodated or contained.
+
+Capacity Management
+The long-term and short-term management and assignment of national airspace system (NAS) airspace and routes to meet expected demand. This includes assigning related NAS assets, as well as coordinating longer term staffing plans for airspace assignments. It includes the allocation of airspace to airspace classifications based on demand, as well as the allocation of airspace and routes to ANSP personnel to manage workload.
+
+Cargo
+Anything other than passengers, carried for hire, including both mail and freight.
+
+Cargo Waybill
+A document that lists the goods and shipping instructions for a cargo shipment. The waybill is frequently attached to the side of a package or envelope and sometimes indicates the customer’s cost to ship the item. There is a 6.25 percent tax on cargo waybills, which is deposited into the Airport and Airway Trust Fund. Cargo airlines contribute to the AATF in this way.
+
+Cash Balance
+The available cash or liquid Treasury notes remaining in the Trust Fund; a measure of all revenues received (taxes, interest and adjustments) minus all cash outlays. The cash balance of the Trust Fund consists of both committed and uncommitted funds.
+
+Certificated Air Carrier –
+An air carrier holding a Certificate of Public Convenience and Necessity issued by the U.S. Department of Transportation (DOT) to conduct scheduled services interstate and, when authorized, to overseas locations. These carriers may also conduct nonscheduled or charter operations.
+
+Certificated Airports
+Airports that service air-carrier operations with aircraft seating more than 30 passengers.
+
+Charter
+When an aircraft, typically the entire aircraft, is hired for a nonscheduled trip.
+
+Charter Rules
+The United States has negotiated several types of charter arrangements with other countries. In several cases, the U.S. government has signed bilateral agreements covering only charter air services, or it has approved provisions for charters in the form of letter exchanges or memoranda of understanding. More frequently, the United States negotiates a charter annex to the standard bilateral agreement. There are two basic types of charter annexes: (1) Country-of-Origin, in which charter air services may be performed by either party’s airlines according to the charterworthiness rules that are effective in the country-of-origin of the traffic; (2) Double Country-of-Origin (Belgian Rules), which dictates that charter air services may be performed by either party’s airlines, from either territory, according to the rules of charterworthiness of either country.
+
+Chicago Agreement
+These types of agreements are patterned on the standard-form bilateral international Air Transport Agreement drafted at the conference convened in Chicago in 1944 to establish a multilateral arrangement for international civil aviation. The bilateral form was drafted as a suggested interim measure, pending conclusion of a multilateral exchange of traffic rights, which never materialized. A Chicago agreement provides a general operating framework but, unlike other types of air transport agreements, does not include pricing or capacity arrangements.
+
+Chicago Convention
+(December 7, 1944) Consists of general principles, standards and recommended practices for international civil aviation. An outgrowth of the Chicago Conference of 1944, the convention also established the International Civil Aviation Organization (ICAO), with headquarters in Montreal. ICAO consists of an Assembly, Council and various other specialized bodies. The organization’s aims and objectives are to develop the principles and techniques of international air navigation, and to foster the planning and development of international air transport. The United States ratified the Chicago Convention on August 9, 1946 (See http://www.icao.int/icaonet/dcs/7300.html).
+
+Civil Reserve Air Fleet (CRAF)
+The CRAF program uses aircraft from U.S. airlines that have contractually committed to support U.S. Department of Defense airlift requirements in emergencies when the need for airlift exceeds the capability of military aircraft.
+
+Cockpit Voice Recorder (CVR)
+A device that records the sounds audible in the cockpit, as well as all radio transmissions made and received by the aircraft, and all intercom and public-address announcements made in the aircraft. Generally, it is either a continuous-loop recorder that retains the sounds of the last 30 minutes or a digital system that records the last two hours.
+
+Code of Federal Regulations (CFR)
+The compilation of regulations of all U.S. government departments and agencies that are currently in effect. The FAA Federal Air Regulations are part of the Code of Federal Regulations.
+
+Code Sharing
+A marketing practice in which two or more airlines agree to share, for marketing purposes, the same two-letter code used to identify carriers in the computer reservation systems used by travel agents. [adj. code-sharing agreement]
+
+Combi
+A type of aircraft whose main deck is divided into two sections, one of which is fitted with seats and one which is used for cargo.
+
+Commercial aviation
+A sector of the U.S. economy comprising scheduled and nonscheduled passenger and cargo airlines, aviation manufacturers, airport and aircraft service providers (including government services) and air cargo service providers.
+
+Commercial Service Airport
+As defined by federal law, an airport receiving scheduled passenger service and having 2,500 or more enplaned passengers per year.
+
+Committed Balance
+The budget authority issued by Congress, against the Trust Fund, not yet liquidated through outlays. This committed money consists of both obligated and unobligated amounts.
+
+Commuter Air Carrier
+An air carrier operating under 14 CFR Part 135 that carries passengers on at least five round trips per week on at least one route between two or more points, according to its published flight schedules that specify the times, day of the week and places between which these flights are performed. The aircraft that a commuter operates have 60 or fewer passenger seats and a payload capability of 18,000 pounds or less.
+
+Complexity
+An ATC description of how nonhomogeneous the traffic demand is. Factors that cause complexity to be higher are large numbers of vertically transitioning aircraft, large numbers of crossing paths, large variation in speeds, etc.
+
+Compressor
+A fanlike disk, or several disks, at the front end of a jet engine that draws air into the engine and compresses the air. The compressed air is then passed into a combustion chamber, where it is mixed with fuel and burned, producing thrust, which propels the aircraft.
+
+Computer Reservation System (CRS)
+A system for electronically collecting and displaying information about commercial flights and passenger reservations on them.
+
+Conflict
+Any situation involving an aircraft and a hazard (including another aircraft) in which the applicable separation minima may be compromised.
+
+Connecting Flight
+A flight on which a passenger changes aircraft and/or airlines at an intermediate stop to reach the final destination, wherein the previous flight segment had a different flight number.
+
+Constant Dollar
+Dollar value adjusted for changes in the average price level by dividing a current dollar amount by a price index.
+
+Consumer Price Index (CPI)
+A Department of Labor measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services. The CPI serves as an economic indicator, a deflator of other economic series and a means of adjusting dollar values.
+
+Continuous Descent Approach (CDA)
+The stair-stepped approaches to airports in use today begin many miles from the airport and require substantial time flying at low altitudes. Planes descend in steps and require additional thrust each time they level off. With CDA, an aircraft is positioned at its most efficient cruise altitude until it is relatively close to its destination airport. At that point, the aircraft reduces engine thrust to idle and begins a gentle descent to the runway. Benefits include significant reduction in noise, fuel burn and emissions, and shorter flights.
+
+Contract Authority
+Allows a federal agency to enter into contracts before appropriations. For FAA, this most frequently applies to AIP (Airport Improvement Program) funds.
+
+Controlled Time of Arrival
+The assignment and acceptance of an entry/use time for a specific NAS resource. Examples include point-in-space metering, time to be at a runway or taxi waypoints.
+
+Control Tower
+The control tower is located at the airport and generally handles airplanes at and in close proximity of the airport.
+
+Cooperative Surveillance
+The aircraft relays its three-dimensional position. Noncooperative surveillance would be the determination of an aircraft’s three-dimensional position without the aircraft participating.
+
+Corporate Aviation
+Refers to flying an airplane that is owned and operated by a corporation. It operates according to FAR Part 91.
+
+Cost Per Available Seat Mile
+See unit cost.
+
+Cost Per Available Ton Mile
+See unit cost.
+
+Coterminalization
+The right to serve two or more specified points in the territory of a party to an air-transport services agreement on the same flight, provided these points are contained in the same route. If two or more separate routes are granted, the right to coterminalize points on separate routes must be specifically established.
+
+Crack Spread
+The difference between crude oil and refined petroleum product prices, when expressed in similar units, is known as the crack spread. For example, if crude oil costs $60 per barrel and jet fuel costs $75 per barrel, the jet fuel crack spread is $15 per barrel.
+
+Crude Oil
+A mixture of hydrocarbons that exists in the liquid phase in natural underground reservoirs and remains liquid at atmospheric pressure after passing through surface-separating facilities. The U.S. benchmark for crude-oil prices is West Texas Intermediate (WTI), measured in Cushing, Oklahoma.
+
+Cruise
+The phase of flight that begins when the crew establishes the aircraft at a defined speed and predetermined constant initial altitude and proceeds in the direction of a destination. It ends with the beginning of descent for the purpose of an approach or by the crew initiating an en route climb phase.
+
+Current Dollar
+Dollar value of a good or service in terms of prices current at the time the good or service is sold.
+
+Customs and Border
+Customs is an authority or agency in a country responsible for collecting customs duties and for controlling the flow of goods
+
+Customs and Border Protection
+Aliquam feugiat dolor at felis semper, sit amet posuere lorem egestas. Nunc eu ullamcorper enim. Maecenas blandit elementum consectetur. Integer non tellus nec elit ornare ultrices. Suspendisse ut dui tortor. Phasellus ante mi, elementum ac laoreet eget, accumsan vel arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. In hac habitasse platea dictumst. Nullam ex orci, iaculis nec neque vitae, egestas vulputate augue. Curabitur porta euismod aliquam. Suspendisse urna nunc, lacinia eu lorem et, sollicitudin ullamcorper ligula. Suspendisse tellus mauris, luctus non justo non, commodo fermentum purus. Nunc condimentum sit amet erat nec sollicitudin. Sed et ipsum a felis consectetur posuere.
+
+Deregulation
+The term commonly used to refer to the Airline Deregulation Act of 1978, which ended federal regulation of passenger airline routes and rates. Cargo airline routes and rates were deregulated in 1977.
+
+Directional Infrared Countermeasures
+A system produced by Northrop Grumman to protect aircraft from MANPADS missiles.
+
+Dispatcher
+An airline employee who is responsible for authorizing the departure of an aircraft. The dispatcher must ensure, among other things, that the aircraft crew has all of the proper information necessary for their flight.
+
+Domestic
+Operations that initiate and terminate in the same country.
+
+Earnings
+See net income.
+
+Economic Impact
+With regard to a specific industry or sector, the sum of first-level (i.e., sales, revenue, output) and induced (purchases required to produce the sales or output and household spending by the industry’s employees) impacts. In the case of commercial aviation, primary impacts on the U.S. economy are related to: airlines and supporting services; aircraft, engines and parts manufacturing; and air visitor travel and other trip-related expenditures.
+
+Electronic System for Travel Authorization (ESTA)
+An automated system that allows the U.S. Department of Homeland Security (DHS) to determine the eligibility of visitors to travel to the United States under the Visa Waiver Program.
+
+Elevator
+A control surface, usually on the trailing edge of the horizontal stabilizer, which is used to control the pitch attitude of an aircraft. Movement of the elevator will force the nose of an aircraft up or down.
+
+Empennage
+A collective term that refers to all of the various tail surfaces of an aircraft, i.e., the vertical and horizontal stabilizers.
+
+Employees
+Private air transportation workers as classified in sub-sector 481 by the U.S. Bureau of Labor Statistics (BLS); includes U.S.-based employees of non-U.S. carriers.
+
+Engine
+The source of propulsion and electrical power for the aircraft.
+
+Enplanement
+See revenue passenger enplanement.
+
+En Route
+A term that refers to the middle portion of a flight (neither arrival nor departure) when the aircraft is communicating with center controllers.
+
+En Route Automation Modernization (ERAM)
+A computer system used at FAA high-altitude en route centers, considered the backbone of the nation's airspace system. it processes flight radar data, provides communications and generates display date to air traffic controllers. ERAM has increased flexibility in routing around congestion, weather and other airspace restrictions. Automatic flight coordination increases efficiency and capacity. The current system, called the Host, is being replaced by ERAM.
+
+En Route Center
+Sometimes referred to as a center or an air route traffic control center, it houses the air traffic controllers and equipment needed to identify and direct aircraft during the en route - as opposed to the approach and departure - portion of their flights.
+
+Entered Into Force
+Signifies the date when an international agreement or amendment entered into force definitively, following completion of all necessary ratification procedures of each country and confirmation by the governments in an exchange of diplomatic notes.
+
+Environmental Damage
+With respect to an aircraft or its parts, refers to physical deterioration of item strength or resistance to failure as a result of chemical interaction with its climate or environment.
+
+Essential Air Service (EAS)
+Government-subsidized airline service to rural areas of the United States, which began after the Airline Deregulation Act of 1978.
+
+Excise Tax
+A tax levied on a good, service or activity.
+
+Expect Departure Clearance Time
+The time issued for a flight to indicate when it can expect to receive departure clearance.
+
+Facilities and Equipment
+FAA capital-account program that funds technological improvements to the nation’s air traffic control (ATC) system. The account funds planned facility improvements, equipment procurement and the necessary technical support for systems installation. Funded entirely by the AATF.
+
+Fare
+The price that an airline charges a passenger for air transportation.
+
+Fatal Injury
+Any injury that results in death within 30 days of an accident.
+
+Fatality
+For purposes of statistical reporting on transportation safety, a fatality is considered a death due to injuries in a transportation crash, accident or incident that occurs within 30 days of that occurrence.
+
+Federal Aviation Regulations (FAR)
+Rules that the Federal Aviation Administration hs issued that govern civil aviation activities in the United States. See Part 121, Part 135, Part 91.
+
+Federal Energy Regulatory Commission (FERC)
+The federal agency with jurisdiction over, among other things, interstate natural-gas pricing, oil pipeline rates and gas pipeline certification.
+
+Fiscal Year
+The 12-month period for which the federal government sets its budget and measures operational performance, beginning October 1 and ending September 30 of the subsequent year. The fiscal year is designated by the calendar year in which it ends (i.e., FY2005 begins October 1, 2004, and ends September 30, 2005).
+
+Flaps
+Control surfaces installed on the trailing edge of an aircraft wing and used to increase the amount of lift generated by the wing at slower speeds. Flaps also create drag, which has the effect of slowing an aircraft during its landing approach.
+
+Flight
+The entire passage consisting of one or more flight legs, from leaving the airport of origin to arrival at the airport of final destination and operated under one flight number.
+
+Flight Data Recorder (FDR)
+Records pertinent technical information about a flight. An FDR will record information about the performance of various aircraft systems, as well as the aircraft’s speed, altitude, heading and other flight parameters. Like a cockpit voice recorder (CVR), a flight data recorder is designed to withstand the forces of a crash, so that its information can be used to reconstruct the circumstances leading up to the accident (the more recent and sophisticated FDR is known as a digital flight data recorder, or DFDR).
+
+Flight Deck
+Also called the cockpit, it is the section of an aircraft where pilots sit and control the aircraft.
+
+Flight Management System
+A computerized avionics component found on most commercial and business aircraft to assist pilots in navigation, flight planning and aircraft control functions. It includes four major components: FMC (Flight Management Computer), AFS (Auto Flight System), Navigation System including IRS (Inertial Reference System) and GPS, and EFIS (Electronic Flight Instrument System).
+
+Flight Plan
+A planning document that covers the expected operational details of a flight such as destination, route, fuel on board, etc. It is filed with the appropriate FAA air traffic control facility. There are both VFR and IFR flight plans. VFR plans are not mandatory.
+
+Flight Segment
+Consists of a flight with a single takeoff and a single landing. A nonstop flight from New York to Chicago is one segment. A flight from New York to Los Angeles with a stopover in Chicago is two segments.
+
+Flight Service Station
+An air traffic facility that provides information typically to general aviation or business aviation pilots, including: en route communications, broadcast aviation weather and NAS information, and the receipt and processing of IFR flight plans. The FSS system was outsourced in 2005 to Lockheed Martin in a program called “AFSS A-76.”
+
+Flight Time
+Typically refers to block time, i.e. chocks-away to chocks-under, which includes taxi time plus airborne time, i.e. wheels-off to wheels-on. NOTE: FAA regulations (FAR 1.1) define flight time as block time whereas European regulations (J.A.R. 1.1) define flight time as airborne time. When the term flight time is used, or values of flight time are quoted, the definition which applies shall be stated.
+
+Fossil Fuels
+Any naturally occurring organic fuel formed in the Earth’s crust, such as petroleum, coal and natural gas.
+
+Freight
+All air cargo excluding mail.
+
+Freight Ton Mile
+A ton of freight flown one mile. It is the standard measure of air freight activity; sometimes expressed as a freight ton kilometer (FTK).
+
+Frequent-Flyer Programs
+Airline marketing programs designed to win customer loyalty by awarding “points” for miles flown. Points can be redeemed for free flights or upgrades in cabin service or, in some instances, nonairline services or items.
+
+Full-time Equivalent
+The number of full-time employees that could have been employed if the reported number of hours worked by part-time employees had been worked by full-time employees. For the purposes of A4A reports, all part-time employees are treated as 0.5 FTEs.
+
+Fuselage
+The main body of an aircraft, cylindrical in shape. It contains the cockpit, main cabin and cargo compartments.
+
+General Aviation (GA)
+A term used to describe all nonmilitary and nonairline flying, encompassing everything from recreational aircraft to experimental aircraft to privately owned and operated business jets. General aviation flies according to FAA Part 91 or Part 135 rules.
+
+Geographic Regions
+For reporting related to the conduct of scheduled service, DOT established in 14 CFR 241 four separate air carrier entities: (1) Domestic: All operations within and between the 50 states of the United States, the District of Columbia, the Commonwealth of Puerto Rico and the U.S. Virgin Islands, and Canadian transborder operations; (2) Atlantic: All operations via the Atlantic Ocean (excluding Bermuda); (3) Latin: All operations within, to or from Latin American areas, including the non-U.S. Caribbean (including Bermuda and the Guianas), Mexico and South/Central America; (4) Pacific: All operations via the Pacific Ocean, including the North/Central Pacific, South Pacific (including Australia) and the Trust Territories. [Note: International denotes all operations not considered Domestic. System denotes the summation of Domestic and International operations.]
+
+Glideslope
+The ideal descent path to a runway. It can be electronically defined by radio signals transmitted from the ground. An aircraft carrying a special radio receiver can detect this electronic glidepath and follow it down to the runway.
+
+Global Distribution System
+See computer reservation system.
+
+Global Positioning System (GPS)
+A worldwide radio-navigation system formed from a matrix of satellites and their ground stations. GPS is funded by and controlled by the U.S. Department of Defense (DOD). While there are many thousands of civil users of GPS worldwide, the system was designed for and is operated by the U. S. military. GPS provides specially coded satellite signals that can be processed by a GPS receiver, enabling the receiver to compute position, velocity and time.
+
+Gross Domestic Product
+The market value of goods and services produced by labor and property in the United States, valued at market prices. As long as the labor and property are located in the United States, the suppliers (workers and owners) may be either U.S. residents or residents of foreign countries. GDP replaced gross national product (GNP) as the primary measure of U.S. production in 1991.
+
+Gross Output
+A measure of total economic activity consisting of sales, receipts and other operating income, plus commodity taxes and changes in inventories.
+
+Ground Control
+“Ground” is an air traffic control function that handles aircraft once they have landed, or before they are cleared to takeoff (typically from the gate to the runway).
+
+Ground Delay Program
+A delay program, implemented at the FAA Command Center, based on established airport acceptance rates. Designed to control air traffic volume to airports where the projected traffic demand is expected to exceed the airport’s acceptance rate for a lengthy period of time. Flights that are destined to the affected airport are issued Expected Departure Clearance Times (EDCT) at their point of departure; flights that have been issued EDCTs are not permitted to depart until their Expected Departure Clearance Time.
+
+Ground Servicing
+Activity that begins when the aircraft is stopped and available to be safely approached by ground personnel for the purpose of securing the aircraft and performing the duties applicable to the arrival of the aircraft, aircraft maintenance, etc. It ends with completion of the duties applicable to the departure of the aircraft or when the aircraft is no longer safe to approach for the purpose of ground servicing, e.g., prior to crew initiating the taxi-out phase.
+
+Hazardous Material (Hazmat)
+Any toxic substance or explosive, corrosive, combustible, poisonous or radioactive material that poses a risk to the public’s health, safety or property, particularly when transported in commerce.
+
+Hijacking Convention
+(The Hague, December 16, 1970) Formally called the Convention for the Suppression of Unlawful Seizure of Aircraft. The Hijacking Convention supplements provisions on unlawful seizure of aircraft found in the Tokyo Convention. The Hijacking Convention obligates a state, when an alleged offender is present in its territory and the state does not proceed with extradition, to establish its jurisdiction over the offense. The Hijacking Convention includes additional provisions on prosecution and extradition of offenders. The Hijacking Convention was ratified by the United States on September 14, 1971.
+
+Horizontal Stabilizer
+The small wings at the rear of an aircraft’s fuselage that balance the lift forces generated by the main wings farther forward on the fuselage. The stabilizer also usually contains the elevator.
+
+Hub-and-Spoke System
+A system for utilizing aircraft that enables a carrier to increase service options at all airports encompassed by its system. It entails the use of a strategically located airport (the hub) as a passenger exchange point for flights to and from outlying towns and cities (the spokes).
+
+Human Factors
+The discipline concerned with the understanding of interactions among humans and other elements of a system. It is application of theory, principles, data and other scientific methods to system design to optimize human well-being and overall system performance.
+
+Hypersonic Flight
+Flight conducted at speeds greater than Mach 5 or five times the speed of sound.
+
+Incursion
+Any occurrence at an aerodrome involving the incorrect presence of an aircraft, vehicle or person on the protected area of a surface designated for the landing and take-off of aircraft.
+
+Infrastructure
+The basic facilities, services and installations needed to operate.
+
+Inspection
+An examination, against a specific standard, of an airframe, aircraft engine, propeller, appliance or component part (new or used) by means of visual or test procedures to establish conformity with acceptable data.
+
+Instrument Flight Rules (IFR)
+Rules governing flight relying on aircraft instruments and navigation aids. IFR permit aircraft to fly in certain limited-visibility and cloud conditions. Virtually any commercial operation - including airlines and business jets - utilizes the IFR system.
+
+Instrument Landing System
+Provides radio-based horizontal and vertical guidance to an aircraft approaching a runway. It is used to guide landing aircraft during conditions of low visibility.
+
+Intent
+Information on planned future aircraft behavior, which can be obtained from the aircraft systems (avionics). It is associated with the commanded trajectory and takes into account aircraft performance, weather, terrain and ATM service constraints. The aircraft intent data correspond either to aircraft trajectory data that directly relate to the future aircraft trajectory as programmed inside the avionics or the aircraft control parameters as managed by the automatic flight control system. These aircraft control parameters could either be entered by the flight operator or automatically derived by the flight management system.
+
+International Air Services Transit Agreement
+(December 7, 1944) A multi¬lateral agreement among States, opened for signature concurrently with the Chicago Convention. Under its terms, each contracting State grants to the others “... the following freedoms of the air in respect of scheduled international air services: (1) The privilege to fly across its territory without landing; (2) The privilege to land for non-traffic purposes.” The United States accepted the Transit Agreement on February 8, 1945. see: www.icao.int/icao/en/leb/transit.pdf
+
+Jet Fuel
+The term includes kerosene-type jet fuel and naphtha-type jet fuel. Kerosene-type jet fuel is used primarily for commercial turbojet and turboprop aircraft engines. Naphtha-type jet fuel has been largely phased out but was used primarily for military turbojet and turboprop aircraft engines.
+
+Jetway
+A registered trademark for a certain kind of aircraft loading bridge that allows passengers direct, protected access to an aircraft from the terminal.
+
+Job Impact
+The total U.S. employment associated with both commercial aviation and supporting economic activity that results from any purchases made by its firms and employees.
+
+Knot
+An abbreviation for one nautical mile per hour. Since a nautical mile is 15 percent longer than a statute mile, a speed expressed in knots is 15 percent higher than it would be if expressed in miles per hour.
+
+Landing
+The phase of flight that begins when the aircraft is in the landing configuration and the crew is dedicated to touch down on a specific runway. It ends when the speed permits the aircraft to be maneuvered by means of taxiing off the runway for the purpose of arriving at a parking area. It may also end by the crew initiating a go-around phase.
+
+Large Certificated Air Carrier
+An air carrier holding a certificate issued under section 41102 of Title 49 of the U.S. code that: (1) operates aircraft designed to have a maximum passenger capacity of more than 60 seats or a maximum payload capacity of more than 18,000 pounds.
+
+Lift
+The force generated by the movement of air across the wings of an aircraft. When enough lift is generated to overcome the weight of an aircraft, the aircraft rises.
+
+Load Factor (Loads)
+The percentage of available seats that are filled with paying passengers, or of freight capacity that is utilized. Average load factor is computed as the ratio of RPMs to ASMs or, in the case of cargo services, RTMs to ATMs, sometimes referred to as Passenger Load Factor (PLF).
+
+Local Area Augmentation System (LAAS)
+An accuracy-improving augmentation to the standard GPS signal that serves the immediate airport area (approximately a 20-30 mile radius). It broadcasts its correction message, via a very high frequency (VHF) radio data link from a ground-based transmitter.
+
+Long-Range Navigation
+A ground-based terrestrial navigation system using low-frequency radio transmitters that uses the time interval between radio signals received from two or more stations to determine the position of a ship or aircraft.
+
+Lorem
+This is the body of Lorem.
+
+Mail Ton Mile (MTM)
+A ton of mail moved one mile. It is the standard measure of air mail activity; sometimes expressed as a mail ton kilometer (MTK).
+
+Maintenance
+Those actions required for restoring or maintaining an item in serviceable condition, including servicing, repair, modification, overhaul, inspection and determination of condition.
+
+Major Carrier
+An airline with annual operating revenues of more than $1 billion, as defined by the Department of Transportation.
+
+Man-Portable Air Defense System (MANPADS)
+Surface-to-air, heat-seeking missiles.
+
+Metric Ton
+A unit of weight equal to 1,000 kilograms, or 2,240.6 pounds.
+
+Metroplex
+A group of two or more adjacent aerodromes whose arrival and departure operations are highly interdependent.
+
+Microjet
+See very light jet.
+
+Minimum Equipment List
+A FAA-mandated list of aircraft equipment that must be functioning before an aircraft may legally take off with passengers. Repairs to some items not essential to an aircraft’s airworthiness may be deferred for limited periods of time approved by the FAA.
+
+Multilateral Agreement on the Liberalization of Air Transportation
+(Negotiated October 31 to November 2, 2000 in Kona, Hawaii; signed May 1, 2001, in Washington, D.C.; entered into force December 21, 2001) An agreement to promote open skies between signatory countries. The agreement allows for full schedule freedom, open traffic rights including seventh-freedom cargo rights, no capacity controls, greater investment (while protecting against “flag of convenience” airlines), multiple airline designation, third-country code sharing, and a minimal tariff filing regime. Signatories are: Brunei, Chile, Cook Islands, New Zealand, Samoa, Singapore, Tonga and the United States of America. In addition, Peru was a signatory to MALIAT but withdrew on January 15, 2005. The Protocol to MALIAT provides for parties to exchange seventh-freedom passenger and sabotage rights. Signatories to the Protocol are: Brunei, Chile, Cook Islands, New Zealand and Singapore.
+
+National Airspace System (NAS)
+The common network of U.S. airspace, air navigation facilities, equipment and services, airports or landing areas.
+
+National Carrier
+An airline with annual operating revenues of between $100 million and $1 billion, as defined by the Department of Transportation.
+
+NAV CANADA
+A private, nonshare capital corporation that owns and operates Canada’s civil air-navigation service.
+
+Navigational Aid
+Any visual or electronic device, airborne or on the surface, that provides point-to-point guidance information or position data to aircraft in flight.
+
+Near Midair Collision
+An incident in which the possibility of a collision occurred as a result of aircraft flying with less than 500 feet of separation, or a report received from a pilot or flight crew member stating that a collision hazard existed between two or more aircraft.
+
+Net Income
+What remains after subtracting all the costs (namely, business, depreciation, interest and taxes) from a company’s revenues. An important measure of how profitable a company (or industry) is over a period of time. Sometimes called the bottom line, net profit or earnings, it is also used to calculate earnings per share.
+
+Net Profit
+See net income.
+
+Net Profit Margin
+Net profit (or loss) as a percent of operating revenues.
+
+Next Generation Air Transportation System (NextGen)
+A comprehensive overhaul of our national airspace system (NAS) to make air transportation more convenient and dependable while ensuring that flights are as safe, secure and hassle-free as possible. NextGen involves an evolution from a ground-based system of air traffic control to a satellite-based system of air traffic management.
+
+Nonscheduled Service
+Revenue flights not operated as scheduled service, such as charter flights and all nonrevenue flights incident to such flight.
+
+Nonstop Clause
+An agreement’s provision that permits the designated airlines to omit points on any of the specified routes on any or all flights. Unless otherwise indicated in this document’s route descriptions, a nonstop provision is included in a bilateral agreement.
+
+Nonstop Flight
+A flight with no intermediate stops.
+
+NOx
+The generic term for a group of highly reactive gases, all of which contain nitrogen and oxygen in varying amounts. Many of the nitrogen oxides are colorless and odorless. However, one common pollutant, nitrogen dioxide (NO2), along with particles in the air, often can be seen as a reddish-brown layer over many urban areas.
+
+Obligations
+Spending commitments made against budget authority, reflecting the actual amounts of orders placed, contracts awarded, services received and similar transactions requiring payments. Obligations made in a fiscal year will not necessarily reflect cash outlays made in that year. For facilities and equipment, obligations are liquidated over several years.
+
+On-Flight Trip Length
+The distance traveled by a passenger on a single flight number (i.e., coupon). Average is computed as the ratio of RPMs flown to passengers enplaned and commonly referred to as length of haul.
+
+Open Skies Agreement
+To open markets further and increase carrier flexibility, U.S. government policy, beginning with the 1992 agreement between the United States and the Netherlands, has been to negotiate open skies agreements that introduce a number of more liberal concepts to the bilateral regime. The most significant provisions of open skies agreements include: unlimited designations, unrestricted capacity and frequencies, totally open route descriptions (third, fourth, fifth, sixth freedoms), unrestricted operational flexibility, fair and equal opportunity to compete, double-disapproval pricing, open cooperative marketing arrangements (code sharing, blocked space, leasing) and liberal charter arrangements (Belgian rules).
+
+Operating Expenses
+Expenses incurred in the performance of air transportation, based on overall operating revenues and expenses. Does not include nonoperating income and expenses, nonrecurring items, or income taxes.
+
+Operating Income
+Operating revenues minus operating expenses.
+
+Operating Profit
+See operating income.
+
+Operating Profit Margin
+Operating profit (or loss) as a percent of operating revenues.
+
+Operating Revenues
+Revenues from the performance of air transportation and related incidental services, including (1) transportation revenues from the carriage of all classes of traffic in scheduled and nonscheduled services, and (2) nontransportation revenues consisting of federal subsidies (where applicable) and services related to air transportation.
+
+Part 121
+A section of the FAA Federal Air Regulations that prescribes safety rules governing the operation of air carriers and commercial operators of large aircraft.
+
+Part 135
+A section of the FAA Federal Air Regulations that prescribes safety rules governing the operation of commuter air carriers (scheduled) and on-demand (for-hire) air taxi and charter providers.
+
+Part 91
+A section of the FAA Federal Air Regulations that refers principally to general aviation. Part 91 operations are generally noncommercial. Corporate aviation operations, for instance, usually fall under Part 91.
+
+Passenger
+The total number of revenue passengers boarding aircraft in scheduled service.
+
+Passenger Facility Charge (PFC)
+A tax authorized by Congress, approved by FAA, assessed by airports and collected by airlines (on behalf of airports) as an add-on to the passenger airfare. PFCs are used by airports to fund FAA-approved projects that enhance safety, security or capacity; reduce noise; or increase air-carrier competition. The PFC program authorizes the collection of fees up to $4.50 for every enplaned passenger at commercial airports controlled by public agencies.
+
+Passenger Revenue
+As defined by the Bureau of Transportation Statistics, revenue from the air transportation of passengers only; does not include so-called ancillary fees.
+
+Performance-Based Navigation (PBN)
+Performance-based navigation specifies RNAV system  performance requirements for aircraft operating along an ATS  route, on an instrument approach procedure, or in airspace. Performance requirements are defined in terms of accuracy, integrity, continuity, availability and functionality needed for the  proposed operation in the context of a particular airspace concept. Performance requirements are identified in navigation specifications that also identify the navigation sensors and equipment that may be used to meet the performance requirement.
+
+Performance-Based Operations
+Use of performance capability definition versus an “equipment” basis to define the regulatory/procedural requirements to perform a given operation in a given airspace.
+
+Personal Aviation
+The activity of pilots who fly for recreation, and generally do not use the IFR air traffic control system.
+
+Personal Earnings
+Total direct wages, salaries and employer-based benefits associated with both commercial aviation and supporting economic activity that results from any purchases made by its firms and employees.
+
+Petroleum
+A generic term applied to oil and oil products in all forms, such as crude oil, lease condensate, unfinished oils, petroleum products, natural gas plant liquids, and nonhydrocarbon compounds blended into finished petroleum products.
+
+Pitch
+A description of the movement of the nose of an aircraft up or down, in relation to its previous altitude.
+
+Post-1977 Agreement
+Beginning in 1978, the United States negotiated a series of agreements that departed from previous Bermuda-style agreements. These new agreements are characterized by increased operational flexibility for airlines and less governmental regulation of services. Like the Bermuda-type agreements, a Post-1977 agreement includes multiple designations, but it explicitly provides that each party may designate as many airlines as it wishes. A standard Post-1977 agreement includes: Capacity Principles - In general, Post-1977 capacity principles say that each party’s airlines shall have a fair and equal opportunity to operate the specified air services. Neither party may unilaterally limit the service - volume of traffic, frequency, or aircraft type - of an airline of the other party except for technical reasons. Pricing Articles - Two general types of pricing articles have been included in Post- 1977 agreements. Under each, intervention by the parties is limited to: (1) Prevention of predatory or discriminatory prices or practices; (2) Protection of consumers from prices that are unduly high or restrictive due to abuse of monopoly power; and (3) Protection of airlines from prices that are artificially low because of direct or indirect governmental subsidy or support.
+
+Precision Runway Monitor
+A system that allows simultaneous, independent IFR approaches. During inclement weather, airports with parallel runways spaced less than 4,300 feet apart experience decreased capacity because they cannot conduct independent simultaneous operations due to existing equipment limitations.
+
+Pressurized Aircraft
+An aircraft that has a cabin that is kept at a designated atmospheric pressure that is lower than the altitude it is flying, so that passengers and crew can breathe normally.
+
+Privatization
+A process of transferring property from public ownership to private ownership and/or transferring the management of a service or activity from the government to the private sector.
+
+Propfan
+One of several terms used to describe new generations of jet engines which typically turn very large, multi-bladed propeller-like fans to produce the thrust needed for flight.
+
+Provisional Application
+Governments have agreed that the terms of an agreement or amendment shall be applied, pending definitive entry into force.
+
+Pylon
+The part of an aircraft’s structure that connects an engine to either a wing or the fuselage.
+
+Radar
+Term coined from the phrase Radio Detecting and Ranging. It is based on the principle that ultra-high frequency radio waves travel at a precise speed and are reflected from objects they strike. It is used to determine an object’s direction and distance.
+
+Ramp
+The aircraft parking area at an airport, usually adjacent to a terminal.
+
+Regional Airline
+Airlines providing short- and medium-haul scheduled airline service typically connecting smaller communities with larger cities and hub airports and operating turboprops of 9-78 seats and jets of 30-108 seats. Arrangements with mainline partners commonly take the form of contract flying or pro-rate flying.
+
+Repair
+To make an item serviceable by replacing or processing failed or damaged parts.
+
+Required Navigation Performance (RNP)
+An operating standard that must be met for an aircraft to operate in certain areas of the NAS. RNP requires an aircraft to stay within a specific envelope of airspace and continuously monitor its performance.
+
+Required Surveillance Performance
+A concept that defines the surveillance requirements according to the airspace involved. The surveillance system must provide the updated aircraft position in order to ensure a safe separation.
+
+Research, Engineering and Development
+This capital account funds research intended to assure the safety, capacity and cost effectiveness of the air traffic control system, to meet growing demands and user requirements. The program has helped develop standards, regulations and guidance materials that support the FAA regulatory mission. Funded entirely by the AATF.
+
+Return on Investment
+Net profit plus interest expense (on long-term debt) divided by long-term debt plus stockholder equity (net worth).
+
+Revenue
+Remuneration received by carriers for transportation activities.
+
+Revenue Aircraft Departure
+Movement of an aircraft for the purpose of generating revenue.
+
+Revenue Aircraft Hour
+One aircraft operated in revenue service for one hour; the most common measure of aircraft utilization. Also referred to as a block hour, which includes all time spent taxiing as well as airborne hours, or time in flight.
+
+Revenue Aircraft Mile
+One aircraft in revenue service flown one mile; sometimes expressed as a revenue aircraft kilometer (RAK).
+
+Revenue Management
+The process an airline uses to optimize revenue across its system of flights. In this process airlines seek to determine the optimal mix of prices (yield management) and seats (inventory management). The goal is to maximize revenue per flight, or per network of flights, rather than per person.
+
+Revenue Passenger Enplanement
+One fare-paying passenger - originating or connecting - boarding an aircraft with a unique flight coupon.
+
+Revenue Passenger Mile (RPM)
+One fare-paying passenger transported one mile; the most common measure of demand for air travel. Sometimes measured as revenue passenger kilometers (RPK).
+
+Revenue Per Available Seat Mile
+See unit revenue.
+
+Revenue Ton Mile (RTM)
+One ton of revenue traffic (passenger and/or cargo) transported one mile. Sometimes measured in revenue ton kilometers (RTKs).
+
+RNAV
+See area navigation.
+
+Roll
+A basic aircraft maneuver, used to rotate or turn the aircraft to one side along its longitudinal axis, created by an up or down motion of the wings.
+
+Rudder
+A control surface, usually installed on the trailing edge of the vertical stabilizer of an aircraft, which controls the yaw motion of the aircraft - that is, the motion of the nose of the aircraft left and right.
+
+Sabotage Convention and Montreal Protocol
+(Montreal, September 23, 1971) Formally called the Convention for the Suppression of Unlawful Acts against the Safety of Civil Aviation. The Sabotage Convention goes beyond the Hijacking Convention by containing separate definitions of what constitutes an offense onboard aircraft, and specifying when that aircraft is “in service.” The Sabotage Convention places additional international legal obligations on states to act against a wider range of offenses involving aircraft. The United States ratified the Sabotage Convention on November 1, 1972. On February 24, 1988, an ICAO conference opened for signature a Protocol to amend the Montreal Convention of 1971. The Protocol provides for suppression of unlawful acts of violence at airports serving international civil aviation. A signatory to the Protocol, which finds an alleged perpetrator on its territory, must either take that person into custody for the purpose of prosecution, or proceed with extradition. The United States ratified the Airport Terrorism Protocol on November 18, 1994.
+
+Scheduled Service
+Transport service based on published flight schedules, including extra sections.
+
+Seat Pitch
+The distance between seats in an aircraft’s passenger cabin as measured from any point on a given seat to the corresponding point on the seat in front of or behind it.
+
+Secure Flight
+A behind-the-scenes program implemented by the Transportation Security Administration (TSA) that prescreens all passengers by matching passenger data against U.S. government watch lists.
+
+Separation Minima
+The minimum displacements between an aircraft and a hazard, including another aircraft, that maintain the risk of collision at an acceptable level of safety.
+
+Serious Injury
+An injury that requires hospitalization for more than 48 hours, commencing within seven days from the date when the injury was received; results in a bone fracture (except simple fractures of fingers, toes, or nose); involves lacerations that cause severe hemorrhages, nerve, muscle, or tendon damage; involves injury to any internal organ; or involves second- or third-degree burns or any burns affecting more than five percent of the body surface.
+
+Simulator
+A ground-based device used to train pilots that simulates flight scenarios, including emergency situations.
+
+Simultaneous Offset Instrument Approach (SOIA)
+A technique by which two planes can land on runways located closer than the current FAA specification (4,300 feet) for simultaneous landings.
+
+Situational Awareness
+Refers to a service provider’s or operator’s ability to identify, process and comprehend important information about what is happening with regard to the operation. Airborne traffic situational awareness is an aspect of overall situational awareness for the flight crew of an aircraft operating in proximity to other aircraft.
+
+Slats
+Special surfaces attached to or actually part of the leading edge of the aircraft wing. During takeoff and landing, they are extended to produce extra lift.
+
+Small Certificated Air Carrier
+An air carrier holding a certificate issued under section 41102 of Title 49 of the U.S. Code that provides scheduled passenger air service with small aircraft (maximum passenger capacity of 60 seats or fewer or a payload capacity of 18,000 pounds or fewer).
+
+Special Use Airspace (SUA)
+A part of airspace that is reserved for flight operations that are not in a normal category. The aircraft participating in the SUA activities are separated from other controlled traffic by the boundaries of the SUA airspace. In some cases, nonparticipating aircraft may enter SUA, but have limitations imposed on their operations. Generally, SUA is used for military activity, but civilians use such airspace to test new aircraft. The space program is also a large user of SUA.
+
+Specification
+A statement contained in an ATA publication that describes the functional or physical characteristics of a process, service or item that is the subject of the publication. Often referred to as a “spec.”
+
+Speed Brakes
+Also known as air brakes, they are surfaces that are normally flush with the aircraft wing or fuselage in which they are mounted, but which can be extended into the airflow to create more drag and slow the aircraft.
+
+Spoilers
+Special panels built into the upper surface of the aircraft wing that, when raised, spoil the flow of air across the wing and thereby reduce the amount of lift generated. They are useful for expediting a descent and for slowing the aircraft when it lands.
+
+Stage 2 Aircraft
+Term used to describe jets which meet Stage 2 Federal Aviation Regulations (FAR) Part 36 noise parameters on takeoff and landing.
+
+Stage 3 Aircraft
+Term used to describe aircraft that meet the Stage 3 noise requirements as specified in FAR Part 36. The Stage 3 requirements specify noise levels that must be certified for the aircraft type at each of three measuring points (flyover, lateral and approach), with the levels varying based on the number of engines and weight of the aircraft. Under U.S. law, but for a few, limited exceptions, all commercial jet aircraft weighing more than 75,000 pounds and operating in the U.S. were required to meet the Stage 3 requirements as of December 31, 1999.
+
+Stage 4 Aircraft
+In July 2005, the FAA issued a final rule to adopt the ICAO Chapter 4 standard as the new U.S. Stage 4 standard. Under Stage 4, new type design aircraft certified on or after January 1, 2006, have to be 10 decibels quieter (as measured at the specified flyover, lateral, and approach points) than the previous Stage 3 noise standard required. As it applies to new type designs only, this certification standard does not apply to pre-existing aircraft or to the continued production of types previously certified.
+
+Stage Length
+The distance traveled by an aircraft from takeoff to landing. Average stage length is computed as the ratio of aircraft miles (or kilometers) to aircraft departures.
+
+Stall
+Results when the wing's airflow is disrupted, and the wing no longer produces lift, with sudden drop and possible loss of control.
+
+Supersonic Flight
+Flight at speeds greater than the speed of sound, which varies according to altitude but which exceeds 700 miles per hour at sea level.
+
+Supplemental Air Carrier
+An air carrier authorized to perform passenger and cargo charter services.
+
+Systemwide
+The entire route system of an airline, including both domestic and international operations.
+
+System Wide Information Management (SWIM)
+An advanced technology program designed to facilitate greater sharing of air traffic management (ATM) system information, such as airport operational status, weather information, flight data, status of special-use airspace, and national airspace system (NAS) restrictions. SWIM will support current and future NAS programs by providing flexible and secure information-management architecture for sharing NAS information. SWIM will use commercial off-the-shelf (COTS) hardware and software to support a service-oriented architecture (SOA) that will facilitate the addition of new systems and data exchanges, and increase common situational awareness.
+
+Tailored Arrival (TA)
+A customized, dynamic arrival trajectory that enables a smooth, efficient descent from cruise altitude to runway through the use of existing aircraft automation.
+
+Terminal Radar Approach Control (TRACON) Facility
+The facility that controls airplanes, typically when they are within 30 miles of the airport, or transiting airspace near the airport. As of October 26, 2010, there were 161 TRACONs in the United States.
+
+Thrust
+The force produced by a jet engine or propeller. As defined by Newtonian physics, it is the forward reaction to the rearward movement of a jet exhaust.
+
+Ticket Price
+The total price that a passenger pays for a air transportation, including the fare and government-imposed taxes and fees.
+
+Tokyo Convention
+(September 14, 1963) Formally called the Convention on Offenses and Certain Other Acts Committed on Board Aircraft. This Convention is concerned with ensuring that when an offense has been committed onboard an aircraft, at least one state - that in which the aircraft is registered - will take jurisdiction over the suspected offender. The Convention also contains provisions relating to powers of the aircraft commander, duties of states, and extradition in the event of an offense. The United States deposited its instrument of ratification for the Tokyo Convention on September 5, 1969.
+
+Traffic
+The quantity of passengers or cargo that an airline transports.
+
+Traffic Alert and Collision Avoidance System (TCAS)
+An airborne collision-avoidance system, with a display in the cockpit that alerts pilots to other aircraft traffic in the area.
+
+Traffic Flow Management
+The regulation of air traffic in order to avoid exceeding airport or air traffic control capacity in handling traffic, and to ensure that available capacity is used efficiently.
+
+Trajectory-Based Operations
+The use of four-dimensional trajectories as the basis for planning and executing all flight operations supported by the air-navigation service provider.
+
+Transponder
+An electronic device that responds to interrogation by ground-based radar with a special four-digit code that air traffic control specifically assigns to the aircraft on which it is located. Certain transponders have the ability to transmit automatically the altitude of the aircraft in addition to the special code.
+
+Turbofan
+A type of jet engine in which a certain portion of the engine’s airflow bypasses the combustion chamber.
+
+Turbojet
+The original designation for a “pure” jet engine whose power is solely the result of its jet exhaust.
+
+Turboprop
+A type of engine that uses a jet engine to turn a propeller. Turboprops are often used on regional and business aircraft because of their relative efficiency at speeds slower than, and altitudes lower than, those of a typical jet.
+
+UK-NATS
+An entity providing air traffic control services to aircraft flying in United Kingdom (U.K.) airspace. A public/private partnership between a consortium of seven U.K. airlines (42 percent), NATS staff (five percent), U.K. airport operator BAA plc (four percent) and the U.K. government (49 percent) and a golden share.
+
+Uncommitted Balance
+Surplus revenues in the Airport and Airway Trust Fund against which no commitments, in the form of budget authority, have been made. This measure provides the most widely accepted estimate of the money available in the Trust Fund for new appropriations for aviation purposes.
+
+United States Visitor and Immigrant Indicator Technology (US-VISIT)
+A Department of Homeland Security (DHS) immigration and border-management system that collects biometric identifiers from foreign travelers to determine whether they pose a risk to the United States.
+
+Unit Revenue
+The average amount of revenue received by the airline per unit of capacity available for sale. Most often used to measure the effectiveness with which revenue-management activity balances price and volume to generate passenger revenue per ASM, known as PRASM or RASM.
+
+Unmanned Aircraft System (UAS)
+An aircraft with no pilot onboard or at the controls. Instead, the aircraft is controlled from outside of the aircraft (e.g., from the ground, another aircraft or space), by an onboard flight-control program or by a combination of offboard and onboard controls. A UAS includes the aircraft and its flight control system and operator.
+
+Unobligated Balance
+The portion of federal budget authority not designated as payment for specific products or services. In one-year accounts, the unobligated balance expires at the end of the fiscal year it was made available. In multiyear accounts, it remains available for obligation for the specified number of years.
+
+User Fee
+A fee charged to users of goods or services.
+
+U.S. Flag Carrier
+One of a class of air carriers holding a Certificate of Public Convenience and Necessity issued by the U.S. Department of Transportation (DOT) and approved by the president, authorizing scheduled operations over specified routes between the United States (and/or its territories) and one or more foreign countries.
+
+Vertical Stabilizer
+The large tail surface normally found on top of the rear of the aircraft fuselage. The rudder is usually installed at the trailing edge of the vertical stabilizer.
+
+Very Light Jet
+Typically an aircraft weighing less than 6,000 pounds (though NASA uses 10,000 pounds) equipped with turbojet engines and capable of operating at high altitudes.
+
+Violent Acts at Airports Protocol
+(Montreal 1988) Formally called the Protocol for the Suppression of Unlawful Acts of Violence at Airports Serving International Civil Aviation. On February 24, 1988, an ICAO conference opened for signature a Protocol to amend the Montreal Convention of 1971. The Protocol provides for suppression of unlawful acts of violence at airports serving international civil aviation. A signatory to the Protocol who finds an alleged perpetrator on its territory must either take that person into custody for the purpose of prosecution or proceed with extradition. The United States ratified the Airport Terrorism protocol on November 18, 1994.
+
+Virtual Tower
+The ability to operate the surface and aerodrome without direct visual observation.
+
+Visa Waiver Program (VWP)
+VWP is a U.S. government program that enables nationals of 36 participating countries to travel to the United States for tourism or business for stays of up to 90 days without obtaining a visa. VWP travelers are now required to have a valid authorization through the Electronic System for Travel Authorization (ESTA) prior to travel, and are screened at the port of entry into the United States and enrolled in the DHS US-VISIT program.
+
+visual Flight Rules (VFR)
+Rules governing flight during periods of generally good visibility and limited cloud cover (i.e., a pilot’s ability to fly and navigate by looking out the windows of the airplane), predominantly employed by piston-powered general aviation. Aircraft flying under the VFR system are not required to be in contact with air traffic controllers and are responsible for their own separation from other aircraft. The visual flight rules (VFR) system is utilized almost exclusively by recreational pilots or low-flying piston-engine airplanes.
+
+Warsaw Convention
+(October 12, 1929) The first international convention pertaining to liability in international air transportation, the Convention prescribes rules for air-carrier liability in case of death or injury to passengers, destruction, loss or damage to baggage, and losses resulting from delay of passengers, baggage and cargo. Liability limits set by the Convention were raised in 1955 by the Hague Protocol to the Warsaw Convention. Some parties to the Warsaw Convention have not ratified the Hague Protocol, which amended the Convention. The United States ratified the Warsaw Convention on July 31, 1934. The United States continued to adhere to the Warsaw Convention only after all airlines serving the United States agreed to sign an amendment that raised the liability limit to $75,000 and prohibited the use of certain Warsaw defenses. This agreement took effect on May 16, 1966. On September 25, 1975, a number of nations, including the United States, signed four Protocols, which amended the Warsaw Convention and the Hague and Guatemala Protocols. The four Protocols amended the increased liability limit found in the Guatemala Protocol, altered the monetary measurement from gold to Special Drawing Rights, and eliminated outdated documentary requirements with respect to the transport of cargo. The Guatemala Protocol and the first three Montreal Protocols have not come into force because the terms of entry into force have not been met. The U.S. government ratified Montreal Protocol IV, and it entered into force for the United States on March 4, 1999.
+
+Wide-Body Aircraft
+Generally considered to be any airliner with more than one aisle in the passenger cabin. Examples of wide-body aircraft include the Airbus A300, A310, A330, A340, A350 and A380; the Boeing B-747, B-767, B-777, B-787, DC-10 and MD-11. Technically, any aircraft with a fuselage diameter in excess of 200 inches may be considered a widebody.
+
+Wide Area Augmentation System (WAAS)
+A navigation system developed by the Federal Aviation Administration, which is accurate down to three meters (approximately 95 percent of the time). Accuracy is achieved through corrections to the surveyed location of 25 wide-area reference stations on the ground and the Global Positioning System (GPS) signal. WAAS was commissioned in July 2003, and is currently used solely by general aviation.
+
+Wind Shear
+Weather phenomenon entailing a strong downdraft of air that can result in the loss of lift for an aircraft passing through it.
+
+Yaw
+A description of the movement of the nose of an aircraft from side to side or left and right. Yaw motion is controlled by the vertical stabilizer and the rudder.
+
+Yield
+The average amount of revenue received per revenue passenger mile (RPM) or revenue ton mile (RTM), net of taxes.
