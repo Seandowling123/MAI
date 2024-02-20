@@ -633,10 +633,8 @@ else:
     articles, dates = extract_article_data(raw_articles, sources, articles_backup_path)
 
 # Load dictionaries & calculate sentiments
-#positive_dict_path = "Loughran-McDonald_Positive.csv"
-#negative_dict_path = "Loughran-McDonald_Negative.csv"
-positive_dict_path = "GI_Positive.csv"
-negative_dict_path = "GI_Negative.csv"
+positive_dict_path = "Dictionaries_Glossaries/GI_Positive.csv"
+negative_dict_path = "Dictionaries_Glossaries/GI_Negative.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 Load_senitments_from_backup(articles, seniment_backup_path)
