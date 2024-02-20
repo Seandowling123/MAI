@@ -549,7 +549,6 @@ daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, dail
 
 # Save data to csv
 daily_csv_file_path = 'XX_daily_data.csv'
-weekly_csv_file_path = 'XX_weekly_data.csv'
 save_daily_data_to_csv(daily_data, daily_csv_file_path)
 
 # To plot daily or weekly data
