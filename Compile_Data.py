@@ -16,11 +16,11 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, absolute_returns, volume, vix_returns, vix_close, monday, january, sentiment, stemmed_sentiment, media_volume):
+    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, monday, january, sentiment, stemmed_sentiment, media_volume):
         self.date = date
         self.close = close
         self.returns = returns
-        self.absolute_returns = absolute_returns
+        self.volatility = volatility
         self.volume = volume
         self.vix_returns = vix_returns
         self.vix_close = vix_close
@@ -31,7 +31,7 @@ class Trading_Day:
         self.january = january
     
     def to_csv_line(self):
-        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.absolute_returns)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
 
 # Class containing info about each article
 class Article:
@@ -453,12 +453,14 @@ def is_january(date):
 # Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
     daily_data = {}
-    first_date = 0
+    days_parsed = 0
     
     # Iterate through dates and compile the data
     for date in close_prices:
         close = 0
         returns = 0
+        returns_list = []
+        volatility = 0
         volume = 0
         vix = 0
         monday = 0
@@ -468,12 +470,15 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_v
         media_volume = 0
         
         # Skip the first trading day date
-        if first_date == 0:
-            first_date = 1
+        if days_parsed == 0:
+            days_parsed = 1
         else:
             # Collect data and store it in trading days dict
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[get_previous_trading_day(date, close_prices)])
+            returns_list.append(returns)
+            if len(returns_list) >= 30:
+                volatility = statistics.stdev(returns_list[-30:])
             volume = trading_volume[date]
             vix_close = VIX_prices[date]
             vix = math.log(VIX_prices[date]/VIX_prices[get_previous_trading_day(date, VIX_prices)])
@@ -483,7 +488,7 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_v
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
                 media_volume = daily_media_volume[date]
-            daily_data[date] = Trading_Day(date, close, returns, abs(returns), volume, vix, vix_close, monday, january, senitment, stemmed_sentiment, media_volume)
+            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix, vix_close, monday, january, senitment, stemmed_sentiment, media_volume)
         
     print("Trading data compiled.\n")
     return daily_data
@@ -494,7 +499,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date", "Close", "Returns", "Absolute_Returns", "Detrended_Volume", "VIX_Close", "VIX_Returns", "Sentiment","Stemmed_Sentiment", "Media_Volume", "Monday", "January",])
+            writer.writerow(["Date", "Close", "Returns", "Volatility", "Detrended_Volume", "VIX_Close", "VIX_Returns", "Sentiment","Stemmed_Sentiment", "Media_Volume", "Monday", "January",])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -530,7 +535,6 @@ glossary_path = "Dictionaries_Glossaries/Combined_Glossary.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
-print(glossary)
 Load_senitments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
