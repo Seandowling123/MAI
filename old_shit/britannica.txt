@@ -1,0 +1,45 @@
+aisle
+arrival
+baggage
+board
+boarding pass
+bulkhead
+carry-on (adjective)
+carry-on (noun)
+coach
+cockpit
+connection
+crew (noun)
+customs (plural noun)
+declare
+departure
+duty-free
+first class (noun)
+flight attendant
+flight deck
+gate
+itinerary
+jet engine
+jet lag
+jumbo jet
+landing
+lavatory
+luggage
+one-way
+overbook
+oxygen mask
+assport
+pilot (noun)
+propeller
+round trip
+runway
+seat belt
+security
+standby (adjective)
+stopover
+takeoff
+taxi (verb)
+turbulence
+visa
+window seat
+wing

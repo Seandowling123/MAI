@@ -5,9 +5,8 @@ def get_words(file_path):
     words = []
     with open(file_path, 'r', encoding="latin-1") as file:
         for line_num, line in enumerate(file, start=1):
-            if line_num % 3 == 1:  # Check if it's every third line
-                words.append(line.split('\n')[0])
-                print(line.split('\n')[0])
+            words.append(line.split('\n')[0])
+            print(line.split('\n')[0])
     return words
 
 def save_words_to_csv(words, file_path):
@@ -20,7 +19,7 @@ def save_words_to_csv(words, file_path):
             word_upper = word_filtered.upper()
             writer.writerow([word_upper])
 
-words = get_words("A4A_webpage.txt")
-save_words_to_csv(words, 'A4A_Glossary.csv')
+words = get_words("britannica.txt")
+save_words_to_csv(words, 'Britannica_Glossary.csv')
 
 
