@@ -1,0 +1,21 @@
+import csv
+
+def combine_csv_files(file1_path, file2_path, output_path):
+    # Read contents of file1 and file2 and store unique values in sets
+    with open(file1_path, 'r', newline='', encoding='utf-8') as file1, \
+         open(file2_path, 'r', newline='', encoding='utf-8') as file2:
+        
+        file1_set = set(row[0] for row in csv.reader(file1))
+        file2_set = set(row[0] for row in csv.reader(file2))
+
+    # Merge the sets and remove duplicates
+    combined_set = file1_set.union(file2_set)
+
+    # Write the merged set to a new CSV file
+    with open(output_path, 'w', newline='', encoding='utf-8') as outfile:
+        writer = csv.writer(outfile)
+        for item in combined_set:
+            writer.writerow([item])
+
+# Example usage:
+combine_csv_files('Dictionaries_Glossaries/A4A_Glossary.csv', 'Dictionaries_Glossaries/Britannica_Glossary.csv', 'Combined_Glossary.csv')
