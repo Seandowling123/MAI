@@ -640,7 +640,8 @@ negative_dict_path = "Dictionaries_Glossaries/GI_Negative.csv"
 glossary_path = "Dictionaries_Glossaries/Combined_Glossary.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
-glossary = load_csv(negative_dict_path)
+glossary = load_csv(glossary_path)
+print(glossary)
 Load_senitments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
