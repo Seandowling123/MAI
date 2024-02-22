@@ -259,17 +259,26 @@ def convert_to_zscore(articles):
     # Extract sentiments
     sentiments = [article.sentiment for article in articles]
     stemmed_sentiments = [article.stemmed_sentiment for article in articles]
+    pos_sentiment = [article.pos_sentiment for article in articles]
+    neg_sentiment = [article.neg_sentiment for article in articles]
+    
 
     # Calculate the mean & standard deviation
     mean = statistics.mean(sentiments)
     std_dev = statistics.stdev(sentiments)
     mean_stemmed = statistics.mean(stemmed_sentiments)
     std_dev_stemmed = statistics.stdev(stemmed_sentiments)
+    mean_pos = statistics.mean(pos_sentiment)
+    std_dev_pos = statistics.stdev(pos_sentiment)
+    mean_neg = statistics.mean(neg_sentiment)
+    std_dev_neg = statistics.stdev(neg_sentiment)
     
     # Convert sentiments to Z-scores
     for article in articles:
         article.sentiment = (article.sentiment - mean) / std_dev
         article.stemmed_sentiment = (article.stemmed_sentiment - mean_stemmed) / std_dev_stemmed
+        article.pos_sentiment = (article.pos_sentiment - mean_pos) / std_dev_pos
+        article.neg_sentiment = (article.neg_sentiment - mean_neg) / std_dev_neg
 
 # Count the number of dictionary words in an article
 def get_word_count(article, word_list, glossary):
