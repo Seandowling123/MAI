@@ -376,7 +376,7 @@ def get_daily_sentiments(articles):
         daily_pos_sentiment[article.date] = np.mean(daily_pos_sentiment[article.date])
         daily_neg_sentiment[article.date] = np.mean(daily_neg_sentiment[article.date])
         
-    return daily_sentiment, daily_stemmed_sentiment, daily_media_volume
+    return daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_media_volume
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
@@ -474,7 +474,7 @@ def is_january(date):
     else: return 0
     
 # Collect data for each trading day start_date, end_date
-def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
+def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
     daily_data = {}
     returns_list = []
     days_parsed = 0
@@ -511,8 +511,8 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_v
                 senitment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
                 media_volume = daily_media_volume[date]
-                pos_sentiment = 
-                neg_sentiment = 
+                pos_sentiment = daily_pos_sentiment[date]
+                neg_sentiment = daily_neg_sentiment[date]
             daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix, vix_close, monday, january, senitment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume)
         
     print("Trading data compiled.\n")
@@ -564,7 +564,7 @@ Load_senitments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
 # Get sentiment time series    
-daily_sentiment, daily_stemmed_sentiment, daily_media_volume = get_daily_sentiments(articles)
+daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
 
 # Get the time period
 start_date = min(dates)
@@ -574,7 +574,7 @@ print(f"Start date: {start_date} | End date: {end_date}\n")
 # Extract financial data from the time period
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
 VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
-daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
+daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
 daily_csv_file_path = 'XX_daily_data.csv'
