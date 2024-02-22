@@ -32,7 +32,6 @@ class Trading_Day:
         self.monday = monday
         self.january = january
     
-class Trading_Day:
     def to_csv_line(self): 
         return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
 
@@ -499,6 +498,8 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
         january = 0
         sentiment = 0
         stemmed_sentiment = 0
+        pos_sentiment= 0
+        neg_sentiment = 0
         media_volume = 0
         
         # Skip the first trading day date
