@@ -560,7 +560,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
 # Select mode
 mode  = "tes"
 
-#articles_file_path = 'Articles_txt/Financial(1001-1500).txt'
+# Article file paths
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 articles_backup_path = 'Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
