@@ -192,7 +192,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                 source = get_source_match(raw_articles[i], sources)
                 if source:
                     
-                    # Add to Articles list. Initialise senitment to 0
+                    # Add to Articles list. Initialise sentiment to 0
                     dates.append(date)
                     body = process_text(raw_articles[i])
                     stemmed_body = stem_text(body)
@@ -229,7 +229,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
     return articles, dates
 
 # Load article sentiments from backup file
-def Load_senitments_from_backup(articles, seniment_backup_path):
+def Load_sentiments_from_backup(articles, seniment_backup_path):
     if os.path.exists(seniment_backup_path):
         sentiments = []
         stemmed_sentiments = []
@@ -250,7 +250,7 @@ def Load_senitments_from_backup(articles, seniment_backup_path):
 # Convert the raw sentiments to Z-scores
 def convert_to_zscore(articles):
     
-    # Extract senitments
+    # Extract sentiments
     sentiments = [article.sentiment for article in articles]
     stemmed_sentiments = [article.stemmed_sentiment for article in articles]
 
@@ -260,7 +260,7 @@ def convert_to_zscore(articles):
     mean_stemmed = statistics.mean(stemmed_sentiments)
     std_dev_stemmed = statistics.stdev(stemmed_sentiments)
     
-    # Convert senitments to Z-scores
+    # Convert sentiments to Z-scores
     for article in articles:
         article.sentiment = (article.sentiment - mean) / std_dev
         article.stemmed_sentiment = (article.stemmed_sentiment - mean_stemmed) / std_dev_stemmed
@@ -313,7 +313,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         # Iterate through each article
         for article in articles:
             try:
-                # If the article has no senitment, calculate it
+                # If the article has no sentiment, calculate it
                 if article.sentiment == 0 and article.stemmed_sentiment == 0:
                     sentiment, pos_sentiment, neg_sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
                     stemmed_sentiment, stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict, glossary)
@@ -485,10 +485,11 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
         returns = 0
         volatility = 0
         volume = 0
-        vix = 0
+        vix_returns = 0
+        vix_close = 0
         monday = 0
         january = 0
-        senitment = 0
+        sentiment = 0
         stemmed_sentiment = 0
         media_volume = 0
         
@@ -496,7 +497,7 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
         if days_parsed == 0:
             days_parsed = 1
         else:
-            # Collect data and store it in trading days dict
+            # Collect financial data
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[get_previous_trading_day(date, close_prices)])
             returns_list.append(returns)
@@ -504,16 +505,22 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
                 volatility = statistics.stdev(returns_list[-30:])
             volume = trading_volume[date]
             vix_close = VIX_prices[date]
-            vix = math.log(VIX_prices[date]/VIX_prices[get_previous_trading_day(date, VIX_prices)])
+            vix_returns = math.log(VIX_prices[date]/VIX_prices[get_previous_trading_day(date, VIX_prices)])
+            
+            # Collect calendar data
             monday = is_monday(date)
             january = is_january(date)
+            
+            # Collect sentiment data
             if date in daily_sentiment:
-                senitment = daily_sentiment[date]
+                sentiment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
                 media_volume = daily_media_volume[date]
                 pos_sentiment = daily_pos_sentiment[date]
                 neg_sentiment = daily_neg_sentiment[date]
-            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix, vix_close, monday, january, senitment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume)
+                
+            # Save all data
+            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, monday, january, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume)
         
     print("Trading data compiled.\n")
     return daily_data
@@ -560,7 +567,7 @@ glossary_path = "Dictionaries_Glossaries/Combined_Glossary.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
-Load_senitments_from_backup(articles, seniment_backup_path)
+Load_sentiments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
 # Get sentiment time series    
