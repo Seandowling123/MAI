@@ -262,7 +262,6 @@ def convert_to_zscore(articles):
     pos_sentiment = [article.pos_sentiment for article in articles]
     neg_sentiment = [article.neg_sentiment for article in articles]
     
-
     # Calculate the mean & standard deviation
     mean = statistics.mean(sentiments)
     std_dev = statistics.stdev(sentiments)
