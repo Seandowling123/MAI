@@ -233,6 +233,8 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
     if os.path.exists(seniment_backup_path):
         sentiments = []
         stemmed_sentiments = []
+        pos_sentiments = []
+        neg_sentiments = []
         print(f"Loading sentiments from backup file: {seniment_backup_path}.")
         
         # Open the csv file and read its contents
@@ -241,10 +243,15 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
             for row in reader:
                 sentiments.append(row[0])
                 stemmed_sentiments.append(row[1])
-        
+                pos_sentiments.append(row[2])
+                neg_sentiments.append(row[3])
+                  
+        # Save to article object
         for i in range(len(sentiments)):
             articles[i].sentiment = float(sentiments[i])
             articles[i].stemmed_sentiment = float(stemmed_sentiments[i])
+            articles[i].pos_sentiment = float(pos_sentiments[i])
+            articles[i].neg_sentiment = float(neg_sentiments[i])
         print(f"Loaded {len(sentiments)} sentiments from backup.\n")
 
 # Convert the raw sentiments to Z-scores
@@ -322,7 +329,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                     # Save score
                     article.sentiment = sentiment
                     save_stemmed_sentiment_score(article, stemmed_sentiment, stem_pos_sentiment, stem_neg_sentiment)
-                writer.writerow([article.sentiment, article.stemmed_sentiment])
+                writer.writerow([article.sentiment, article.stemmed_sentiment,article.pos_sentiment,article.neg_sentiment])
                 
                 # Progress tracker
                 calculated = calculated + 1
