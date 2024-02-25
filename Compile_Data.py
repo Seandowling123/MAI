@@ -433,7 +433,8 @@ def get_RYAAY_data(file_path, start_date, end_date):
     except Exception as e:
         print(f"An error occurred. RYAAY data: {str(e)}")
         return None
-    
+
+# Extract VIX financial data
 def get_VIX_data(file_path, start_date, end_date):
     close_price_dict = {}
     prev_date = 0
