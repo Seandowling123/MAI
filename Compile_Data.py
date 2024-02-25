@@ -33,7 +33,7 @@ class Trading_Day:
         self.january = january
     
     def to_csv_line(self): 
-        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
+        return f"{str(self.date)},{str(self.close)},{str(self.returns)},{str(abs(self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
 
 # Class containing info about each article
 class Article:
@@ -549,7 +549,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date","Close","Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Media_Volume","Monday","January"])
+            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Media_Volume","Monday","January"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
