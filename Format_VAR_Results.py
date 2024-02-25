@@ -31,11 +31,10 @@ def get_significance(prob):
     
 def get_coefs(text):
     rows = text.split("\n")
-    print(rows)
     coefs = []
     for row in rows:
-        print(get_non_space_index(row))
-        values = row.split('  ')
+        values = row[get_non_space_index(row):].split('  ')
+        print(values)
         if get_significance(values[4]) != "":
             values[1] = values[1] + f"\textsuperscript{{{get_significance(values[4])}}}"
         coefs.append(values[1])
