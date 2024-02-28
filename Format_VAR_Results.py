@@ -1,49 +1,50 @@
 
-
-# Load articles from text file
-def load_txt(file_path):
-    try:
-        with open(file_path, 'r', encoding="utf-8") as file:
-            content = file.read()
-        return content
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        return f"File not found: {file_path}"
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
-        return f"An error occurred: {str(e)}"
-    
-def get_non_space_index(row):
-    gap_found = False
-    for i in range(len(row)):
-        if row[i] == ' ':
-            gap_found =True
-        elif gap_found: return i
+def get_values(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        numbers_list = []
+        for line in file:
+            line = line.replace('−', '-').replace('*', '')
+            first_space_index = line.find(' ')
+            variable = line[:first_space_index].strip().split('_')[0]
+            numbers = [float(f'{float(num):.6f}') for num in line[first_space_index:].split() if num.strip()]
+            numbers_list.append([variable]+numbers)
+    return numbers_list
     
 def get_significance(prob):
     if float(prob) < .01:
-        return "***"
+        return "\\textsuperscript{***}"
     elif float(prob) < .05:
-        return "**"
+        return "\\textsuperscript{**}"
     elif float(prob) < .1:
-        return "*"
+        return "\\textsuperscript{*}"
     else: return ""
     
-def get_coefs(text):
-    rows = text.split("\n")
-    coefs = []
-    for row in rows:
-        values = row[get_non_space_index(row):].split('  ')
-        print(values)
-        if get_significance(values[4]) != "":
-            values[1] = values[1] + f"\textsuperscript{{{get_significance(values[4])}}}"
-        coefs.append(values[1])
-    return coefs
+def significance_idk(values):
+    for row in values:
+        row[1] = str(row[1])+get_significance(row[4])
+    return values
+
+def print_values(values):
+    iter = 0
+    prev_variable = ''
+    for row in values:
+        if prev_variable != row[0] and iter != 0:
+            #print("\\midrule")
+            print("")
+            iter = 0
+        iter = iter+1
+        if row[0] == "const":
+            #print(f"\\textbf{{{row[0]}}} & {row[1]} &")
+            print(f" {row[1]} &")
+        else: 
+            #print(f"\\textbf{{{row[0]}\\textsubscript{{t-{iter}}}}} & {row[1]} &")
+            print(f" {row[1]} &")
+        prev_variable = row[0]
+    #print("\\midrule")
+    print("")
     
-
 file_path = "VAR_Results.txt"
-result_txt = load_txt(file_path)
-coefs = get_coefs(result_txt)
 
-for coef in coefs:
-    print(coef)
+values = get_values(file_path)
+values = significance_idk(values)
+print_values(values)
