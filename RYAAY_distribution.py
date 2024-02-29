@@ -6,7 +6,7 @@ rcParams['font.sans-serif'] = ['Tahoma']
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-import time
+from collections import defaultdict
 from scipy.stats import norm
 
 def get_distribution_data(returns):
@@ -15,34 +15,74 @@ def get_distribution_data(returns):
     mean_returns = np.mean(returns)
     std_returns = np.std(returns)
 
-    # Define Normal distribution
-    #cdf_lower = norm.cdf(lower_bound * sigma, mu, sigma)
-    #cdf_upper = norm.cdf(upper_bound * sigma, mu, sigma)
-    #percentage = (cdf_upper - cdf_lower) * 100
-
     # Calculate outliers
     num_outliers = 0
     returns_zscores = []
+    deviation0_25 = 0
+    deviation0_5 = 0
+    deviation0_75 = 0
     deviation1 = 0
+    deviation1_5 = 0
     deviation2 = 0
+    deviation2_5 = 0
     deviation3 = 0
-    # Remove outliers
+    
+    deviations = [.25, .5, .75, 1, 1.5, 2, 2.5 ,3]
+    intervals = {}
+    
+    for daily_return in returns:
+        for deviation in deviations:
+            if np.abs(daily_return) < deviation:
+                if deviation in intervals:
+                    intervals[deviation] = intervals[deviation]+1
+                else: intervals[deviation] = 0
+    
+    # Get stats
     for i in range(len(returns)):
         if np.abs(returns[i]) < 4*std_returns:
             returns_zscores.append((returns[i]-mean_returns)/std_returns)
             if np.abs(returns[i]) < 3*std_returns:
                 deviation3 = deviation3+1
-                if np.abs(returns[i]) < 2*std_returns:
-                    deviation2 = deviation2+1
-                    if np.abs(returns[i]) < 1*std_returns:
-                        deviation1 = deviation1+1
+                if np.abs(returns[i]) < 2.5*std_returns:
+                    deviation2_5 = deviation2_5+1
+                    if np.abs(returns[i]) < 2*std_returns:
+                        deviation2 = deviation2+1
+                        if np.abs(returns[i]) < 1.5*std_returns:
+                            deviation1_5 = deviation1_5+1
+                            if np.abs(returns[i]) < 1*std_returns:
+                                deviation1 = deviation1+1
+                                if np.abs(returns[i]) < .75*std_returns:
+                                    deviation0_75 = deviation0_75+1
+                                    if np.abs(returns[i]) < .5*std_returns:
+                                        deviation0_5 = deviation0_5+1
+                                        if np.abs(returns[i]) < .25*std_returns:
+                                            deviation0_25 = deviation0_25+1
             else: num_outliers = num_outliers+1
         else: num_outliers = num_outliers+1
+    
     # Get distribution stats
-    outlier_percentage = num_outliers/len(returns)
-    deviation_percentage_3 = deviation3/len(returns)
-    deviation_percentage_2 = deviation2/len(returns)
+    deviation_percentage0_25 = deviation0_25/len(returns)
+    deviation_percentage0_5 = deviation0_5/len(returns)
+    deviation_percentage0_75 = deviation0_75/len(returns)
     deviation_percentage_1 = deviation1/len(returns)
+    deviation_percentage_1_5 = deviation1_5/len(returns)
+    deviation_percentage_2 = deviation2/len(returns)
+    deviation_percentage_2_5 = deviation2_5/len(returns)
+    deviation_percentage_3 = deviation3/len(returns)
+    outlier_percentage = num_outliers/len(returns)
+    
+    # Define Normal distribution
+    normal0_25 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal0_5 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal0_75 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal_1 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal_1_5 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal_2 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal_2_5 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    normal_3 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    
+    print("Deviations:")
+    
     print("Outliers:", outlier_percentage, "| Deviations:", deviation_percentage_3, deviation_percentage_2, deviation_percentage_1)
     
 
