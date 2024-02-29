@@ -28,64 +28,41 @@ def get_distribution_data(returns):
     deviation3 = 0
     
     deviations = [.25, .5, .75, 1, 1.5, 2, 2.5 ,3]
-    intervals = {}
+    returns_cdf = {}
+    normal_cdf = {}
     
+    # Get normal distribution stats
+    for deviation in deviations:
+        normal_cdf[deviation] = (norm.cdf(deviation, 0, 1) - norm.cdf(-deviation, 0, 1))*100
+    
+    # Get return stats
     for daily_return in returns:
+        z_score = (daily_return-mean_returns)/std_returns
         for deviation in deviations:
-            if np.abs(daily_return) < deviation:
-                if deviation in intervals:
-                    intervals[deviation] = intervals[deviation]+1
-                else: intervals[deviation] = 0
+            if np.abs(z_score) < deviation:
+                (norm.cdf(-deviation, 1, 1) - norm.cdf(deviation, 1, 1))*100
+                if deviation in returns_cdf:
+                    returns_cdf[deviation] = returns_cdf[deviation]+1
+                else: returns_cdf[deviation] = 0
     
-    # Get stats
-    for i in range(len(returns)):
-        if np.abs(returns[i]) < 4*std_returns:
-            returns_zscores.append((returns[i]-mean_returns)/std_returns)
-            if np.abs(returns[i]) < 3*std_returns:
-                deviation3 = deviation3+1
-                if np.abs(returns[i]) < 2.5*std_returns:
-                    deviation2_5 = deviation2_5+1
-                    if np.abs(returns[i]) < 2*std_returns:
-                        deviation2 = deviation2+1
-                        if np.abs(returns[i]) < 1.5*std_returns:
-                            deviation1_5 = deviation1_5+1
-                            if np.abs(returns[i]) < 1*std_returns:
-                                deviation1 = deviation1+1
-                                if np.abs(returns[i]) < .75*std_returns:
-                                    deviation0_75 = deviation0_75+1
-                                    if np.abs(returns[i]) < .5*std_returns:
-                                        deviation0_5 = deviation0_5+1
-                                        if np.abs(returns[i]) < .25*std_returns:
-                                            deviation0_25 = deviation0_25+1
-            else: num_outliers = num_outliers+1
-        else: num_outliers = num_outliers+1
+    for deviation in returns_cdf:
+        returns_cdf[deviation] = (returns_cdf[deviation] / len(returns))*100
     
-    # Get distribution stats
-    deviation_percentage0_25 = deviation0_25/len(returns)
-    deviation_percentage0_5 = deviation0_5/len(returns)
-    deviation_percentage0_75 = deviation0_75/len(returns)
-    deviation_percentage_1 = deviation1/len(returns)
-    deviation_percentage_1_5 = deviation1_5/len(returns)
-    deviation_percentage_2 = deviation2/len(returns)
-    deviation_percentage_2_5 = deviation2_5/len(returns)
-    deviation_percentage_3 = deviation3/len(returns)
-    outlier_percentage = num_outliers/len(returns)
+    print("\nCDF Data (cum):")
+    for deviation in deviations:
+        print(f"Std. Deviation: {float(deviation):.2f} | RYAAY: {returns_cdf[deviation]:.2f} | Normal: {normal_cdf[deviation]:.2f} | Disc.: {(returns_cdf[deviation]-normal_cdf[deviation]):.2f}")
+    print(f"Outliers | RYAAY: {100-returns_cdf[3]:.2f} | Normal: {100-normal_cdf[3]:.2f} | Disc.: {(100-returns_cdf[3]-(100-normal_cdf[3])):.2f}")
     
-    # Define Normal distribution
-    normal0_25 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal0_5 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal0_75 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal_1 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal_1_5 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal_2 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal_2_5 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
-    normal_3 = (norm.cdf(-1, 1, 1) - norm.cdf(1, 1, 1))*100
+    print("\nCDF Data:")
+    returns_cdf_prev = 0
+    norm_cdf_prev = 0
+    for deviation in deviations:
+        returns_cdf_delta = returns_cdf[deviation]-returns_cdf_prev
+        norm_cdf_delta = normal_cdf[deviation]-norm_cdf_prev
+        print(f"Std. Deviation: {float(deviation):.2f} | RYAAY: {returns_cdf_delta:.2f} | Normal: {norm_cdf_delta:.2f} | Disc.: {(returns_cdf_delta-norm_cdf_delta):.2f}")
+        returns_cdf_prev = returns_cdf[deviation]
+        norm_cdf_prev = normal_cdf[deviation]
     
-    print("Deviations:")
-    
-    print("Outliers:", outlier_percentage, "| Deviations:", deviation_percentage_3, deviation_percentage_2, deviation_percentage_1)
-    
-
 def ectract_close_prices(input_file_path, start_date, end_date):
     prices = []
     dates = []
@@ -122,6 +99,9 @@ for i in range(len(close_prices)):
 # Calculate mean and standard deviation of returns
 mean_returns = np.mean(returns)
 std_returns = np.std(returns)
+
+# Print the returns cdf stats
+get_distribution_data(returns)
 
 # Calculate outliers
 num_outliers = 0
