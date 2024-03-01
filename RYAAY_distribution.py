@@ -6,8 +6,8 @@ rcParams['font.sans-serif'] = ['Tahoma']
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-from collections import defaultdict
-from scipy.stats import norm
+from statistics import mode, median, variance
+from scipy.stats import norm, skew, kurtosis, jarque_bera
 
 def get_distribution_data(returns):
     
@@ -15,7 +15,7 @@ def get_distribution_data(returns):
     mean_returns = np.mean(returns)
     std_returns = np.std(returns)
     
-    deviations = [.25, .5, .75, 1, 1.5, 2, 2.5 ,3]
+    deviations = [.25, .5, .75, 1, 1.5, 2, 2.5 ,3, 4, 5, 6]
     returns_cdf = {}
     normal_cdf = {}
     
@@ -39,18 +39,63 @@ def get_distribution_data(returns):
     print("\nCDF Data (cum):")
     for deviation in deviations:
         print(f"Std. Deviation: {float(deviation):.2f} | RYAAY: {returns_cdf[deviation]:.2f} | Normal: {normal_cdf[deviation]:.2f} | Disc.: {(returns_cdf[deviation]-normal_cdf[deviation]):.2f}")
-    print(f"Outliers | RYAAY: {100-returns_cdf[3]:.2f} | Normal: {100-normal_cdf[3]:.2f} | Disc.: {(100-returns_cdf[3]-(100-normal_cdf[3])):.2f}")
     
-    print("\nCDF Data:")
+    print("\nCDF Data: (range)")
+    prev_deviation = 0
     returns_cdf_prev = 0
     norm_cdf_prev = 0
     for deviation in deviations:
         returns_cdf_delta = returns_cdf[deviation]-returns_cdf_prev
         norm_cdf_delta = normal_cdf[deviation]-norm_cdf_prev
-        print(f"Std. Deviation: {float(deviation):.2f} | RYAAY: {returns_cdf_delta:.2f} | Normal: {norm_cdf_delta:.2f} | Disc.: {(returns_cdf_delta-norm_cdf_delta):.2f}")
+        print(f"Std. Deviation: {float(prev_deviation):.2f} - {float(deviation):.2f} | RYAAY: {returns_cdf_delta:.2f} | Normal: {norm_cdf_delta:.2f} | Disc.: {(returns_cdf_delta-norm_cdf_delta):.2f}")
+        prev_deviation = deviation
         returns_cdf_prev = returns_cdf[deviation]
         norm_cdf_prev = normal_cdf[deviation]
+    print(f"Std. Deviation: > 6         | RYAAY: {100-returns_cdf[6]:.2f} | Normal: {100-normal_cdf[6]:.2f} | Disc.: {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}")
+
+def get_descriptive_stats(returns):
     
+    # Central tendancy
+    mean_returns = np.mean(returns)
+    mode_returns = mode(returns)
+    median_returns = median(returns)
+    
+    # Spread
+    dev_returns = np.std(returns)
+    sample_var_return = variance(returns)
+    data_range_return = max(returns) - min(returns)
+    
+    # Skewness / Kurtosis
+    data_skewness = skew(returns)
+    data_kurtosis = kurtosis(returns)
+    
+    # Autocorrelation
+    lag = 10
+    lags = range(1, lag + 1)
+    autocorrelations = [np.corrcoef(returns[:-lag], returns[lag:])[0, 1] for lag in lags]
+    
+    # Min / Max
+    min_returns = min(returns)
+    max_returns = max(returns)
+    
+    # Jarque-Bera
+    test_statistic, p_value = jarque_bera(returns)
+    
+    # Print the stats
+    print("Mean:", mean_returns)
+    print("Mode:", mode_returns)
+    print("Median:", median_returns)
+    print("Standard Deviation:", dev_returns)
+    print("Sample Variation:", sample_var_return)
+    print("Range:", data_range_return)
+    print("Skewness", data_skewness)
+    print("Kurtosis:", data_kurtosis)
+    for lag, autocorr in zip(range(1, lag + 1), autocorrelations):
+        print(f"Autocorrelation at Lag {lag}: {autocorr}")
+    print("Minimum:", min_returns)
+    print("Maximum:", max_returns)
+    print("Jarque-Bera p-value:", p_value)
+
 def ectract_close_prices(input_file_path, start_date, end_date):
     prices = []
     dates = []
@@ -97,9 +142,9 @@ for i in range(len(close_prices)):
 mean_returns = np.mean(returns)
 std_returns = np.std(returns)
 
-# Print the returns cdf stats
+# Print the returns returns stats
 get_distribution_data(returns)
-
+get_descriptive_stats(np.abs(returns))
 
 ###################
 # Show Distribution
@@ -148,13 +193,17 @@ moving_average = np.convolve(np.abs(returns), np.ones(ma_window)/ma_window, mode
 plt.figure(figsize=(12, 6))
 plt.plot(dates[1:], np.abs(returns), color='#2980b9', label='Daily Absolute Returns', linewidth=1)
 plt.plot(dates[ma_window//2:-ma_window//2], moving_average, color='#e74c3c', label='30-day Moving Average', linewidth=1)
-# Adding vertical lines for each crash interval
+
+# Adding crash data
 for start_date, end_date in get_crash_dates_intervals():
     plt.axvspan(start_date, end_date, color='lightgrey', alpha=0.9)
+plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center')
+plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center')
+
 plt.xlabel('Time', fontsize=12)
 plt.ylabel('Absolute Returns', fontsize=12)
 plt.title('Absolute Returns Over Time', fontsize=14, fontfamily='serif')
-plt.legend(fontsize=10)
+plt.legend(fontsize=10, loc='upper left')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 #plt.show()
