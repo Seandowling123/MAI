@@ -16,7 +16,7 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, monday, january, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume):
+    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume, monday, january, crash):
         self.date = date
         self.close = close
         self.returns = returns
@@ -31,9 +31,10 @@ class Trading_Day:
         self.media_volume = media_volume
         self.monday = monday
         self.january = january
+        self.crash = crash
     
     def to_csv_line(self): 
-        return f"{str(self.date)},{str(self.close)},{str(1000*self.returns)},{str(abs(1000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)}"
+        return f"{str(self.date)},{str(self.close)},{str(1000*self.returns)},{str(abs(1000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
 
 # Class containing info about each article
 class Article:
@@ -488,15 +489,21 @@ def is_january(date):
     if date.month == 1:
         return 1
     else: return 0
-    
+
+# Check if a date is in a financial crash
 def is_crash(date):
     # Set dates for global crashes
     gfc_start_date = datetime(2007, 12, 1)
     gfc_end_date = datetime(2009, 6, 30)
     covid_start_date = datetime(2020, 2, 1)
-    covid_end_date = datetime(2024, 3, 30)
+    covid_end_date = datetime(2020, 4, 30)
     
-    if date 
+    # Check if date is in a crash
+    if gfc_start_date <= date <= gfc_end_date:
+        return 1
+    elif covid_start_date <= date <= covid_end_date:
+        return 1
+    return 0
     
 # Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
@@ -538,7 +545,7 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
             # Collect calendar data
             monday = is_monday(date)
             january = is_january(date)
-            crash = 
+            crash = is_crash(date)
             
             # Collect sentiment data
             if date in daily_sentiment:
@@ -549,7 +556,7 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
                 neg_sentiment = daily_neg_sentiment[date]
                 
             # Save all data
-            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, monday, january, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume)
+            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, media_volume, monday, january, crash)
         
     print("Trading data compiled.\n")
     return daily_data
@@ -560,7 +567,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Media_Volume","Monday","January"])
+            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Media_Volume","Monday","January","Crash"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
