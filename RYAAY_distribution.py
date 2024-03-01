@@ -82,11 +82,12 @@ def get_descriptive_stats(returns):
     test_statistic, p_value = jarque_bera(returns)
     
     # Print the stats
+    print("\nRYAAY Descriptive Statistics")
     print("Mean:", mean_returns)
     print("Mode:", mode_returns)
     print("Median:", median_returns)
     print("Standard Deviation:", dev_returns)
-    print("Sample Variation:", sample_var_return)
+    print("Sample Variance:", sample_var_return)
     print("Range:", data_range_return)
     print("Skewness", data_skewness)
     print("Kurtosis:", data_kurtosis)
@@ -94,6 +95,7 @@ def get_descriptive_stats(returns):
         print(f"Autocorrelation at Lag {lag}: {autocorr}")
     print("Minimum:", min_returns)
     print("Maximum:", max_returns)
+    print("Count:", len(returns))
     print("Jarque-Bera p-value:", p_value)
 
 def ectract_close_prices(input_file_path, start_date, end_date):
@@ -144,6 +146,7 @@ std_returns = np.std(returns)
 
 # Print the returns returns stats
 get_distribution_data(returns)
+get_descriptive_stats(returns)
 get_descriptive_stats(np.abs(returns))
 
 ###################
