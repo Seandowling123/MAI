@@ -1,0 +1,51 @@
+Original:
+Wall street Journal: 131
+Financial Times: 8486
+Associated Press Financial Wire: 1004
+AirGuide Business: 1105
+Proactive Investors: 299
+Baltic News Service: 1047
+MT Newswires: 1369
+Business World: 8255
+MarketLine: 534
+London Stock Exchange Regulatory News Service: 5434
+Sunday Business Post: 808
+International Business Times News: 322
+AirFinance Journal: 575
+Flight International: 800
+dpa-AFX International: 1452
+Deutsche Welle Business: 136
+RTT News: 701
+Citywire: 747
+City A.M.: 1185
+ANSA English Corporate Service: 239
+Alliance News: 1522
+Thomson Financial News: 2667
+Business Wire: 277
+TOTAL: 39095
+
+Filtered:
+Wall street Journal: 131
+Financial Times: 8225
+Associated Press Financial Wire: 1004
+AirGuide Business: 1105
+Proactive Investors: 299
+Baltic News Service: 1047
+MT Newswires: 1365
+Business World: 8255
+MarketLine: 534
+London Stock Exchange Regulatory News Service: 5434
+Sunday Business Post: 808
+International Business Times News: 322
+AirFinance Journal: 0
+Flight International: 800
+dpa-AFX International: 1452
+Deutsche Welle Business: 136
+RTT News: 701
+Citywire: 747
+City A.M.: 1179
+ANSA English Corporate Service: 239
+Alliance News: 1522
+Thomson Financial News: 2667
+Business Wire: 277
+TOTAL: 38249

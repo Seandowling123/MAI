@@ -197,7 +197,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                     body = process_text(raw_articles[i])
                     stemmed_body = stem_text(body)
                     if body != 0:
-                        articles.append(Article(date, body, stemmed_body, source, headline, 0, 0))
+                        articles.append(Article(date, body, stemmed_body, source, headline, 0, 0, 0, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
                 else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1 

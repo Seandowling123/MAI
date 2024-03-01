@@ -47,11 +47,11 @@ def get_distribution_data(returns):
     for deviation in deviations:
         returns_cdf_delta = returns_cdf[deviation]-returns_cdf_prev
         norm_cdf_delta = normal_cdf[deviation]-norm_cdf_prev
-        print(f"Std. Deviation: {float(prev_deviation):.2f} - {float(deviation):.2f} | RYAAY: {returns_cdf_delta:.2f} | Normal: {norm_cdf_delta:.2f} | Disc.: {(returns_cdf_delta-norm_cdf_delta):.2f}")
+        print(f"textbf{{Std. Deviation: {float(prev_deviation):.2f} - {float(deviation):.2f}}} & {returns_cdf_delta:.2f} & {norm_cdf_delta:.2f} & {(returns_cdf_delta-norm_cdf_delta):.2f} \\\\")
         prev_deviation = deviation
         returns_cdf_prev = returns_cdf[deviation]
         norm_cdf_prev = normal_cdf[deviation]
-    print(f"Std. Deviation: > 6         | RYAAY: {100-returns_cdf[6]:.2f} | Normal: {100-normal_cdf[6]:.2f} | Disc.: {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}")
+    print(f"textbf{{Std. Deviation: > 6}}         & {100-returns_cdf[6]:.2f} & {100-normal_cdf[6]:.2f} & {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f} \\\\")
 
 def get_descriptive_stats(returns):
     
@@ -82,21 +82,21 @@ def get_descriptive_stats(returns):
     test_statistic, p_value = jarque_bera(returns)
     
     # Print the stats
-    print("\nRYAAY Descriptive Statistics")
-    print("Mean:", mean_returns)
-    print("Mode:", mode_returns)
-    print("Median:", median_returns)
-    print("Standard Deviation:", dev_returns)
-    print("Sample Variance:", sample_var_return)
-    print("Range:", data_range_return)
-    print("Skewness", data_skewness)
-    print("Kurtosis:", data_kurtosis)
+    print("\nRYAAY Descriptive Statistics", "\\\\")
+    print("textbf{Mean} & ", mean_returns, "\\\\")
+    print("textbf{Mode} & ", mode_returns, "\\\\")
+    print("textbf{Median} & ", median_returns, "\\\\")
+    print("textbf{Standard Deviation} & ", dev_returns, "\\\\")
+    print("textbf{Sample Variance} & ", sample_var_return, "\\\\")
+    print("textbf{Range} & ", data_range_return, "\\\\")
+    print("textbf{Skewness} & ", data_skewness, "\\\\")
+    print("textbf{Kurtosis} & ", data_kurtosis, "\\\\")
     for lag, autocorr in zip(range(1, lag + 1), autocorrelations):
-        print(f"Autocorrelation at Lag {lag}: {autocorr}")
-    print("Minimum:", min_returns)
-    print("Maximum:", max_returns)
-    print("Count:", len(returns))
-    print("Jarque-Bera p-value:", p_value)
+        print("textbf{Autocorrelation at Lag", lag, "&", autocorr, "\\\\")
+    print("textbf{Minimum} & ", min_returns, "\\\\")
+    print("textbf{Maximum} & ", max_returns, "\\\\")
+    print("textbf{Count} & ", len(returns), "\\\\")
+    print("textbf{Jarque-Bera p-value} & ", p_value, "\\\\")
 
 def ectract_close_prices(input_file_path, start_date, end_date):
     prices = []
@@ -227,6 +227,7 @@ absolute_correlations = []
 for i in range(1,num_lags):
     absolute_correlations.append(np.corrcoef(np.abs(returns[i:]), np.abs(returns[:(len(returns)-i)]))[0, 1])
 # Create plot
+plt.figure(figsize=(12, 6))
 plt.plot(range(1,num_lags), absolute_correlations, color='#2980b9', label='Absolute Returns Autocorrelation', linewidth=1)
 plt.fill_between(range(1,num_lags), absolute_correlations, alpha=0.2, color='#2980b9')
 plt.plot(range(1,num_lags), correlations, color='#e74c3c', label='Returns Autocorrelation', linewidth=1)

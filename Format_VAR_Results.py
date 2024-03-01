@@ -1,6 +1,5 @@
 import re
 
-
 def get_values(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         numbers_list = []
