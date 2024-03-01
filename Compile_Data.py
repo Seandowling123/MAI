@@ -489,6 +489,15 @@ def is_january(date):
         return 1
     else: return 0
     
+def is_crash(date):
+    # Set dates for global crashes
+    gfc_start_date = datetime(2007, 12, 1)
+    gfc_end_date = datetime(2009, 6, 30)
+    covid_start_date = datetime(2020, 2, 1)
+    covid_end_date = datetime(2024, 3, 30)
+    
+    if date 
+    
 # Collect data for each trading day start_date, end_date
 def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
     daily_data = {}
@@ -503,13 +512,14 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
         volume = 0
         vix_returns = 0
         vix_close = 0
-        monday = 0
-        january = 0
         sentiment = 0
         stemmed_sentiment = 0
         pos_sentiment= 0
         neg_sentiment = 0
         media_volume = 0
+        monday = 0
+        january = 0
+        crash = 0
         
         # Skip the first trading day date
         if days_parsed == 0:
@@ -528,6 +538,7 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
             # Collect calendar data
             monday = is_monday(date)
             january = is_january(date)
+            crash = 
             
             # Collect sentiment data
             if date in daily_sentiment:
