@@ -14,18 +14,6 @@ def get_distribution_data(returns):
     # Calculate mean and standard deviation of returns
     mean_returns = np.mean(returns)
     std_returns = np.std(returns)
-
-    # Calculate outliers
-    num_outliers = 0
-    returns_zscores = []
-    deviation0_25 = 0
-    deviation0_5 = 0
-    deviation0_75 = 0
-    deviation1 = 0
-    deviation1_5 = 0
-    deviation2 = 0
-    deviation2_5 = 0
-    deviation3 = 0
     
     deviations = [.25, .5, .75, 1, 1.5, 2, 2.5 ,3]
     returns_cdf = {}
@@ -87,7 +75,16 @@ def ectract_close_prices(input_file_path, start_date, end_date):
         print(f"An error occurred: {str(e)}")
         return None
     
-# Extract returns
+def get_crash_dates_intervals():
+    # Set dates for global crashes
+    gfc_start_date = datetime(2007, 12, 1)
+    gfc_end_date = datetime(2009, 6, 30)
+    covid_start_date = datetime(2020, 2, 1)
+    covid_end_date = datetime(2020, 4, 30)
+    
+    return [(gfc_start_date, gfc_end_date), (covid_start_date, covid_end_date)]
+
+# Extract data
 start_date = "2003-01-01"
 end_date = "2023-12-31"
 close_prices, dates = ectract_close_prices("RYAAY.csv", datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
@@ -103,12 +100,15 @@ std_returns = np.std(returns)
 # Print the returns cdf stats
 get_distribution_data(returns)
 
+
+###################
+# Show Distribution
+###################
+
 # Calculate outliers
 num_outliers = 0
 returns_zscores = []
-deviation1 = 0
-deviation2 = 0
-deviation3 = 0
+
 # Remove outliers
 for i in range(len(returns)):
     if np.abs(returns[i]) < 4*std_returns:
@@ -137,7 +137,10 @@ plt.tick_params(axis='both', which='major', labelsize=10)
 plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
 plt.close()
 
+###########################
 # Absolute prices over time
+###########################
+
 # Calculate 10-period moving average
 ma_window = 30
 moving_average = np.convolve(np.abs(returns), np.ones(ma_window)/ma_window, mode='valid')
@@ -145,6 +148,9 @@ moving_average = np.convolve(np.abs(returns), np.ones(ma_window)/ma_window, mode
 plt.figure(figsize=(12, 6))
 plt.plot(dates[1:], np.abs(returns), color='#2980b9', label='Daily Absolute Returns', linewidth=1)
 plt.plot(dates[ma_window//2:-ma_window//2], moving_average, color='#e74c3c', label='30-day Moving Average', linewidth=1)
+# Adding vertical lines for each crash interval
+for start_date, end_date in get_crash_dates_intervals():
+    plt.axvspan(start_date, end_date, color='lightgrey', alpha=0.9)
 plt.xlabel('Time', fontsize=12)
 plt.ylabel('Absolute Returns', fontsize=12)
 plt.title('Absolute Returns Over Time', fontsize=14, fontfamily='serif')
@@ -156,7 +162,11 @@ plt.tick_params(axis='both', which='major', labelsize=10)
 plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
 plt.close()
 
-# Correlation at lags
+
+#####################
+# Autocorrelation at lags
+#####################
+
 num_lags = 252
 correlations = []
 for i in range(1,num_lags):
