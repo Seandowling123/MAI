@@ -180,17 +180,16 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
     
     # Extract data
     for i in range(len(raw_articles)):
-        
         headline = raw_articles[i].split("\n")[1]
         
         # Find date pattern
         if "\nBody\n" in raw_articles[i]:
-            date = get_date_match(raw_articles[i])
             
             # Check for valid date & source
-            if isinstance(date, datetime):
-                source = get_source_match(raw_articles[i], sources)
-                if source:
+            source = get_source_match(raw_articles[i], sources)
+            if source:
+                date = get_date_match(raw_articles[i])
+                if isinstance(date, datetime):
                     
                     # Add to Articles list. Initialise sentiment to 0
                     dates.append(date)
@@ -199,15 +198,15 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                     if body != 0:
                         articles.append(Article(date, body, stemmed_body, source, headline, 0, 0, 0, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
-                else: num_invalid_sources = num_invalid_sources+1
-            else: num_invalid_dates = num_invalid_dates+1 
+                else: num_invalid_dates = num_invalid_dates+1
+            else: num_invalid_sources = num_invalid_sources+1
         else: num_invalid_bodies = num_invalid_bodies+1
         
         # Progress tracker
         calculated = calculated + 1
         progress = "{:.2f}".format((calculated/len(raw_articles))*100)
         if (calculated % 10) == 0:
-            print(f"Loading articles: {progress}%\r", end='', flush=True)
+            print(f"Processing Articles: {progress}%\r", end='', flush=True)
         
     # Print stats
     print(f"Received {len(raw_articles)} articles.")
