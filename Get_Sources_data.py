@@ -1,23 +1,18 @@
+import csv
+
+# Load dictionary words from csv
+def load_csv(file_path):
+    try:
+        with open(file_path, 'r', newline='') as csv_file:
+            reader = csv.reader(csv_file)
+            entries = [row for row in reader]
+        return entries
+    except FileNotFoundError:
+        return f"File not found: {file_path}"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
 
 
-with open("Sources&Counts.txt", 'r', encoding='utf-8') as file:
-        content = file.readlines()
-        newline_index = content.index('\n')
-        
-        # Get original article data
-        print("Original Articles")
-        for line in content[:newline_index]:
-            if ': ' in line:
-                source_name  = line.split(': ')[0]
-                count  = line.split(': ')[1].replace("\n", '')
-                #print(f"\\textbf{{{source_name}}} & {count}\\\\")
-                print(count)
-            
-        print("\nFiltered Articles")
-        # Get filtered article data
-        for line in content[newline_index+1:]:
-            if ': ' in line:
-                source_name  = line.split(': ')[0]
-                count  = line.split(': ')[1].replace("\n", '')
-                #print(f"\\textbf{{{source_name}}} & {count}\\\\")
-                print(count)
+file_path = 'Sources_Data.csv'                
+data = load_csv(file_path)
+#print(f"\\textbf{{{source_name}}} & {count}\\\\")
