@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pickle
 from nltk.tokenize import word_tokenize
-from nltk.stem.snowball import SnowballStemmer, PorterStemmer
+from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 #nltk.download('punkt')
 
@@ -186,10 +186,10 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
         if "\nBody\n" in raw_articles[i]:
             
             # Check for valid date & source
-            source = get_source_match(raw_articles[i], sources)
-            if source:
-                date = get_date_match(raw_articles[i])
-                if isinstance(date, datetime):
+            date = get_date_match(raw_articles[i])
+            if isinstance(date, datetime):
+                source = get_source_match(raw_articles[i], sources)
+                if source:
                     
                     # Add to Articles list. Initialise sentiment to 0
                     dates.append(date)
@@ -198,8 +198,8 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                     if body != 0:
                         articles.append(Article(date, body, stemmed_body, source, headline, 0, 0, 0, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
-                else: num_invalid_dates = num_invalid_dates+1
-            else: num_invalid_sources = num_invalid_sources+1
+                else: num_invalid_sources = num_invalid_sources+1
+            else: num_invalid_dates = num_invalid_dates+1
         else: num_invalid_bodies = num_invalid_bodies+1
         
         # Progress tracker
