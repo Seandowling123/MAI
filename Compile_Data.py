@@ -36,7 +36,7 @@ class Trading_Day:
         self.crash = crash
     
     def to_csv_line(self): 
-        return f"{str(self.date)},{str(self.close)},{str(1000*self.returns)},{str(abs(1000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
+        return f"{str(self.date)},{str(self.close)},{str(1000*self.returns)},{str(abs(1000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.stemmed_pos_sentiment)},{str(self.stemmed_neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
 
 # Class containing info about each article
 class Article:
@@ -239,7 +239,7 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
         pos_sentiments = []
         neg_sentiments = []
         stemmed_pos_sentiments = []
-        stemmed_neg_sentiment = []
+        stemmed_neg_sentiments = []
         print(f"Loading sentiments from backup file: {seniment_backup_path}.")
         
         # Open the csv file and read its contents
@@ -251,7 +251,7 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
                 pos_sentiments.append(row[2])
                 neg_sentiments.append(row[3])
                 stemmed_pos_sentiments.append(row[4])
-                stemmed_neg_sentiment.append(row[5])
+                stemmed_neg_sentiments.append(row[5])
                   
         # Save to article object
         for i in range(len(sentiments)):
@@ -260,7 +260,7 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
             articles[i].pos_sentiment = float(pos_sentiments[i])
             articles[i].neg_sentiment = float(neg_sentiments[i])
             articles[i].stemmed_pos_sentiment = float(stemmed_pos_sentiments[i])
-            articles[i].stemmed_neg_sentiment = float(stemmed_neg_sentiment[i])
+            articles[i].stemmed_neg_sentiment = float(stemmed_neg_sentiments[i])
         print(f"Loaded {len(sentiments)} sentiments from backup.\n")
 
 # Convert the raw sentiments to Z-scores
@@ -544,10 +544,10 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
         vix_close = 0
         sentiment = 0
         stemmed_sentiment = 0
-        stemmed_pos_sentiment = 0
-        stemmed_neg_sentiment = 0
         pos_sentiment= 0
         neg_sentiment = 0
+        stemmed_pos_sentiment = 0
+        stemmed_neg_sentiment = 0
         media_volume = 0
         monday = 0
         january = 0
@@ -576,13 +576,13 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
             if date in daily_sentiment:
                 sentiment = daily_sentiment[date]
                 stemmed_sentiment = daily_stemmed_sentiment[date]
-                media_volume = daily_media_volume[date]
                 pos_sentiment = daily_pos_sentiment[date]
                 neg_sentiment = daily_neg_sentiment[date]
                 stemmed_pos_sentiment = daily_stemmed_pos_sentiment[date]
                 stemmed_neg_sentiment = daily_stemmed_neg_sentiment[date]
+                media_volume = daily_media_volume[date]
                 
-            # Save all data
+            # Save all data 
             daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash)
         
     print("Trading data compiled.\n")
@@ -594,7 +594,7 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Media_Volume","Monday","January","Crash"])
+            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Stemmed_Positive_Sentiment","Stemmed_Negative_Sentiment","Media_Volume","Monday","January","Crash"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
