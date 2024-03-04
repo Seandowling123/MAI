@@ -251,7 +251,7 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
                 pos_sentiments.append(row[2])
                 neg_sentiments.append(row[3])
                 stemmed_pos_sentiments.append(row[4])
-                stemmed_pos_sentiments.append(row[5])
+                stemmed_neg_sentiment.append(row[5])
                   
         # Save to article object
         for i in range(len(sentiments)):
