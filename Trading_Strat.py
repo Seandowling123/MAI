@@ -35,7 +35,7 @@ def get_trading_days_data(file_path):
 
 def trading_strat(trading_days_data, coefficients, lag_length):
     
-    #for i in range(5,6):#(len(trading_days_data[5:])):
+    #for i in range(6):#(len(trading_days_data[5:])):
     i = 6
     lagged_returns = list(trading_days_data['Returns'][i-lag_length-1:i-1])
     lagged_pos_sent = list(trading_days_data['Positive_Sentiment'][i-lag_length-1:i-1])
@@ -51,7 +51,9 @@ def trading_strat(trading_days_data, coefficients, lag_length):
     # Exogenous variables
     weighted_monday = trading_days_data['Monday'][i] * coefficients[5][0]
     
-    VAR_estimation = np.sum([weighted_returns, weighted_pos_sent, weighted_media_vol, weighted_VIX])
+    # Get VAR returns estimation for that day
+    VAR_estimation = np.sum([weighted_returns, weighted_pos_sent, weighted_media_vol, weighted_VIX, weighted_monday])
+    print(VAR_estimation)
     
     
 
