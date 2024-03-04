@@ -260,7 +260,7 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
             articles[i].pos_sentiment = float(pos_sentiments[i])
             articles[i].neg_sentiment = float(neg_sentiments[i])
             articles[i].stemmed_pos_sentiment = float(stemmed_pos_sentiments[i])
-            articles[i].stemmed_neg_sentiment = float(stemmed_pos_sentiments[i])
+            articles[i].stemmed_neg_sentiment = float(stemmed_neg_sentiment[i])
         print(f"Loaded {len(sentiments)} sentiments from backup.\n")
 
 # Convert the raw sentiments to Z-scores
