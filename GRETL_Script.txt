@@ -1,0 +1,34 @@
+open C:\Users\XX_daily_data.csv # load data from disk
+
+scalar start_index = 1
+scalar window = 250
+scalar end_index = nobs(Returns) - window
+
+series sliced_Returns
+series sliced_Positive_Sentiment
+series sliced_Media_Volume
+series sliced_VIX_Close
+
+series t_ratios
+series coefficents
+    
+loop i=1..end_index
+    print i
+    lower_window = i
+    upper_window = i + window
+    
+	loop j=lower_window..upper_window
+	    sliced_Returns[j-lower_window+1] = Returns[j]
+        sliced_Positive_Sentiment[j-lower_window+1] = Positive_Sentiment[j]
+        sliced_Media_Volume[j-lower_window+1] = Media_Volume[j]
+        sliced_VIX_Close[j-lower_window+1] = VIX_Close[j]
+    endloop
+    
+    #print sliced_Returns
+    var 1 sliced_Returns sliced_Positive_Sentiment sliced_Media_Volume sliced_VIX_Close; Monday --robust-hac --quiet
+    t_ratios[i] = $coeff[2,1] / $stderr[2,1]
+    coefficents[i = $coeff[2,1]
+    
+endloop
+
+store C:\MAI_Results\T_Ratios.csv t_ratios 
