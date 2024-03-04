@@ -200,7 +200,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                     body = process_text(raw_articles[i])
                     stemmed_body = stem_text(body)
                     if body != 0:
-                        articles.append(Article(date, body, stemmed_body, source, headline, 0, 0, 0, 0))
+                        articles.append(Article(date, body, stemmed_body, source, headline, 0, 0, 0, 0, 0, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
                 else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1
@@ -238,6 +238,8 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
         stemmed_sentiments = []
         pos_sentiments = []
         neg_sentiments = []
+        stemmed_pos_sentiments = []
+        stemmed_neg_sentiment = []
         print(f"Loading sentiments from backup file: {seniment_backup_path}.")
         
         # Open the csv file and read its contents
@@ -248,6 +250,8 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
                 stemmed_sentiments.append(row[1])
                 pos_sentiments.append(row[2])
                 neg_sentiments.append(row[3])
+                stemmed_pos_sentiments.append(row[4])
+                stemmed_pos_sentiments.append(row[5])
                   
         # Save to article object
         for i in range(len(sentiments)):
@@ -255,8 +259,8 @@ def Load_sentiments_from_backup(articles, seniment_backup_path):
             articles[i].stemmed_sentiment = float(stemmed_sentiments[i])
             articles[i].pos_sentiment = float(pos_sentiments[i])
             articles[i].neg_sentiment = float(neg_sentiments[i])
-            articles[i].ste = float(pos_sentiments[i])
-            articles[i].neg_sentiment = float(neg_sentiments[i])
+            articles[i].stemmed_pos_sentiment = float(stemmed_pos_sentiments[i])
+            articles[i].stemmed_neg_sentiment = float(stemmed_pos_sentiments[i])
         print(f"Loaded {len(sentiments)} sentiments from backup.\n")
 
 # Convert the raw sentiments to Z-scores
@@ -270,7 +274,7 @@ def convert_to_zscore(articles):
     stemmed_pos_sentiment = [article.stemmed_pos_sentiment for article in articles]
     stemmed_neg_sentiment = [article.stemmed_neg_sentiment for article in articles]
     
-    # Calculate the mean & standard deviation
+    # Calculate the mean & standard deviations
     mean = statistics.mean(sentiments)
     std_dev = statistics.stdev(sentiments)
     mean_stemmed = statistics.mean(stemmed_sentiments)
