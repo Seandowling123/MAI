@@ -121,9 +121,9 @@ def ectract_close_prices(input_file_path, start_date, end_date):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
-    
+
+# Get dates for financial crashes
 def get_crash_dates_intervals():
-    # Set dates for global crashes
     gfc_start_date = datetime(2007, 12, 1)
     gfc_end_date = datetime(2009, 6, 30)
     covid_start_date = datetime(2020, 2, 1)
