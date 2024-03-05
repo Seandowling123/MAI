@@ -11,7 +11,7 @@ def get_coefficients(file_path, lag_length):
         for line in file:
             line = line.replace('−', '-').replace('*', '')
             first_space_index = line.find(' ')
-            variable_names.append(line[:first_space_index].strip().split('_')[0])
+            variable_names.append(line[:first_space_index].strip().rsplit('_', 1)[0])
             numbers = [float(f'{float(num):.6f}') for num in line[first_space_index:].split() if num.strip()]
             numbers_list.append(numbers[0])
         
@@ -38,26 +38,33 @@ def get_VAR_estimation(trading_days_data, coefficients, lag_length):
     
     # Get extimation for each day
     for i in range(lag_length+1,len(trading_days_data)):
+        
         # Const
         const = 1*coefficients[0][0]
         
         # Get lagged endogenous variables
         lagged_returns = (list(trading_days_data['Returns'][i-lag_length-1:i-1]))[::-1]
-        lagged_pos_sent = (list(trading_days_data['Positive_Sentiment'][i-lag_length-1:i-1]))[::-1]
+        lagged_pos_sent = (list(trading_days_data['Stemmed_Positive_Sentiment'][i-lag_length-1:i-1]))[::-1]
+        lagged_neg_sent = (list(trading_days_data['Stemmed_Negative_Sentiment'][i-lag_length-1:i-1]))[::-1]
         lagged_media_vol = (list(trading_days_data['Media_Volume'][i-lag_length-1:i-1]))[::-1]
         lagged_VIX = (list(trading_days_data['VIX_Close'][i-lag_length-1:i-1]))[::-1]
+        lagged_volume = (list(trading_days_data['Detrended_Volume'][i-lag_length-1:i-1]))[::-1]
 
         # Multiply by weights
         weighted_returns = np.dot(lagged_returns, coefficients[1])
         weighted_pos_sent = np.dot(lagged_pos_sent, coefficients[2])
-        weighted_media_vol = np.dot(lagged_media_vol, coefficients[3])
-        weighted_VIX = np.dot(lagged_VIX, coefficients[4])
+        weighted_neg_sent = np.dot(lagged_neg_sent, coefficients[3])
+        weighted_media_vol = np.dot(lagged_media_vol, coefficients[4])
+        weighted_VIX = np.dot(lagged_VIX, coefficients[5])
+        weighted_volume = np.dot(lagged_volume, coefficients[6])
         
         # Exogenous variables
-        weighted_monday = trading_days_data['Monday'][i] * coefficients[5][0]
+        weighted_monday = trading_days_data['Monday'][i] * coefficients[7][0]
+        weighted_january = trading_days_data['January'][i] * coefficients[8][0]
+        weighted_crash = trading_days_data['Crash'][i] * coefficients[9][0]
         
         # Get VAR returns estimation for that day
-        VAR_estimations.append(np.sum([const, weighted_returns, weighted_pos_sent, weighted_media_vol, weighted_VIX, weighted_monday]))
+        VAR_estimations.append(np.sum([const,weighted_returns,weighted_pos_sent,weighted_neg_sent,weighted_media_vol,weighted_VIX,weighted_volume,weighted_monday,weighted_january,weighted_crash]))
     return VAR_estimations
     
 def trading_strat(trading_days_data, VAR_estimations):
