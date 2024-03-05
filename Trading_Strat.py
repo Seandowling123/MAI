@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from datetime import datetime
 import pandas as pd
 import numpy as np
 
@@ -115,15 +117,21 @@ plt.ylabel('Returns')
 plt.legend()
 #plt.show()"""
 
+dates = trading_days_data.index[lag_length+1:].tolist()
+datetime_objs = [datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S') for date_str in dates]
+
 # Plot data
-plt.figure(figsize=(10, 6))
-plt.plot(trading_days_data.index[lag_length+1:], trading_days_data['Close'][lag_length+1:], label='Close', color='blue')
-plt.plot(trading_days_data.index[lag_length+1:], trading_profit, label='Profit', color='green')
-plt.title('Trading Profits Using VAR with Sentiment Vs Buy-And-Hold Strategy')
-plt.xticks(range(0, len(trading_days_data.index[lag_length+1:]), 500))
-plt.xlabel('Date')
-plt.ylabel('Close')
-plt.legend()
+plt.figure(figsize=(12, 6))
+plt.plot(datetime_objs, trading_days_data['Close'][lag_length+1:], label='Buy-and-Hold Strategy', color='#2980b9', linewidth=1)
+plt.plot(datetime_objs, trading_profit, label='VAR Using Sentiment Strategy', color='#e74c3c', linewidth=1)
+plt.title('Trading Profits Using VAR with Sentiment Vs Buy-and-Hold Strategy', fontsize=14, fontfamily='serif')
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+plt.legend(fontsize=11, loc='upper left')
+plt.xlabel('Date', fontsize=12)
+plt.ylabel('Profit (US Dollars)', fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tick_params(axis='both', which='major', labelsize=10)
+#plt.savefig('Plots/Trading_Strategy_Profits.png', bbox_inches='tight')
 plt.show()
 
 
