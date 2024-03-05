@@ -354,7 +354,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                     # Save score
                     save_sentiment_score(article, sentiment, pos_sentiment, neg_sentiment)
                     save_stemmed_sentiment_score(article, stemmed_sentiment, stem_pos_sentiment, stem_neg_sentiment)
-                writer.writerow([article.sentiment, article.stemmed_sentiment,article.pos_sentiment,article.neg_sentiment,article.stemmed_pos_sentiment,article.stemmed_neg_sentiment])
+                writer.writerow([article.sentiment,article.stemmed_sentiment,article.pos_sentiment,article.neg_sentiment,article.stemmed_pos_sentiment,article.stemmed_neg_sentiment])
                 
                 # Progress tracker
                 calculated = calculated + 1
