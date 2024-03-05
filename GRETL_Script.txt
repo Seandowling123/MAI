@@ -6,11 +6,12 @@ scalar end_index = nobs(Returns) - window
 
 series sliced_Returns
 series sliced_Positive_Sentiment
+series sliced_Negative_Sentiment
 series sliced_Media_Volume
-series sliced_VIX_Close
+series pos_t_ratios
+series neg_t_ratios
+series med_vol_t_ratios
 
-series t_ratios
-series coefficents
     
 loop i=1..end_index
     print i
@@ -21,21 +22,27 @@ loop i=1..end_index
     
     # Fill in first values
     loop k=1..window
-        t_ratios[k] = 0
+        pos_t_ratios[k] = 0
+        neg_t_ratios[k] = 0
+        med_vol_t_ratios[k] = 0
     endloop
     
     # Calculate VAR coefficents
 	loop j=lower_window..upper_window
 	    sliced_Returns[j-lower_window+1] = Returns[j]
-        sliced_Positive_Sentiment[j-lower_window+1] = Positive_Sentiment[j]
+        sliced_Positive_Sentiment[j-lower_window+1] = Stemmed_Positive_Sentiment[j]
+        sliced_Negative_Sentiment[j-lower_window+1] = Stemmed_Negative_Sentiment[j]
         sliced_Media_Volume[j-lower_window+1] = Media_Volume[j]
-        sliced_VIX_Close[j-lower_window+1] = VIX_Close[j]
     endloop
     
-    # Save sentiment T-ratio
-    var 5 sliced_Returns sliced_Positive_Sentiment sliced_Media_Volume sliced_VIX_Close; Monday --robust-hac --silent
-    t_ratios[i+window] = $coeff[7,1] / $stderr[7,1]
+    # Save sentiment T-ratios
+    var 5 sliced_Returns sliced_Positive_Sentiment --robust-hac #--silent
+    pos_t_ratios[i+window] = $coeff[7,1] / $stderr[7,1]
+    var 5 sliced_Returns sliced_Negative_Sentiment --robust-hac #--silent
+    neg_t_ratios[i+window] = $coeff[7,1] / $stderr[7,1]
+    var 5 sliced_Returns sliced_Media_Volume --robust-hac #--silent
+    med_vol_t_ratios[i+window] = $coeff[7,1] / $stderr[7,1]
     
 endloop
 
-store C:\MAI_Results\T_Ratios.csv t_ratios
+store C:\MAI_Results\T_Ratios.csv pos_t_ratios neg_t_ratios med_vol_t_ratios
