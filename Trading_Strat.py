@@ -131,7 +131,7 @@ plt.xlabel('Date', fontsize=12)
 plt.ylabel('Profit (US Dollars)', fontsize=12)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-#plt.savefig('Plots/Trading_Strategy_Profits.png', bbox_inches='tight')
+plt.savefig('Plots/Trading_Strategy_Profits.png', bbox_inches='tight')
 plt.show()
 
 
