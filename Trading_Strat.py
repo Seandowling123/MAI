@@ -37,7 +37,7 @@ def get_VAR_estimation(trading_days_data, coefficients, lag_length):
     VAR_estimations = []
     
     # Get extimation for each day
-    for i in range(6,len(trading_days_data)):
+    for i in range(lag_length+1,len(trading_days_data)):
         # Const
         const = 1*coefficients[0][0]
         
@@ -93,24 +93,27 @@ coefficients = get_coefficients(VAR_file_name, lag_length)
 trading_days_data = get_trading_days_data(trading_days_file_name)
 print(trading_days_data.head())
 VAR_estimations = get_VAR_estimation(trading_days_data, coefficients, lag_length)
-trading_returns, trading_profit = trading_strat(trading_days_data[6:], VAR_estimations)
+trading_returns, trading_profit = trading_strat(trading_days_data[lag_length+1:], VAR_estimations)
+print(f"Average profits: VAR: {np.mean(trading_profit)} | Normal: {np.mean(list(trading_days_data['Close'][lag_length+1:]))}")
 
-# Plot data
+"""# Plot data
 plt.figure(figsize=(10, 6))
-plt.plot(trading_days_data.index[6:], trading_days_data['Returns'][6:], label='Returns', color='blue')
-plt.plot(trading_days_data.index[6:], VAR_estimations, label='VAR Estimation', color='#e74c3c')
-plt.plot(trading_days_data.index[6:], trading_returns, label='VAR Estimation', color='green')
+plt.plot(trading_days_data.index[lag_length+1:], trading_days_data['Returns'][lag_length+1:], label='Returns', color='blue')
+plt.plot(trading_days_data.index[lag_length+1:], VAR_estimations, label='VAR Estimation', color='#e74c3c')
+plt.plot(trading_days_data.index[lag_length+1:], trading_returns, label='VAR Estimation', color='green')
 plt.title('VAR Forecasting with Training and Testing Data')
+plt.xticks(range(0, len(trading_days_data.index[lag_length+1:]), 500))
 plt.xlabel('Date')
 plt.ylabel('Returns')
 plt.legend()
-#plt.show()
+#plt.show()"""
 
 # Plot data
 plt.figure(figsize=(10, 6))
-plt.plot(trading_days_data.index[6:], trading_days_data['Close'][6:], label='Close', color='blue')
-plt.plot(trading_days_data.index[6:], trading_profit, label='Profit', color='green')
-plt.title('VAR Forecasting with Training and Testing Data')
+plt.plot(trading_days_data.index[lag_length+1:], trading_days_data['Close'][lag_length+1:], label='Close', color='blue')
+plt.plot(trading_days_data.index[lag_length+1:], trading_profit, label='Profit', color='green')
+plt.title('Trading Profits Using VAR with Sentiment Vs Buy-And-Hold Strategy')
+plt.xticks(range(0, len(trading_days_data.index[lag_length+1:]), 500))
 plt.xlabel('Date')
 plt.ylabel('Close')
 plt.legend()
