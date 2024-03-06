@@ -382,6 +382,15 @@ def get_detrended_volume(volume, index):
     detrended_vol = log_vol[index] - mean_vol
     return detrended_vol
 
+def convert_article_count_to_zscore(daily_media_volume):
+    # Calculate the mean & standard deviation
+    mean = np.mean(list(daily_media_volume.values()))
+    std_deviation = np.std(list(daily_media_volume.values()))
+    
+    # Convert to z-score
+    for day in daily_media_volume:
+        daily_media_volume[day] = (daily_media_volume[day]-mean)/std_deviation
+
 # Calculate a sentiment time series from the article sentiments
 def get_daily_sentiments(articles):
     daily_sentiment = defaultdict(list)
@@ -414,7 +423,7 @@ def get_daily_sentiments(articles):
         daily_neg_sentiment[article.date] = np.mean(daily_neg_sentiment[article.date])
         daily_stemmed_pos_sentiment[article.date] = np.mean(daily_stemmed_pos_sentiment[article.date])
         daily_stemmed_neg_sentiment[article.date] = np.mean(daily_stemmed_neg_sentiment[article.date])
-        
+    
     return daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume
 
 # Extract Ryanair financial data 
