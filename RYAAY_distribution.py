@@ -188,7 +188,7 @@ plt.close()
 # Absolute prices over time
 ###########################
 
-# Calculate 10-period moving average
+# Calculate 30-period moving average
 ma_window = 30
 moving_average = np.convolve(np.abs(returns), np.ones(ma_window)/ma_window, mode='valid')
 # Create plot
