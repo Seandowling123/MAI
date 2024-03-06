@@ -168,6 +168,7 @@ x_values = np.linspace(-4, 4, 100)
 normal_distribution = norm.pdf(x_values, mean_returns, 1)
 # Create histogram
 num_bins = 50
+plt.figure(figsize=(8.5, 6))
 plt.hist(returns_zscores, bins=num_bins, color='#2980b9', alpha=0.7, density=True, label='Daily RYAAY Returns Distribution', edgecolor='black', linewidth=0.5)
 plt.plot(x_values, normal_distribution, color='#e74c3c', label='Normal Distribution', linewidth=1)
 # Show histogram
