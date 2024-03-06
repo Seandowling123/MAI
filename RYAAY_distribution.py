@@ -173,9 +173,8 @@ plt.plot(x_values, normal_distribution, color='#e74c3c', label='Normal Distribut
 # Show histogram
 plt.fill_between(x_values, normal_distribution, alpha=0.2, color='#e74c3c')
 plt.xlabel('Returns', fontsize=12)
-plt.ylabel('Density', fontsize=12)
+plt.ylabel('Probability Density', fontsize=12)
 plt.xlabel('Standard Deviations', fontsize=12)
-plt.ylabel('Density', fontsize=12)
 plt.title('Histogram of Normal Distribution and RYAAY Returns', fontsize=14, fontfamily='serif')
 plt.legend(fontsize=10, prop={'family': 'serif', 'size': 10})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
@@ -203,7 +202,7 @@ for start_date, end_date in get_crash_dates_intervals():
 plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center')
 plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center')
 
-plt.xlabel('Time', fontsize=12)
+plt.xlabel('Time (Trading Days)', fontsize=12)
 plt.ylabel('Absolute Returns', fontsize=12)
 plt.title('Absolute Returns Over Time', fontsize=14, fontfamily='serif')
 plt.legend(fontsize=10, loc='upper left', prop={'family': 'serif', 'size': 10})
@@ -233,7 +232,7 @@ plt.fill_between(range(1,num_lags), absolute_correlations, alpha=0.2, color='#29
 plt.plot(range(1,num_lags), correlations, color='#e74c3c', label='Returns Autocorrelation', linewidth=1)
 plt.fill_between(range(1,num_lags), correlations, alpha=0.2, color='#e74c3c')
 plt.xlabel('Lag (Trading Days)', fontsize=12)
-plt.ylabel('Correlation Coefficient', fontsize=12)
+plt.ylabel('Correlation Coefficient (R)', fontsize=12)
 plt.title('Autocorrelation of RYAAY Returns & Absolute Returns At Different Time Lags', fontsize=14, fontfamily='serif')
 plt.legend(fontsize=10, prop={'family': 'serif', 'size': 10})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
