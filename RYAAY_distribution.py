@@ -168,14 +168,14 @@ x_values = np.linspace(-4, 4, 100)
 normal_distribution = norm.pdf(x_values, mean_returns, 1)
 # Create histogram
 num_bins = 50
-plt.hist(returns_zscores, bins=num_bins, color='#2980b9', alpha=0.7, density=True, label='Daily RYAAY Returns', edgecolor='black', linewidth=0.5)
+plt.hist(returns_zscores, bins=num_bins, color='#2980b9', alpha=0.7, density=True, label='Daily RYAAY Returns Distribution', edgecolor='black', linewidth=0.5)
 plt.plot(x_values, normal_distribution, color='#e74c3c', label='Normal Distribution', linewidth=1)
 # Show histogram
 plt.fill_between(x_values, normal_distribution, alpha=0.2, color='#e74c3c')
 plt.xlabel('Returns', fontsize=12)
 plt.ylabel('Probability Density', fontsize=12)
 plt.xlabel('Standard Deviations', fontsize=12)
-plt.title('Histogram of Normal Distribution and RYAAY Returns', fontsize=14, fontfamily='serif')
+plt.title('Distribution of RYAAY Returns and Normal Distribution', fontsize=14, fontfamily='serif')
 plt.legend(fontsize=10, prop={'family': 'serif', 'size': 10})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
