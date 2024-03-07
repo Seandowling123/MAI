@@ -10,7 +10,7 @@ def get_values(file_path):
         for line in content[:newline_index]:
             line = line.replace('−', '-').replace('*', '')
             first_space_index = line.find(' ')
-            variable = line[:first_space_index].strip().split('_')[0]
+            variable = line[:first_space_index].strip().rsplit('_', 1)[0]
             numbers = [float(f'{float(num):.6f}') for num in line[first_space_index:].split() if num.strip()]
             numbers_list.append([variable]+numbers)
             
@@ -39,19 +39,19 @@ def print_values(values):
     prev_variable = ''
     for row in values:
         if prev_variable != row[0] and iter != 0:
-            print("\\midrule")
-            #print("")
+            #print("\\midrule")
+            print("")
             iter = 0
         iter = iter+1
         if row[0] == "const":
-            print(f"\\textbf{{{row[0]}}} & {row[1]} &")
-            #print(f" {row[1]} &")
+            #print(f"\\textbf{{{row[0]}}} & {row[1]} &")
+            print(f" {row[1]} &")
         else: 
-            print(f"\\textbf{{{row[0]}\\textsubscript{{t-{iter}}}}} & {row[1]} \\\\")
-            #print(f" {row[1]} &")
+            #print(f"\\textbf{{{row[0]}\\textsubscript{{t-{iter}}}}} & {row[1]} \\\\")
+            print(f" {row[1]} &")
         prev_variable = row[0]
-    print("\\midrule")
-    #print("")
+    #print("\\midrule")
+    print("")
     
 file_path = "VAR_Results.txt"
 values, sum_squared_resid, adjusted_r_squared = get_values(file_path)
