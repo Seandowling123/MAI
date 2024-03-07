@@ -200,8 +200,8 @@ plt.plot(dates[ma_window//2:-ma_window//2], moving_average, color='#e74c3c', lab
 # Adding crash data
 for start_date, end_date in get_crash_dates_intervals():
     plt.axvspan(start_date, end_date, color='lightgrey', alpha=0.9)
-plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center')
-plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center')
+plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
+plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
 
 plt.xlabel('Time (Trading Days)', fontsize=12)
 plt.ylabel('Absolute Returns', fontsize=12)
