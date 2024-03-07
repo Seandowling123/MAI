@@ -4,5 +4,8 @@ Articles_txt_combined/*
 # Ignore testing.py
 testing.py
 
+# Ignore all files within the old_shit folder
+old_shit/*
+
 # Ignore Articles_backup.pkl
 Articles_backup.pkl

@@ -17,7 +17,7 @@ def get_values(file_path):
         # Get stats
         stats = "".join(content[newline_index:])
         sum_squared_resid = re.search(r"Sum squared resid\s+([0-9]+)", stats).group(1)
-        adjusted_r_squared = re.search(r"Adjusted R-squared\s+([0-9.]+)", stats).group(1)
+        adjusted_r_squared = re.search(r"R-squared\s+([0-9.]+)", stats).group(1)
     return numbers_list, sum_squared_resid, adjusted_r_squared
     
 def get_significance(prob):
