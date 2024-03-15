@@ -186,7 +186,33 @@ plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tig
 plt.close()
 
 ###########################
-# Absolute prices over time
+# Returns over time
+###########################
+
+# Create plot
+plt.figure(figsize=(12, 6))
+plt.plot(dates[1:], returns, color='#2980b9', label='Daily RYAAY Returns', linewidth=1)
+
+# Adding crash data
+for start_date, end_date in get_crash_dates_intervals():
+    plt.axvspan(start_date, end_date, color='lightgrey', alpha=0.9)
+plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
+plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
+
+plt.xlabel('Time (Trading Days)', fontsize=13, fontname='Times New Roman')
+plt.ylabel('Returns', fontsize=13, fontname='Times New Roman')
+plt.ylim(-0.3, 0.3)
+plt.title('RYAAY Returns Over Time', fontsize=14, fontfamily='serif')
+plt.legend(fontsize=10, loc='upper left', prop={'family': 'serif', 'size': 10})
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tick_params(axis='both', which='major', labelsize=10)
+#plt.show()
+# Save the plot as a PNG file
+plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
+plt.close()
+
+###########################
+# Absolute returns over time
 ###########################
 
 # Calculate 30-period moving average
