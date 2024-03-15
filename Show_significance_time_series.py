@@ -5,7 +5,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
 # Load data
-df = pd.read_csv('Rolling_VAR_Results/Returns_Rolling_VAR_T_Ratios.csv')
+df = pd.read_csv('Rolling_VAR_Results/Absolute_Returns_Rolling_VAR_T_Ratios.csv')
 df = df[252:]
 df.set_index('obs', inplace=True)
 
@@ -66,7 +66,7 @@ plt.ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Ro
 plt.yticks([1, 2, 3], ['10%', '5%', '1%'])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Returns_Positive_Sentiment_Significance.png', bbox_inches='tight')
+plt.savefig('Plots/Abs_Returns_Positive_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
@@ -80,11 +80,11 @@ plt.ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Ro
 plt.yticks([1, 2, 3], ['10%', '5%', '1%'])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
+plt.savefig('Plots/Abs_Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
-plt.figure(figsize=(12, 2))
+plt.figure(figsize=(15, 2))
 plt.plot(datetime_objs, media_vol_significance, label='Article Count Statistical Significance', color='#27ae60', linewidth=1)
 plt.title('Statistical Significance of Lag-1 Article Count Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -94,5 +94,5 @@ plt.ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Ro
 plt.yticks([1, 2, 3], ['10%', '5%', '1%'])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Returns_Article_Count_Significance.png', bbox_inches='tight')
+plt.savefig('Plots/Abs_Returns_Article_Count_Significance.png', bbox_inches='tight')
 #plt.show()
