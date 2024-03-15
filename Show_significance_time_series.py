@@ -5,7 +5,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
 # Load data
-df = pd.read_csv('T_Ratios.csv')
+df = pd.read_csv('Returns_Rolling_VAR_T_Ratios.csv')
 df = df[252:]
 df.set_index('obs', inplace=True)
 
@@ -43,7 +43,7 @@ for value in df['med_vol_t_ratios']:
     else: media_vol_significance.append(0)
 
 # Plot data
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(15, 6))
 plt.plot(datetime_objs, list(df['pos_coeffs']), label='Positive Sentiment Coefficient', color='#2980b9', linewidth=1)
 plt.title('Positive Sentiment Lag-1 VAR Coefficient Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -56,7 +56,7 @@ plt.savefig('Plots/Positive_Sentiment_Coefficient.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(15, 6))
 plt.plot(datetime_objs, pos_sentiment_significance, label='Positive Sentiment Statistical Significance', color='#2980b9', linewidth=1)
 plt.title('Statistical Significance of Lag-1 Positive Sentiment Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -70,7 +70,7 @@ plt.savefig('Plots/Positive_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(15, 6))
 plt.plot(datetime_objs, neg_sentiment_significance, label='Negative Sentiment Statistical Significance', color='#e74c3c', linewidth=1)
 plt.title('Statistical Significance of Lag-1 Negative Sentiment Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
