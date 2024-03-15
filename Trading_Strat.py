@@ -104,6 +104,8 @@ print(trading_days_data.head())
 VAR_estimations = get_VAR_estimation(trading_days_data, coefficients, lag_length)
 trading_returns, trading_profit = trading_strat(trading_days_data[lag_length+1:], VAR_estimations)
 print(f"Average profits: VAR: {np.mean(trading_profit)} | Normal: {np.mean(list(trading_days_data['Close'][lag_length+1:]))}")
+mean_difference = 100*((np.mean(trading_profit) - np.mean(list(trading_days_data['Close'][lag_length+1:])))/np.mean(list(trading_days_data['Close'][lag_length+1:])))
+print(f"Average Difference: {mean_difference}%")
 
 """# Plot data
 plt.figure(figsize=(10, 6))
@@ -120,15 +122,20 @@ plt.legend()
 dates = trading_days_data.index[lag_length+1:].tolist()
 datetime_objs = [datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S') for date_str in dates]
 
+# Scale the data for the plot
+first_value = trading_days_data['Close'][lag_length+1:][0]
+buy_and_hold_profit = [val - first_value for val in trading_days_data['Close'][lag_length+1:]]
+trading_profit_scaled = [val - first_value for val in trading_profit]
+
 # Plot data
 plt.figure(figsize=(12, 6))
-plt.plot(datetime_objs, trading_days_data['Close'][lag_length+1:], label='Buy-and-Hold Strategy', color='#2980b9', linewidth=1)
-plt.plot(datetime_objs, trading_profit, label='VAR Using Sentiment Strategy', color='#e74c3c', linewidth=1)
-plt.title('Trading Profits Using VAR with Sentiment Vs Buy-and-Hold Strategy', fontsize=14, fontfamily='serif')
+plt.plot(datetime_objs, buy_and_hold_profit, label='Buy-and-Hold Strategy', color='#2980b9', linewidth=1)
+plt.plot(datetime_objs, trading_profit_scaled, label='VAR Using Sentiment Strategy', color='#e74c3c', linewidth=1)
+plt.title('Trading Profits Using VAR with Sentiment Vs Buy-and-Hold Strategy', fontsize=18, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-plt.legend(fontsize=11, loc='upper left')
-plt.xlabel('Date', fontsize=12)
-plt.ylabel('Profit (US Dollars)', fontsize=12)
+plt.legend(loc='upper left', prop={'family': 'serif', 'size': 12})
+plt.xlabel('Date', fontsize=15, fontname='Times New Roman')
+plt.ylabel('Profit (US Dollars)', fontsize=15, fontname='Times New Roman')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 plt.savefig('Plots/Trading_Strategy_Profits.png', bbox_inches='tight')
