@@ -42,7 +42,7 @@ for value in df['med_vol_t_ratios']:
         media_vol_significance.append(1)
     else: media_vol_significance.append(0)
 
-# Plot data
+"""# Plot data
 plt.figure(figsize=(15, 6))
 plt.plot(datetime_objs, list(df['pos_coeffs']), label='Positive Sentiment Coefficient', color='#2980b9', linewidth=1)
 plt.title('Positive Sentiment Lag-1 VAR Coefficient Over Time', fontsize=14, fontfamily='serif')
@@ -52,8 +52,8 @@ plt.xlabel('Date', fontsize=12)
 plt.ylabel('Coefficient Value (Basis Points)', fontsize=12)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Positive_Sentiment_Coefficient.png', bbox_inches='tight')
-#plt.show()
+plt.savefig('Plots/Abs_Returns_Positive_Sentiment_Coefficient.png', bbox_inches='tight')
+#plt.show()"""
 
 # Plot data
 plt.figure(figsize=(15, 6))
@@ -66,7 +66,7 @@ plt.ylabel('Statistical Significance Level', fontsize=12)
 plt.yticks([1, 2, 3], ['10%', '5%', '1%'])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Positive_Sentiment_Significance.png', bbox_inches='tight')
+plt.savefig('Plots/Abs_Returns_Positive_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
@@ -80,7 +80,7 @@ plt.ylabel('Statistical Significance Level', fontsize=12)
 plt.yticks([1, 2, 3], ['10%', '5%', '1%'])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Negative_Sentiment_Significance.png', bbox_inches='tight')
+plt.savefig('Plots/Abs_Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
@@ -94,5 +94,5 @@ plt.ylabel('Statistical Significance Level', fontsize=12)
 plt.yticks([1, 2, 3], ['10%', '5%', '1%'])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Article_Count_Significance.png', bbox_inches='tight')
+plt.savefig('Plots/Abs_Returns_Article_Count_Significance.png', bbox_inches='tight')
 #plt.show()
