@@ -5,7 +5,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
 # Load data
-df = pd.read_csv('Returns_Rolling_VAR_T_Ratios.csv')
+df = pd.read_csv('Rolling_VAR_Results/Returns_Rolling_VAR_T_Ratios.csv')
 df = df[252:]
 df.set_index('obs', inplace=True)
 
