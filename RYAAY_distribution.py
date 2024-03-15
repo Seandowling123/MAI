@@ -145,9 +145,9 @@ mean_returns = np.mean(returns)
 std_returns = np.std(returns)
 
 # Print the returns returns stats
-get_distribution_data(returns)
-get_descriptive_stats(returns)
-get_descriptive_stats(np.abs(returns))
+#get_distribution_data(returns)
+#get_descriptive_stats(returns)
+#get_descriptive_stats(np.abs(returns))
 
 ###################
 # Show Distribution
@@ -199,11 +199,11 @@ for start_date, end_date in get_crash_dates_intervals():
 plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
 plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
 
-plt.xlabel('Time (Trading Days)', fontsize=13, fontname='Times New Roman')
-plt.ylabel('Returns', fontsize=13, fontname='Times New Roman')
+plt.xlabel('Time (Trading Days)', fontsize=15, fontname='Times New Roman')
+plt.ylabel('Returns', fontsize=15, fontname='Times New Roman')
 plt.ylim(-0.3, 0.3)
-plt.title('RYAAY Returns Over Time', fontsize=14, fontfamily='serif')
-plt.legend(fontsize=10, loc='upper left', prop={'family': 'serif', 'size': 10})
+plt.title('RYAAY Returns Over Time', fontsize=18, fontfamily='serif')
+plt.legend(loc='upper left', prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 #plt.show()

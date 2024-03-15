@@ -17,8 +17,12 @@ file_path = 'Sources_Data.csv'
 data = load_csv(file_path)
 
 for row in data:
-    print(f"textbf{{{row[0]}}} ", end='', flush=True)
+    print(f"\\textbf{{{row[0]}}} ", end='', flush=True)
     for field in row[1:]:
         print(f" & {field}", end='', flush=True)
     print('\\\\')
 #print(f"\\textbf{{{source_name}}} & {count}\\\\")
+
+for row in data:
+    print(f"\\textbf{{{row[0]}}} ", end='', flush=True)
+    print(f" & {row[7]}\\\\")
