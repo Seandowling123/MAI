@@ -241,38 +241,6 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
         
     return articles
 
-# Load article sentiments from backup file
-def Load_sentiments_from_backup(articles, seniment_backup_path):
-    if os.path.exists(seniment_backup_path):
-        sentiments = []
-        stemmed_sentiments = []
-        pos_sentiments = []
-        neg_sentiments = []
-        stemmed_pos_sentiments = []
-        stemmed_neg_sentiments = []
-        print(f"Loading sentiments from backup file: {seniment_backup_path}.")
-        
-        # Open the csv file and read its contents
-        with open(seniment_backup_path, 'r', newline='') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                sentiments.append(row[0])
-                stemmed_sentiments.append(row[1])
-                pos_sentiments.append(row[2])
-                neg_sentiments.append(row[3])
-                stemmed_pos_sentiments.append(row[4])
-                stemmed_neg_sentiments.append(row[5])
-                  
-        # Save to article object
-        for i in range(len(sentiments)):
-            articles[i].sentiment = float(sentiments[i])
-            articles[i].stemmed_sentiment = float(stemmed_sentiments[i])
-            articles[i].pos_sentiment = float(pos_sentiments[i])
-            articles[i].neg_sentiment = float(neg_sentiments[i])
-            articles[i].stemmed_pos_sentiment = float(stemmed_pos_sentiments[i])
-            articles[i].stemmed_neg_sentiment = float(stemmed_neg_sentiments[i])
-        print(f"Loaded {len(sentiments)} sentiments from backup.\n")
-
 # Convert the raw sentiments to Z-scores
 def convert_to_zscore(articles):
     
@@ -364,6 +332,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         print("Loading sentiments from backup file.")
         articles = backedup_articles.copy()
     else:
+        print("No sentiment backup file found.")
         # Iterate through each article
         for article in articles:
             try:
