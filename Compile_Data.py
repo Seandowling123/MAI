@@ -16,7 +16,8 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash):
+    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, 
+                 pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash):
         self.date = date
         self.close = close
         self.returns = returns
@@ -40,7 +41,8 @@ class Trading_Day:
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, stemmed_body, source, headline, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment):
+    def __init__(self, date, body, stemmed_body, source, headline, sentiment, stemmed_sentiment,
+                 pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment):
         self.date = date
         self.body = body
         self.stemmed_body = stemmed_body
