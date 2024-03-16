@@ -302,9 +302,9 @@ def convert_to_zscore(articles):
         article.stemmed_neg_sentiment = (article.stemmed_neg_sentiment - mean_stemmed_neg) / std_dev_stemmed_neg
 
 # Count the number of dictionary words in an article
-def get_word_count(article, word_list, glossary):
+def get_word_count(text_body, word_list, glossary):
     word_counts = 0
-    article_words = article.split()
+    article_words = text_body.split()
     for word in word_list:
         # Check if the word appears in the glossary
         if word not in glossary:
@@ -583,7 +583,9 @@ def is_crash(date):
     return 0
     
 # Collect data for each trading day start_date, end_date
-def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices):
+def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, 
+                         daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume, close_prices, 
+                         trading_volume, VIX_prices):
     daily_data = {}
     returns_list = []
     days_parsed = 0
@@ -637,7 +639,9 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
                 media_volume = daily_media_volume[date]
                 
             # Save all data 
-            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash)
+            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, 
+                                           sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, 
+                                           stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash)
         
     print("Trading data compiled.\n")
     return daily_data
@@ -648,7 +652,10 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume","VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment","Negative_Sentiment","Stemmed_Positive_Sentiment","Stemmed_Negative_Sentiment","Media_Volume","Monday","January","Crash"])
+            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume",
+                             "VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment",
+                             "Negative_Sentiment","Stemmed_Positive_Sentiment","Stemmed_Negative_Sentiment",
+                             "Media_Volume","Monday","January","Crash"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -665,6 +672,7 @@ articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 articles_backup_path = 'Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
 seniment_backup_path = "Articles_backup_with_sentiment.pkl"
+article_data_path = "Article_Data.csv"
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
@@ -686,6 +694,9 @@ positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
+
+# Save the article data to csv
+save_article_data(articles, article_data_path)
 
 # Get sentiment time series    
 daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
