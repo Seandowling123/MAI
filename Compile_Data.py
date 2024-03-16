@@ -304,10 +304,10 @@ def convert_to_zscore(articles):
         article.stemmed_neg_sentiment = (article.stemmed_neg_sentiment - mean_stemmed_neg) / std_dev_stemmed_neg
 
 # Count the number of dictionary words in an article
-def get_word_count(text_body, word_list, glossary):
+def get_word_count(text_body, dictionary_words, glossary):
     word_counts = 0
     article_words = word_tokenize(text_body)
-    for word in word_list: 
+    for word in dictionary_words: 
         # Check if the word appears in the glossary
         if word not in glossary:
             count = article_words.count(word)
