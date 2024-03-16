@@ -384,7 +384,35 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         with open(seniment_backup_path, 'wb') as file:
             pickle.dump(articles, file)
         
-            
+def save_article_data(articles, article_data_path):
+    # Define the field names
+    field_names = ["Date", "Body", "Stemmed Body", "Source", "Headline", "Sentiment", 
+                   "Stemmed Sentiment", "Positive Sentiment", "Negative Sentiment",
+                   "Stemmed Positive Sentiment", "Stemmed Negative Sentiment"]
+    
+    # Write articles to CSV file
+    with open(article_data_path, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        
+        # Write the header row
+        writer.writerow(field_names)
+        
+        # Write data for each articles
+        for article in articles:
+            writer.writerow([
+                article.date,
+                article.body,
+                article.stemmed_body,
+                article.source,
+                article.headline,
+                article.sentiment,
+                article.stemmed_sentiment,
+                article.pos_sentiment,
+                article.neg_sentiment,
+                article.stemmed_pos_sentiment,
+                article.stemmed_neg_sentiment
+            ]) 
+
 # Compute log of each value in a list   
 def get_logs(input_list):
     logs = []
@@ -641,6 +669,7 @@ seniment_backup_path = "Articles_backup_with_sentiment.pkl"
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
     with open(articles_backup_path, 'rb') as file:
+        ### THIS MUST BE CHANGED ####################################################################################
         articles, dates = pickle.load(file)
         print(f"Loaded {len(articles)} articles from backup file.")
 else:  
