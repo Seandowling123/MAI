@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pickle
 from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 #nltk.download('punkt')
@@ -159,7 +160,10 @@ def remove_duplicates(articles):
 
 # Converts words in an article body to their stems
 def stem_text(text):
-    stemmer = PorterStemmer()
+    ########################################################################################
+    ###################################################### Temporarily changed to lemmatizer
+    ########################################################################################
+    stemmer = WordNetLemmatizer()
     words = word_tokenize(text)
     stemmed_text = ""
     
@@ -357,8 +361,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
     # Check for valid sentiment backup file or calculate sentiment
     backedup_articles = get_sentiment_backup(seniment_backup_path)
     if backedup_articles != None and len(backedup_articles) == len(articles):
-        articles = backedup_articles
-        
+        print("Loading sentiments from backup file.")
+        articles = backedup_articles.copy()
     else:
         # Iterate through each article
         for article in articles:
@@ -385,6 +389,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         # Save the article data with sentiments to the backup file
         with open(seniment_backup_path, 'wb') as file:
             pickle.dump(articles, file)
+            
+    return articles
         
 def save_article_data(articles, article_data_path):
     # Define the field names
@@ -695,7 +701,7 @@ glossary_path = "Dictionaries_Glossaries/Combined_Glossary.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
-get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
+articles = get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
 # Save the article data to csv
 save_article_data(articles, article_data_path)

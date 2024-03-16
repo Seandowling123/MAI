@@ -10,3 +10,6 @@ old_shit/*
 # Ignore Articles_backup.pkl
 Articles_backup.pkl
 Articles_backup_with_sentiment.pkl
+
+# Ignore Article_Data.csv
+Article_Data.csv
