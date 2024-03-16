@@ -677,16 +677,15 @@ mode  = "tes"
 
 # Article file paths
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
-articles_backup_path = 'Articles_backup.pkl'
+articles_backup_path = 'Article_Backups/LEMMATEST_Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
-seniment_backup_path = "Articles_backup_with_sentiment.pkl"
-article_data_path = "Article_Data.csv"
+seniment_backup_path = "Article_Backups/LEMMATEST_Articles_backup_with_sentiment.pkl"
+article_data_path = "Article_Backups/LEMMATEST_Article_Data.csv"
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
     with open(articles_backup_path, 'rb') as file:
-        ### THIS MUST BE CHANGED ####################################################################################
-        articles, dates = pickle.load(file)
+        articles = pickle.load(file)
         print(f"Loaded {len(articles)} articles from backup file.")
 else:  
     # Extract data & list of dates from the articles
