@@ -681,7 +681,7 @@ daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentime
 dates = [article.date for article in articles]
 start_date = min(dates)
 end_date = max(dates)
-print(f"Start date: {start_date} | End date: {end_date}\n")
+print(f"\nStart date: {start_date} | End date: {end_date}\n")
 
 # Extract financial data from the time period
 close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
