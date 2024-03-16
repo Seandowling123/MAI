@@ -333,16 +333,27 @@ def save_stemmed_sentiment_score(article, sentiment, pos_sentiment, neg_sentimen
     article.stemmed_sentiment = sentiment
     article.stemmed_pos_sentiment = pos_sentiment
     article.stemmed_neg_sentiment = neg_sentiment
+    
+def get_sentiment_backup(seniment_backup_path):
+    if os.path.exists(seniment_backup_path):
+        with open(seniment_backup_path, 'rb') as file:
+            loaded_object = pickle.load(file)
+        return loaded_object
+    else:
+        print("No sentiment backup file found.")
+        return None
 
 # Calculate sentiment score
 def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path):
     calculated = 0
     num_articles = len(articles)
     
-    # Open first csv file
-    with open(seniment_backup_path, 'w', newline='') as csv_file:
-        writer = csv.writer(csv_file)
+    # Check for valid sentiment backup file or calculate sentiment
+    backedup_articles = get_sentiment_backup(seniment_backup_path)
+    if backedup_articles != None and len(backedup_articles) == len(articles):
+        articles = backedup_articles
         
+    else:
         # Iterate through each article
         for article in articles:
             try:
@@ -354,8 +365,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                     # Save score
                     save_sentiment_score(article, sentiment, pos_sentiment, neg_sentiment)
                     save_stemmed_sentiment_score(article, stemmed_sentiment, stem_pos_sentiment, stem_neg_sentiment)
-                writer.writerow([article.sentiment,article.stemmed_sentiment,article.pos_sentiment,article.neg_sentiment,article.stemmed_pos_sentiment,article.stemmed_neg_sentiment])
-                
+                    
                 # Progress tracker
                 calculated = calculated + 1
                 progress = "{:.2f}".format((calculated/num_articles)*100)
@@ -364,9 +374,14 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                 
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
-    
+
         # Convert the sentiments to Z-scores
         convert_to_zscore(articles)
+        
+        # Save the article data with sentiments to the backup file
+        with open(seniment_backup_path, 'wb') as file:
+            pickle.dump((articles, dates), file)
+        
             
 # Compute log of each value in a list   
 def get_logs(input_list):
@@ -619,7 +634,7 @@ mode  = "tes"
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
 articles_backup_path = 'Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
-seniment_backup_path = "sentiments_backup.csv"
+seniment_backup_path = "Articles_backup_with_sentiment.pkl"
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
