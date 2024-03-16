@@ -178,7 +178,6 @@ def print_progress_bar(iteration, total, caption="Loading", bar_length=50):
 # Extracts date and body of each news article
 def extract_article_data(raw_articles, sources, articles_backup_path):
     articles = []
-    dates = []
     num_invalid_dates = 0
     num_invalid_sources = 0
     num_invalid_bodies = 0
@@ -203,7 +202,6 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                 if source:
                     
                     # Add to Articles list. Initialise sentiment to 0
-                    dates.append(date)
                     body = process_text(raw_articles[i])
                     stemmed_body = stem_text(body)
                     if body != 0:
@@ -233,9 +231,9 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
 
     # Save the article data to the backup file
     with open(articles_backup_path, 'wb') as file:
-        pickle.dump((articles, dates), file)
+        pickle.dump(articles, file)
         
-    return articles, dates
+    return articles
 
 # Load article sentiments from backup file
 def Load_sentiments_from_backup(articles, seniment_backup_path):
@@ -644,12 +642,14 @@ seniment_backup_path = "Articles_backup_with_sentiment.pkl"
 if os.path.exists(articles_backup_path):
     with open(articles_backup_path, 'rb') as file:
         articles, dates = pickle.load(file)
+        dates = [article.date for article in articles]
         print(f"Loaded {len(articles)} articles from backup file.")
 else:  
     # Extract data & list of dates from the articles
     sources = load_source_names(sources_file_path)
     raw_articles = load_articles_from_txt(articles_file_path)
-    articles, dates = extract_article_data(raw_articles, sources, articles_backup_path)
+    articles = extract_article_data(raw_articles, sources, articles_backup_path)
+    dates = [article.date for article in articles]
 
 # Load dictionaries & calculate sentiments
 positive_dict_path = "Dictionaries_Glossaries/GI_Positive.csv"
