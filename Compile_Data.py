@@ -333,7 +333,6 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         print("Loading sentiments from backup file.")
         articles = backedup_articles.copy()
     else:
-        print("No sentiment backup file found.")
         # Iterate through each article
         for article in articles:
             try:
