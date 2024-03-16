@@ -169,7 +169,8 @@ def stem_text(text):
     
     # Stem each word
     for word in words:
-        stemmed_word = stemmer.stem(word)
+        #stemmed_word = stemmer.stem(word)
+        stemmed_word = stemmer.lemmatize(word)
         stemmed_text = stemmed_text + " " + stemmed_word
     #print(text, stemmed_text)
     return stemmed_text.upper()
