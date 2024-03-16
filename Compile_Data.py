@@ -380,7 +380,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         
         # Save the article data with sentiments to the backup file
         with open(seniment_backup_path, 'wb') as file:
-            pickle.dump((articles, dates), file)
+            pickle.dump(articles, file)
         
             
 # Compute log of each value in a list   
@@ -654,7 +654,6 @@ glossary_path = "Dictionaries_Glossaries/Combined_Glossary.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
-Load_sentiments_from_backup(articles, seniment_backup_path)
 get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
 # Get sentiment time series    
