@@ -168,6 +168,13 @@ def stem_text(text):
     #print(text, stemmed_text)
     return stemmed_text.upper()
 
+# Print a progress bar during calculations
+def print_progress_bar(iteration, total, caption="Loading", bar_length=50):
+    progress = iteration/total
+    arrow = '-' * int(progress * bar_length - 1) + '>'
+    spaces = ' ' * (bar_length - len(arrow))
+    print(f'\r{caption}: [{arrow + spaces}] {progress:.2%}', end='', flush=True)
+
 # Extracts date and body of each news article
 def extract_article_data(raw_articles, sources, articles_backup_path):
     articles = []
@@ -208,9 +215,8 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
         
         # Progress tracker
         calculated = calculated + 1
-        progress = "{:.2f}".format((calculated/len(raw_articles))*100)
         if (calculated % 10) == 0:
-            print(f"Processing Articles: {progress}%\r", end='', flush=True)
+            print_progress_bar(calculated, len(raw_articles), caption="Processing Articles")
         
     # Print stats
     print(f"Received {len(raw_articles)} articles.")
@@ -368,9 +374,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                     
                 # Progress tracker
                 calculated = calculated + 1
-                progress = "{:.2f}".format((calculated/num_articles)*100)
                 if (calculated % 10) == 0:
-                    print(f"Calculating Sentiment: {progress}%\r", end='', flush=True)
+                    print_progress_bar(calculated, num_articles, caption="Calculating Sentiment")
                 
             except Exception as e:
                 print(f"An sentiment calculation error occurred: {str(e)}\n")
