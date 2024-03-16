@@ -642,14 +642,12 @@ seniment_backup_path = "Articles_backup_with_sentiment.pkl"
 if os.path.exists(articles_backup_path):
     with open(articles_backup_path, 'rb') as file:
         articles, dates = pickle.load(file)
-        dates = [article.date for article in articles]
         print(f"Loaded {len(articles)} articles from backup file.")
 else:  
     # Extract data & list of dates from the articles
     sources = load_source_names(sources_file_path)
     raw_articles = load_articles_from_txt(articles_file_path)
     articles = extract_article_data(raw_articles, sources, articles_backup_path)
-    dates = [article.date for article in articles]
 
 # Load dictionaries & calculate sentiments
 positive_dict_path = "Dictionaries_Glossaries/GI_Positive.csv"
@@ -664,6 +662,7 @@ get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_
 daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
 
 # Get the time period
+dates = [article.date for article in articles]
 start_date = min(dates)
 end_date = max(dates)
 print(f"Start date: {start_date} | End date: {end_date}\n")
