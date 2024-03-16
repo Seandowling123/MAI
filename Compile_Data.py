@@ -83,7 +83,7 @@ def load_csv(file_path):
 def load_source_names(file_path):
     try:
         sources = {}
-        with open(file_path, 'r', newline='') as csv_file:
+        with open(file_path, 'r', newline='', encoding='utf-8-sig') as csv_file:
             reader = csv.reader(csv_file)
             for row in reader:
                 sources[row[0]] = Source(row)
@@ -163,14 +163,14 @@ def stem_text(text):
     ########################################################################################
     ###################################################### Temporarily changed to lemmatizer
     ########################################################################################
-    stemmer = WordNetLemmatizer()
+    stemmer = PorterStemmer()
     words = word_tokenize(text)
     stemmed_text = ""
     
     # Stem each word
     for word in words:
         #stemmed_word = stemmer.stem(word)
-        stemmed_word = stemmer.lemmatize(word)
+        stemmed_word = stemmer.stem(word)
         stemmed_text = stemmed_text + " " + stemmed_word
     #print(text, stemmed_text)
     return stemmed_text.upper()
@@ -224,7 +224,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
             print_progress_bar(calculated, len(raw_articles), caption="Processing Articles")
         
     # Print stats
-    print(f"Received {len(raw_articles)} articles.")
+    print(f"\nReceived {len(raw_articles)} articles.")
     print(f"Removed {num_duplicates} duplicate articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
@@ -646,10 +646,10 @@ mode  = "tes"
 
 # Article file paths
 articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
-articles_backup_path = 'Article_Backups/LEMMATEST_Articles_backup.pkl'
+articles_backup_path = 'Article_Backups/Articles_backup.pkl'
 sources_file_path = 'News_Source_Names.csv'
-seniment_backup_path = "Article_Backups/LEMMATEST_Articles_backup_with_sentiment.pkl"
-article_data_path = "Article_Backups/LEMMATEST_Article_Data.csv"
+seniment_backup_path = "Article_Backups/Articles_backup_with_sentiment.pkl"
+article_data_path = "Article_Backups/Article_Data.csv"
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
