@@ -7,10 +7,10 @@ testing.py
 # Ignore all files within the old_shit folder
 old_shit/*
 
-# Ignore Articles_backup.pkl
+# Ignore Articles Backups
 Articles_backup.pkl
 Articles_backup_with_sentiment.pkl
-Article_Backups/*
+Article_Data/*
 
 # Ignore Article_Data.csv
 Article_Data.csv
