@@ -643,7 +643,7 @@ article_data_path = 'Raw_Articles/Articles_combined.txt'
 articles_backup_path = 'Article_Data/Articles_backup.pkl'
 seniment_backup_path = "Article_Data/Articles_backup_with_sentiment.pkl"
 article_data_path = "Article_Data/Article_Data.csv"
-sources_data_path = "News_Source_Names.csv"
+sources_data_path = "Article_Data/News_Source_Names.csv"
 
 # Financial data file paths
 RYAAY_data_path = "Financial_Data/RYAAY.csv"
