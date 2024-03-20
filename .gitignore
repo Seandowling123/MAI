@@ -1,5 +1,5 @@
 # Ignore all files within the Articles_txt_combined folder
-Articles_txt_combined/*
+Raw_Articles/*
 
 # Ignore testing.py
 testing.py
