@@ -332,6 +332,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
     if backedup_articles != None and len(backedup_articles) == len(articles):
         print("Loading sentiments from backup file.")
         articles = backedup_articles.copy()
+        print("Sentiments loaded from backup.")
     else:
         # Iterate through each article
         for article in articles:
@@ -363,9 +364,8 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         
 def save_article_data(articles, article_data_path):
     # Define the field names
-    field_names = ["Date", "Body", "Stemmed Body", "Source", "Headline", "Sentiment", 
-                   "Stemmed Sentiment", "Positive Sentiment", "Negative Sentiment",
-                   "Stemmed Positive Sentiment", "Stemmed Negative Sentiment"]
+    field_names = ["Date", "Body", "Stemmed Body", "Source", "Headline", 
+                   "Sentiment", "Positive Sentiment", "Negative Sentiment"]
     
     # Write articles to CSV file
     with open(article_data_path, mode='w', newline='', encoding='utf-8') as file:
@@ -378,14 +378,11 @@ def save_article_data(articles, article_data_path):
         for article in articles:
             writer.writerow([
                 article.date,
-                article.body,
-                article.stemmed_body,
+                re.sub(r'\s{2,}', ' ', article.body),
+                re.sub(r'\s{2,}', ' ', article.stemmed_body),
                 article.source,
                 article.headline,
-                article.sentiment,
                 article.stemmed_sentiment,
-                article.pos_sentiment,
-                article.neg_sentiment,
                 article.stemmed_pos_sentiment,
                 article.stemmed_neg_sentiment
             ]) 
@@ -620,7 +617,7 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
                                            sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, 
                                            stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash)
         
-    print("Trading data compiled.\n")
+    print("Financial Time Series compiled.\n")
     return daily_data
 
 # Save collected data to csv
@@ -637,19 +634,28 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
 
-        print(f"Trading days data saved to {csv_file_path}")
+        print(f"Aggregated Time Series saved to {csv_file_path}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
-# Select mode
-mode  = "tes"
-
 # Article file paths
-articles_file_path = 'Articles_txt_combined/Articles_combined.txt'
-articles_backup_path = 'Article_Backups/Articles_backup.pkl'
-sources_file_path = 'News_Source_Names.csv'
-seniment_backup_path = "Article_Backups/Articles_backup_with_sentiment.pkl"
-article_data_path = "Article_Backups/Article_Data.csv"
+article_data_path = 'Raw_Articles/Articles_combined.txt'
+articles_backup_path = 'Article_Data/Articles_backup.pkl'
+seniment_backup_path = "Article_Data/Articles_backup_with_sentiment.pkl"
+article_data_path = "Article_Data/Article_Data.csv"
+sources_data_path = "News_Source_Names.csv"
+
+# Financial data file paths
+RYAAY_data_path = "Financial_Data/RYAAY.csv"
+VIX_data_path = "Financial_Data/VIX.csv"
+
+# Dictionaries file paths
+positive_dict_path = "Dictionaries_and _Glossaries/GI_Positive.csv"
+negative_dict_path = "Dictionaries_and_Glossaries/GI_Negative.csv"
+glossary_path = "Dictionaries_and_Glossaries/Combined_Glossary.csv"
+
+# Output time series file path
+output_series_file_path = 'Aggregated_Time_Series.csv'
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
@@ -658,14 +664,11 @@ if os.path.exists(articles_backup_path):
         print(f"Loaded {len(articles)} articles from backup file.")
 else:  
     # Extract data & list of dates from the articles
-    sources = load_source_names(sources_file_path)
-    raw_articles = load_articles_from_txt(articles_file_path)
+    sources = load_source_names(sources_data_path)
+    raw_articles = load_articles_from_txt(article_data_path)
     articles = extract_article_data(raw_articles, sources, articles_backup_path)
 
 # Load dictionaries & calculate sentiments
-positive_dict_path = "Dictionaries_Glossaries/GI_Positive.csv"
-negative_dict_path = "Dictionaries_Glossaries/GI_Negative.csv"
-glossary_path = "Dictionaries_Glossaries/Combined_Glossary.csv"
 positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
@@ -681,56 +684,12 @@ daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentime
 dates = [article.date for article in articles]
 start_date = min(dates)
 end_date = max(dates)
-print(f"\nStart date: {start_date} | End date: {end_date}\n")
+print(f"\nTime series start date: {start_date}, end date: {end_date}\n")
 
 # Extract financial data from the time period
-close_prices, trading_volume = get_RYAAY_data("RYAAY.csv", start_date, end_date)
-VIX_prices = get_VIX_data("VIX.csv", start_date, end_date)
+close_prices, trading_volume = get_RYAAY_data(RYAAY_data_path, start_date, end_date)
+VIX_prices = get_VIX_data(VIX_data_path, start_date, end_date)
 daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
-daily_csv_file_path = 'XX_daily_data.csv'
-save_daily_data_to_csv(daily_data, daily_csv_file_path)
-
-# To plot daily or weekly data
-plotting_variable = daily_data
-
-# Variables for plot
-dates = list(plotting_variable.keys())
-sentiments = [plotting_variable[date].sentiment for date in plotting_variable]
-returns = [plotting_variable[date].returns for date in plotting_variable]
-volume = [plotting_variable[date].volume for date in plotting_variable]
-vix = [plotting_variable[date].vix_close for date in plotting_variable]
-
-# Creating line plot
-plt.plot(dates, returns, color='red', label='Returns')
-plt.plot(dates, sentiments, label='Sentiment')
-#plt.plot(dates, vix, label='VIX')
-plt.title('Values Over Time')
-plt.xlabel('Date')
-plt.ylabel('Value')
-plt.legend()
-plt.grid(True)
-plt.show()
-
-
-# Some testing stats
-if mode == "test":
-    for i in range(0, len(articles), 1000):
-        print("Positive word matches:")
-        for word in positive_dict:
-            if word in articles[0].body:
-                print(word, sep=' ')
-        print("\n")
-                
-        print("Negative word matches:")
-        for word in negative_dict:
-            if word in articles[0].body:
-                print(word, sep=' ')
-        print("-------------------------------------------------\n")
-    
-    print(f"Headline: {articles[0].headline}\n")
-    print(f"Date: {articles[0].date}\n")
-    print(f"Body: {articles[0].body}\n")
-    print(f"Sentiment: {articles[0].sentiment}\n")
-
+save_daily_data_to_csv(daily_data, output_series_file_path)
