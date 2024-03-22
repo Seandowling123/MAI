@@ -160,9 +160,6 @@ def remove_duplicates(articles):
 
 # Converts words in an article body to their stems
 def stem_text(text):
-    ########################################################################################
-    ###################################################### Temporarily changed to lemmatizer
-    ########################################################################################
     stemmer = PorterStemmer()
     words = word_tokenize(text)
     stemmed_text = ""
