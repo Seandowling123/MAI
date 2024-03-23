@@ -17,8 +17,8 @@ from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_sentiment, 
-                 pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash):
+    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, sentiment, stemmed_text_sentiment, 
+                 pos_sentiment, neg_sentiment, stemmed_text_pos_sentiment, stemmed_text_neg_sentiment, media_volume, monday, january, crash):
         self.date = date
         self.close = close
         self.returns = returns
@@ -27,34 +27,34 @@ class Trading_Day:
         self.vix_returns = vix_returns
         self.vix_close = vix_close
         self.sentiment = sentiment
-        self.stemmed_sentiment = stemmed_sentiment
+        self.stemmed_text_sentiment = stemmed_text_sentiment
         self.pos_sentiment = pos_sentiment
         self.neg_sentiment = neg_sentiment
-        self.stemmed_pos_sentiment = stemmed_pos_sentiment
-        self.stemmed_neg_sentiment = stemmed_neg_sentiment
+        self.stemmed_text_pos_sentiment = stemmed_text_pos_sentiment
+        self.stemmed_text_neg_sentiment = stemmed_text_neg_sentiment
         self.media_volume = media_volume
         self.monday = monday
         self.january = january
         self.crash = crash
     
     def to_csv_line(self): 
-        return f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.stemmed_pos_sentiment)},{str(self.stemmed_neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
+        return f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_text_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, stemmed_body, source, headline, sentiment, stemmed_sentiment,
-                 pos_sentiment, neg_sentiment, stemmed_pos_sentiment, stemmed_neg_sentiment):
+    def __init__(self, date, body, stemmed_text_body, source, headline, sentiment, stemmed_text_sentiment,
+                 pos_sentiment, neg_sentiment, stemmed_text_pos_sentiment, stemmed_text_neg_sentiment):
         self.date = date
         self.body = body
-        self.stemmed_body = stemmed_body
+        self.stemmed_text_body = stemmed_text_body
         self.source = source
         self.headline = headline
         self.sentiment = sentiment
-        self.stemmed_sentiment = stemmed_sentiment
+        self.stemmed_text_sentiment = stemmed_text_sentiment
         self.pos_sentiment = pos_sentiment
         self.neg_sentiment = neg_sentiment
-        self.stemmed_pos_sentiment = stemmed_pos_sentiment
-        self.stemmed_neg_sentiment = stemmed_neg_sentiment
+        self.stemmed_text_pos_sentiment = stemmed_text_pos_sentiment
+        self.stemmed_text_neg_sentiment = stemmed_text_neg_sentiment
         
 # Class containing info about each news source
 class Source:
@@ -162,15 +162,15 @@ def remove_duplicates(articles):
 def stem_text(text):
     stemmer = PorterStemmer()
     words = word_tokenize(text)
-    stemmed_text = ""
+    stemmed_text_text = ""
     
     # Stem each word
     for word in words:
-        #stemmed_word = stemmer.stem(word)
-        stemmed_word = stemmer.stem(word)
-        stemmed_text = stemmed_text + " " + stemmed_word
-    #print(text, stemmed_text)
-    return stemmed_text.upper()
+        #stemmed_text_word = stemmer.stem(word)
+        stemmed_text_word = stemmer.stem(word)
+        stemmed_text_text = stemmed_text_text + " " + stemmed_text_word
+    #print(text, stemmed_text_text)
+    return stemmed_text_text.upper()
 
 # Print a progress bar during calculations
 def print_progress_bar(iteration, total, caption="Loading", bar_length=50):
@@ -207,9 +207,9 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                     
                     # Add to Articles list. Initialise sentiment to 0
                     body = process_text(raw_articles[i])
-                    stemmed_body = stem_text(body)
+                    stemmed_text_body = stem_text(body)
                     if body != 0:
-                        articles.append(Article(date, body, stemmed_body, source, headline, 0, 0, 0, 0, 0, 0))
+                        articles.append(Article(date, body, stemmed_text_body, source, headline, 0, 0, 0, 0, 0, 0))
                     else: num_invalid_bodies = num_invalid_bodies+1
                 else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1
@@ -244,34 +244,34 @@ def convert_to_zscore(articles):
     
     # Extract sentiments
     sentiments = [article.sentiment for article in articles]
-    stemmed_sentiments = [article.stemmed_sentiment for article in articles]
+    stemmed_text_sentiments = [article.stemmed_text_sentiment for article in articles]
     pos_sentiment = [article.pos_sentiment for article in articles]
     neg_sentiment = [article.neg_sentiment for article in articles]
-    stemmed_pos_sentiment = [article.stemmed_pos_sentiment for article in articles]
-    stemmed_neg_sentiment = [article.stemmed_neg_sentiment for article in articles]
+    stemmed_text_pos_sentiment = [article.stemmed_text_pos_sentiment for article in articles]
+    stemmed_text_neg_sentiment = [article.stemmed_text_neg_sentiment for article in articles]
     
     # Calculate the mean & standard deviations
     mean = statistics.mean(sentiments)
     std_dev = statistics.stdev(sentiments)
-    mean_stemmed = statistics.mean(stemmed_sentiments)
-    std_dev_stemmed = statistics.stdev(stemmed_sentiments)
+    mean_stemmed = statistics.mean(stemmed_text_sentiments)
+    std_dev_stemmed = statistics.stdev(stemmed_text_sentiments)
     mean_pos = statistics.mean(pos_sentiment)
     std_dev_pos = statistics.stdev(pos_sentiment)
     mean_neg = statistics.mean(neg_sentiment)
     std_dev_neg = statistics.stdev(neg_sentiment)
-    mean_stemmed_pos = statistics.mean(stemmed_pos_sentiment)
-    std_dev_stemmed_pos = statistics.stdev(stemmed_pos_sentiment)
-    mean_stemmed_neg = statistics.mean(stemmed_neg_sentiment)
-    std_dev_stemmed_neg = statistics.stdev(stemmed_neg_sentiment)
+    mean_stemmed_text_pos = statistics.mean(stemmed_text_pos_sentiment)
+    std_dev_stemmed_text_pos = statistics.stdev(stemmed_text_pos_sentiment)
+    mean_stemmed_text_neg = statistics.mean(stemmed_text_neg_sentiment)
+    std_dev_stemmed_text_neg = statistics.stdev(stemmed_text_neg_sentiment)
     
     # Convert sentiments to Z-scores
     for article in articles:
         article.sentiment = (article.sentiment - mean) / std_dev
-        article.stemmed_sentiment = (article.stemmed_sentiment - mean_stemmed) / std_dev_stemmed
+        article.stemmed_text_sentiment = (article.stemmed_text_sentiment - mean_stemmed) / std_dev_stemmed
         article.pos_sentiment = (article.pos_sentiment - mean_pos) / std_dev_pos
         article.neg_sentiment = (article.neg_sentiment - mean_neg) / std_dev_neg
-        article.stemmed_pos_sentiment = (article.stemmed_pos_sentiment - mean_stemmed_pos) / std_dev_stemmed_pos
-        article.stemmed_neg_sentiment = (article.stemmed_neg_sentiment - mean_stemmed_neg) / std_dev_stemmed_neg
+        article.stemmed_text_pos_sentiment = (article.stemmed_text_pos_sentiment - mean_stemmed_text_pos) / std_dev_stemmed_text_pos
+        article.stemmed_text_neg_sentiment = (article.stemmed_text_neg_sentiment - mean_stemmed_text_neg) / std_dev_stemmed_text_neg
 
 # Count the number of dictionary words in an article
 def get_word_count(text_body, dictionary_words, glossary):
@@ -305,10 +305,10 @@ def save_sentiment_score(article, sentiment, pos_sentiment, neg_sentiment):
     article.neg_sentiment = neg_sentiment
     
 # Save stemmed sentiment score for an article
-def save_stemmed_sentiment_score(article, sentiment, pos_sentiment, neg_sentiment):
-    article.stemmed_sentiment = sentiment
-    article.stemmed_pos_sentiment = pos_sentiment
-    article.stemmed_neg_sentiment = neg_sentiment
+def save_stemmed_text_sentiment_score(article, sentiment, pos_sentiment, neg_sentiment):
+    article.stemmed_text_sentiment = sentiment
+    article.stemmed_text_pos_sentiment = pos_sentiment
+    article.stemmed_text_neg_sentiment = neg_sentiment
     
 def get_sentiment_backup(seniment_backup_path):
     if os.path.exists(seniment_backup_path):
@@ -336,11 +336,11 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
             try:
                 # Get sentiment scores
                 sentiment, pos_sentiment, neg_sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
-                stemmed_sentiment, stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_body, positive_dict, negative_dict, glossary)
+                stemmed_text_sentiment, stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
             
                 # Save score
                 save_sentiment_score(article, sentiment, pos_sentiment, neg_sentiment)
-                save_stemmed_sentiment_score(article, stemmed_sentiment, stem_pos_sentiment, stem_neg_sentiment)
+                save_stemmed_text_sentiment_score(article, stemmed_text_sentiment, stem_pos_sentiment, stem_neg_sentiment)
                     
                 # Progress tracker
                 calculated = calculated + 1
@@ -376,12 +376,12 @@ def save_article_data(articles, article_data_path):
             writer.writerow([
                 article.date,
                 re.sub(r'\s{2,}', ' ', article.body),
-                re.sub(r'\s{2,}', ' ', article.stemmed_body),
+                re.sub(r'\s{2,}', ' ', article.stemmed_text_body),
                 article.source,
                 article.headline,
-                article.stemmed_sentiment,
-                article.stemmed_pos_sentiment,
-                article.stemmed_neg_sentiment
+                article.stemmed_text_sentiment,
+                article.stemmed_text_pos_sentiment,
+                article.stemmed_text_neg_sentiment
             ]) 
 
 # Compute log of each value in a list   
@@ -410,21 +410,21 @@ def convert_article_count_to_zscore(daily_media_volume):
 # Calculate a sentiment time series from the article sentiments
 def get_daily_sentiments(articles):
     daily_sentiment = defaultdict(list)
-    daily_stemmed_sentiment = defaultdict(list)
+    daily_stemmed_text_sentiment = defaultdict(list)
     daily_pos_sentiment = defaultdict(list)
     daily_neg_sentiment = defaultdict(list)
-    daily_stemmed_pos_sentiment = defaultdict(list)
-    daily_stemmed_neg_sentiment = defaultdict(list)
+    daily_stemmed_text_pos_sentiment = defaultdict(list)
+    daily_stemmed_text_neg_sentiment = defaultdict(list)
     daily_media_volume = {}
 
     # Add sentiments for each day
     for article in articles:
         daily_sentiment[article.date].append(article.sentiment)
-        daily_stemmed_sentiment[article.date].append(article.stemmed_sentiment)
+        daily_stemmed_text_sentiment[article.date].append(article.stemmed_text_sentiment)
         daily_pos_sentiment[article.date].append(article.pos_sentiment)
         daily_neg_sentiment[article.date].append(article.neg_sentiment)
-        daily_stemmed_pos_sentiment[article.date].append(article.stemmed_pos_sentiment)
-        daily_stemmed_neg_sentiment[article.date].append(article.stemmed_neg_sentiment)
+        daily_stemmed_text_pos_sentiment[article.date].append(article.stemmed_text_pos_sentiment)
+        daily_stemmed_text_neg_sentiment[article.date].append(article.stemmed_text_neg_sentiment)
         
         # Update media volume for that day
         if article.date in daily_media_volume:
@@ -434,13 +434,13 @@ def get_daily_sentiments(articles):
     # Average sentiments for each day
     for article in articles:
         daily_sentiment[article.date] = np.mean(daily_sentiment[article.date])
-        daily_stemmed_sentiment[article.date] = np.mean(daily_stemmed_sentiment[article.date])
+        daily_stemmed_text_sentiment[article.date] = np.mean(daily_stemmed_text_sentiment[article.date])
         daily_pos_sentiment[article.date] = np.mean(daily_pos_sentiment[article.date])
         daily_neg_sentiment[article.date] = np.mean(daily_neg_sentiment[article.date])
-        daily_stemmed_pos_sentiment[article.date] = np.mean(daily_stemmed_pos_sentiment[article.date])
-        daily_stemmed_neg_sentiment[article.date] = np.mean(daily_stemmed_neg_sentiment[article.date])
+        daily_stemmed_text_pos_sentiment[article.date] = np.mean(daily_stemmed_text_pos_sentiment[article.date])
+        daily_stemmed_text_neg_sentiment[article.date] = np.mean(daily_stemmed_text_neg_sentiment[article.date])
     
-    return daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume
+    return daily_sentiment, daily_stemmed_text_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
@@ -554,8 +554,8 @@ def is_crash(date):
     return 0
     
 # Collect data for each trading day start_date, end_date
-def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, 
-                         daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume, close_prices, 
+def get_trading_day_data(daily_sentiment, daily_stemmed_text_sentiment, daily_pos_sentiment, daily_neg_sentiment, 
+                         daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume, close_prices, 
                          trading_volume, VIX_prices):
     daily_data = {}
     returns_list = []
@@ -570,11 +570,11 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
         vix_returns = 0
         vix_close = 0
         sentiment = 0
-        stemmed_sentiment = 0
+        stemmed_text_sentiment = 0
         pos_sentiment= 0
         neg_sentiment = 0
-        stemmed_pos_sentiment = 0
-        stemmed_neg_sentiment = 0
+        stemmed_text_pos_sentiment = 0
+        stemmed_text_neg_sentiment = 0
         media_volume = 0
         monday = 0
         january = 0
@@ -602,17 +602,17 @@ def get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sen
             # Collect sentiment data
             if date in daily_sentiment:
                 sentiment = daily_sentiment[date]
-                stemmed_sentiment = daily_stemmed_sentiment[date]
+                stemmed_text_sentiment = daily_stemmed_text_sentiment[date]
                 pos_sentiment = daily_pos_sentiment[date]
                 neg_sentiment = daily_neg_sentiment[date]
-                stemmed_pos_sentiment = daily_stemmed_pos_sentiment[date]
-                stemmed_neg_sentiment = daily_stemmed_neg_sentiment[date]
+                stemmed_text_pos_sentiment = daily_stemmed_text_pos_sentiment[date]
+                stemmed_text_neg_sentiment = daily_stemmed_text_neg_sentiment[date]
                 media_volume = daily_media_volume[date]
                 
             # Save all data 
             daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, 
-                                           sentiment, stemmed_sentiment, pos_sentiment, neg_sentiment, 
-                                           stemmed_pos_sentiment, stemmed_neg_sentiment, media_volume, monday, january, crash)
+                                           sentiment, stemmed_text_sentiment, pos_sentiment, neg_sentiment, 
+                                           stemmed_text_pos_sentiment, stemmed_text_neg_sentiment, media_volume, monday, january, crash)
         
     print("Financial Time Series compiled.\n")
     return daily_data
@@ -624,8 +624,8 @@ def save_daily_data_to_csv(daily_data, csv_file_path):
             writer = csv.writer(csv_file)
             # Header
             writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume",
-                             "VIX_Close","VIX_Returns","Sentiment","Stemmed_Sentiment","Positive_Sentiment",
-                             "Negative_Sentiment","Stemmed_Positive_Sentiment","Stemmed_Negative_Sentiment",
+                             "VIX_Close","VIX_Returns","Sentiment","stemmed_text_Sentiment","Positive_Sentiment",
+                             "Negative_Sentiment","stemmed_text_Positive_Sentiment","stemmed_text_Negative_Sentiment",
                              "Media_Volume","Monday","January","Crash"])
             # Save data
             for date, trading_day in daily_data.items():
@@ -675,7 +675,7 @@ articles = get_sentiment_scores(articles, positive_dict, negative_dict, glossary
 save_article_data(articles, article_data_path)
 
 # Get sentiment time series    
-daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
+daily_sentiment, daily_stemmed_text_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
 
 # Get the time period
 dates = [article.date for article in articles]
@@ -686,7 +686,7 @@ print(f"\nTime series start date: {start_date}, end date: {end_date}\n")
 # Extract financial data from the time period
 close_prices, trading_volume = get_RYAAY_data(RYAAY_data_path, start_date, end_date)
 VIX_prices = get_VIX_data(VIX_data_path, start_date, end_date)
-daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_pos_sentiment, daily_stemmed_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
+daily_data = get_trading_day_data(daily_sentiment, daily_stemmed_text_sentiment, daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
 save_daily_data_to_csv(daily_data, output_series_file_path)
