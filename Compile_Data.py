@@ -647,7 +647,7 @@ RYAAY_data_path = "Financial_Data/RYAAY.csv"
 VIX_data_path = "Financial_Data/VIX.csv"
 
 # Dictionaries file paths
-positive_dict_path = "Dictionaries_and _Glossaries/GI_Positive.csv"
+positive_dict_path = "Dictionaries_and_Glossaries/GI_Positive.csv"
 negative_dict_path = "Dictionaries_and_Glossaries/GI_Negative.csv"
 glossary_path = "Dictionaries_and_Glossaries/Combined_Glossary.csv"
 
