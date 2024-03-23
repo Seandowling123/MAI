@@ -5,12 +5,11 @@ Copyright 2023 Pyramid Media Group Inc. All Rights Reserved
 Section: Air and Travel Business News - Airlines; ISSN: 1939-666X
 Length: 430 words
 Body
-Ryanair Holdings PLC on Monday said it returned to profit in its recently concluded financial year 
-and is "cautiously optimistic" of further growth in the new year, amid robust demand. 
-The  Dublin-based budget airline said total revenue more than doubled to EUR10.78 billion in the financial year to 
-March 31 from EUR4.80 billion a year before. 
+Ryanair Holdings on Monday reported a significant fall in annual profit due to increased 
+fuel, airport and staff costs, and it said it has "zero" visibility on its likely results beyond the first half of the current 
+year. More positively, Ryanair announced a EUR700 million share buyback to run over the next 9 to 12 months.
 End of Document
-Ryanair To Raise $474 Million To Boost Liquidity Amid COVID-19
+Ryanair Profit Hurt By Fuel Hedges As Braces For Virus Pain
 Financial Times (London, England)
 March 7, 2020 Saturday
 Edition 1, National Edition
@@ -24,7 +23,7 @@ Revenue in the financial year that ended March 31 was 10% higher annually at EUR
 billion. Pretax profit, however, was down by 29% year-on-year to EUR670.3 million from EUR948.1 million. 
 Weighing on Ryanair's profit was a EUR407.2 million charge for fuel hedge ineffectiveness.
 End of Document
-Ryanair to slash Dublin
+Ryanair will cut cabin crew roles in Ireland
 Financial Times (London, England)
 January 11, 2020 Saturday
 Edition 1, National Edition
