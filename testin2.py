@@ -74,6 +74,6 @@ raw_articles = load_articles_from_txt(article_data_path)
 for article in raw_articles:
     positive = get_words(process_text(article), positive_dict, glossary)
     negative = get_words(process_text(article), negative_dict, glossary)
-    if len(positive[2]) > 15:
+    if positive[0] > .06:
         print(article.split("\n")[1])
 
