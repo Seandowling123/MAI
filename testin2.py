@@ -55,7 +55,7 @@ def get_words(text_body, dictionary_words, glossary):
             word_counts += count
             if article_words.count(word) > 0:
                 words.append(word)
-    return word_counts/len(article_words), len(article_words), words
+    return word_counts, len(article_words), words
 
 
 article_data_path = 'Raw_Articles/Articles_combined.txt'
@@ -72,8 +72,8 @@ glossary = load_csv(glossary_path)
 raw_articles = load_articles_from_txt(article_data_path)
 
 for article in raw_articles:
-    positive = get_words(process_text(article), positive_dict, glossary)
-    negative = get_words(process_text(article), negative_dict, glossary)
-    if positive[0] > .06:
+    positive = get_words(process_text(str(article[:600])), positive_dict, glossary)
+    negative = get_words(process_text(str(article[:600])), negative_dict, glossary)
+    if positive[0] > 5:
         print(article.split("\n")[1])
 
