@@ -277,17 +277,16 @@ def get_word_count(text_body, dictionary_words, glossary):
             count = article_words.count(word)
             word_counts += count
             
-        ####################################################################
-        # for dis
-        global is_stemmed
-        global stemmed_text_matches
-        global matches
-        if is_stemmed:
-            stemmed_text_matches = stemmed_text_matches + word_counts
-        else:
-            matches = matches + word_counts
-        
-        ####################################################################
+    ####################################################################
+    # for dis
+    global is_stemmed
+    global stemmed_text_matches
+    global matches
+    if is_stemmed:
+        stemmed_text_matches = stemmed_text_matches + word_counts
+    else:
+        matches = matches + word_counts
+    ####################################################################
         
     return word_counts
 
@@ -343,14 +342,14 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                 ############################################################################################################################
                 # For dis
                 global is_stemmed
-                is_stemmed = True
+                is_stemmed = False
                 ############################################################################################################################
 
                 pos_sentiment, neg_sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
                 
                 ############################################################################################################################
                 # For dis
-                is_stemmed = False
+                is_stemmed = True
                 ############################################################################################################################
                 
                 stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
@@ -645,7 +644,8 @@ def save_time_series_to_csv(daily_data, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Article file paths
-article_data_path = 'Raw_Articles/Articles_combined.txt'
+#article_data_path = 'Raw_Articles/Articles_combined.txt'
+article_data_path = 'Example_articles.txt'
 articles_backup_path = 'Article_Data/Articles_backup.pkl'
 seniment_backup_path = "Article_Data/Articles_backup_with_sentiment.pkl"
 article_data_path = "Article_Data/Article_Data.csv"
@@ -699,3 +699,7 @@ daily_data = aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, dai
 
 # Save data to csv
 save_time_series_to_csv(daily_data, output_series_file_path)
+
+#################################################################################################################################
+print(f"Matches: {matches} | with stemming {stemmed_text_matches} | Change: {100*stemmed_text_matches/matches}% ")
+#################################################################################################################################
