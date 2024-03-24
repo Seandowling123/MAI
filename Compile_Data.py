@@ -39,10 +39,10 @@ class Trading_Day:
         self.crash = crash
     
     def to_csv_line(self): 
-        return f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},
-        {str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.pos_sentiment)},
-        {str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},
-        {str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
+        return (f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},"
+        f"{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.pos_sentiment)},"
+        f"{str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},"
+        f"{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}")
 
 # Class containing info about each article
 class Article:
