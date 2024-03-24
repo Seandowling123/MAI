@@ -14,10 +14,6 @@ from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 #nltk.download('punkt')
 
-is_stemmed = False
-matches = 0
-stemmed_text_matches = 0
-
 # Data to save for each trading day
 class Trading_Day:
     def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, pos_sentiment, neg_sentiment, 
@@ -230,6 +226,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
     print(f"Removed {num_invalid_bodies} articles with invalid article bodies.\n")
     print(f"Loaded {len(articles)} articles.\n")
     articles_sum = 0
+    print("Sources:")
     for source in sources: 
         print(f"{sources[source].name}: {sources[source].article_count}")
         articles_sum = articles_sum + sources[source].article_count
@@ -276,18 +273,6 @@ def get_word_count(text_body, dictionary_words, glossary):
         if word not in glossary:
             count = article_words.count(word)
             word_counts += count
-            
-    ####################################################################
-    # for dis
-    global is_stemmed
-    global stemmed_text_matches
-    global matches
-    if is_stemmed:
-        stemmed_text_matches = stemmed_text_matches + word_counts
-    else:
-        matches = matches + word_counts
-    ####################################################################
-        
     return word_counts
 
 # Calculate sentiment score for text
@@ -338,20 +323,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         for article in articles:
             try:
                 # Get sentiment scores
-                
-                ############################################################################################################################
-                # For dis
-                global is_stemmed
-                is_stemmed = False
-                ############################################################################################################################
-
                 pos_sentiment, neg_sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
-                
-                ############################################################################################################################
-                # For dis
-                is_stemmed = True
-                ############################################################################################################################
-                
                 stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
             
                 # Save score
@@ -364,7 +336,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
                     print_progress_bar(calculated, num_articles, caption="Calculating Sentiment")
                 
             except Exception as e:
-                print(f"An sentiment calculation error occurred: {str(e)}\n")
+                print(f" A sentiment calculation error occurred: {str(e)}\n")
 
         # Convert the sentiments to Z-scores
         convert_to_zscore(articles)
@@ -698,7 +670,3 @@ daily_data = aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, dai
 
 # Save data to csv
 save_time_series_to_csv(daily_data, output_series_file_path)
-
-#################################################################################################################################
-print(f"Matches: {matches} | with stemming {stemmed_text_matches} | Change: {100*stemmed_text_matches/matches}% ")
-#################################################################################################################################
