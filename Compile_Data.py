@@ -575,7 +575,7 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
             crash = is_crash(date)
             
             # Collect sentiment data
-            if date in daily_sentiment:
+            if date in daily_pos_sentiment:
                 pos_sentiment = daily_pos_sentiment[date]
                 neg_sentiment = daily_neg_sentiment[date]
                 stemmed_text_pos_sentiment = daily_stemmed_text_pos_sentiment[date]
