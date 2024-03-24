@@ -87,13 +87,22 @@ plt.tick_params(axis='both', which='major', labelsize=12)
 yearly_counts = defaultdict(int)
 
 # Aggregate the counts for each year
-for date, count in zip(dates, list(trading_days_data['Media_Volume'])):
+for date, count in zip(datetime_objs, list(trading_days_data['Media_Volume'])):
     year = date.year
     yearly_counts[year] += count
 
 # Print the total counts for each year
 for year, total_count in yearly_counts.items():
     print(f"Year {year}: {total_count}")
+    
+# Create a bar chart
+years = list(yearly_counts.keys())
+total_counts = list(yearly_counts.values())
+plt.bar(years, total_counts, color='skyblue')
+plt.xlabel('Year')
+plt.ylabel('Total Counts')
+plt.title('Total Counts by Year')
+plt.savefig('Plots/Article_Count_Yearly_Breakdown.png', bbox_inches='tight')
 ######################################
 
 plt.figure(figsize=(12, 6))
