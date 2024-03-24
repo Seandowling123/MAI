@@ -99,7 +99,7 @@ for year, total_count in yearly_counts.items():
 # Create a bar chart
 years = list(yearly_counts.keys())
 total_counts = list(yearly_counts.values())
-plt.figure(figsize=(15, 6))
+plt.figure(figsize=(15, 4.5))
 plt.bar(years, total_counts, width=.7, color='#2980b9')
 plt.xlabel('Year', fontsize=17, fontname='Times New Roman')
 plt.ylabel('Yearly Article Count', fontsize=17, fontname='Times New Roman')

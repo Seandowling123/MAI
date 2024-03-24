@@ -271,7 +271,7 @@ def get_word_count(text_body, dictionary_words, glossary):
             word_counts += count
     return word_counts
 
-# Calculate sentiment score for some text
+# Calculate sentiment score for text
 def calculate_sentiment(text_body, positive_dict, negative_dict, glossary):
     # Get counts
     num_words = len(word_tokenize(text_body))
