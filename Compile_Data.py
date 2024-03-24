@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pickle
 from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
 from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 #nltk.download('punkt')
