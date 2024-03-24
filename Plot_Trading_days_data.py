@@ -81,6 +81,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.savefig('Plots/Media_Volume_Over_Time.png', bbox_inches='tight')
 #plt.show()
+plt.close()
 
 ######################################
 # Get yearly article count breakdown
@@ -98,10 +99,14 @@ for year, total_count in yearly_counts.items():
 # Create a bar chart
 years = list(yearly_counts.keys())
 total_counts = list(yearly_counts.values())
-plt.bar(years, total_counts, color='skyblue')
-plt.xlabel('Year')
-plt.ylabel('Total Counts')
-plt.title('Total Counts by Year')
+plt.figure(figsize=(15, 6))
+plt.bar(years, total_counts, width=.7, color='#2980b9')
+plt.xlabel('Year', fontsize=17, fontname='Times New Roman')
+plt.ylabel('Yearly Article Count', fontsize=17, fontname='Times New Roman')
+plt.xticks(range(min(years), max(years)+1, 2))
+plt.title('Article Count Yearly Breakdown', fontsize=18, fontfamily='serif')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tick_params(axis='both', which='major', labelsize=12)
 plt.savefig('Plots/Article_Count_Yearly_Breakdown.png', bbox_inches='tight')
 ######################################
 
