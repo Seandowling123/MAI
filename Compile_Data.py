@@ -605,7 +605,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
             # Header
             writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume",
                              "VIX_Close","VIX_Returns","Positive_Sentiment","Negative_Sentiment",
-                             "stemmed_text_Positive_Sentiment","stemmed_text_Negative_Sentiment",
+                             "Stemmed_text_Positive_Sentiment","Stemmed_text_Negative_Sentiment",
                              "Media_Volume","Monday","January","Crash"])
             # Save data
             for date, trading_day in daily_data.items():
