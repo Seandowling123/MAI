@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime
+from collections import defaultdict
 import statistics
 import pandas as pd
 import numpy as np
@@ -23,7 +24,7 @@ def convert_to_zscore(returns):
         
     return z_score_returns
 
-trading_days_file_name = 'XX_daily_data.csv'
+trading_days_file_name = 'Aggregated_Time_Series.csv'
 trading_days_data = get_trading_days_data(trading_days_file_name)
 print(trading_days_data.head())
 
@@ -65,21 +66,35 @@ plt.tick_params(axis='both', which='major', labelsize=10)
 #plt.show()
 
 # Plot data
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(15, 6))
 # Calculate 60-period moving average
-ma_window = 60
+ma_window = 30
 moving_average_sentiment = np.convolve(list(trading_days_data['Media_Volume']), np.ones(ma_window)/ma_window, mode='valid')
 plt.plot(datetime_objs, trading_days_data['Media_Volume'], label='Media Volume', color='#2980b9', linewidth=1)
-plt.plot(datetime_objs[ma_window//2:-ma_window//2], moving_average_sentiment[1:], label='60-day Moving Average', color='#e74c3c', linewidth=1)
-plt.title('Media Volume Over Time', fontsize=14, fontfamily='serif')
+#plt.plot(datetime_objs[ma_window//2:-ma_window//2], moving_average_sentiment[1:], label='60-day Moving Average', color='#e74c3c', linewidth=1)
+plt.title('Daily Article Count Over Time', fontsize=18, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-plt.legend(loc='upper left', prop={'family': 'serif', 'size': 11})
-plt.xlabel('Date', fontsize=13, fontname='Times New Roman')
-plt.ylabel('Article Count (Articles)', fontsize=13, fontname='Times New Roman')
+plt.legend(loc='upper left', prop={'family': 'serif', 'size': 13})
+plt.xlabel('Date', fontsize=17, fontname='Times New Roman')
+plt.ylabel('Article Count (Articles)', fontsize=17, fontname='Times New Roman')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tick_params(axis='both', which='major', labelsize=10)
+plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.savefig('Plots/Media_Volume_Over_Time.png', bbox_inches='tight')
 #plt.show()
+
+######################################
+# Get yearly article count breakdown
+yearly_counts = defaultdict(int)
+
+# Aggregate the counts for each year
+for date, count in zip(dates, list(trading_days_data['Media_Volume'])):
+    year = date.year
+    yearly_counts[year] += count
+
+# Print the total counts for each year
+for year, total_count in yearly_counts.items():
+    print(f"Year {year}: {total_count}")
+######################################
 
 plt.figure(figsize=(12, 6))
 plt.plot(datetime_objs, list(trading_days_data['Returns']), label='RYAAY Returns', color='#2980b9', linewidth=1)
@@ -103,5 +118,5 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 plt.legend(loc='upper left', prop={'family': 'serif', 'size': 17})
 plt.xlabel('Date', fontsize=15, fontname='Times New Roman')
 plt.ylabel('US Dollars', fontsize=15, fontname='Times New Roman')
-plt.savefig('Plots/Close_Over_Time_with_title.png', bbox_inches='tight')
+#plt.savefig('Plots/Close_Over_Time_with_title.png', bbox_inches='tight')
 #plt.show()
