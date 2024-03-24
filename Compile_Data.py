@@ -97,6 +97,7 @@ def load_source_names(file_path):
 
 # Load articles from text file
 def load_articles_from_txt(file_path):
+    print(file_path)
     try:
         with open(file_path, 'r', encoding="latin-1") as file:
             content = file.read()
@@ -648,7 +649,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
 article_data_path = 'Raw_Articles/Articles_combined.txt'
 articles_backup_path = 'Article_Data/Articles_backup.pkl'
 seniment_backup_path = "Article_Data/Articles_backup_with_sentiment.pkl"
-article_data_path = "Article_Data/Article_Data.csv"
+article_data_backup_path = "Article_Data/Article_Data.csv"
 sources_data_path = "Article_Data/News_Source_Names.csv"
 
 # Financial data file paths
@@ -681,7 +682,7 @@ glossary = load_csv(glossary_path)
 articles = get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
 
 # Save the article data to csv
-save_article_data(articles, article_data_path)
+save_article_data(articles, article_data_backup_path)
 
 # Get sentiment time series    
 daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
