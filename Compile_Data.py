@@ -14,6 +14,10 @@ from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 #nltk.download('punkt')
 
+is_stemmed = False
+matches = 0
+stemmed_text_matches = 0
+
 # Data to save for each trading day
 class Trading_Day:
     def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, pos_sentiment, neg_sentiment, 
@@ -35,7 +39,10 @@ class Trading_Day:
         self.crash = crash
     
     def to_csv_line(self): 
-        return f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.sentiment)},{str(self.stemmed_text_sentiment)},{str(self.pos_sentiment)},{str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
+        return f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},
+        {str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.pos_sentiment)},
+        {str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},
+        {str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}"
 
 # Class containing info about each article
 class Article:
@@ -269,6 +276,19 @@ def get_word_count(text_body, dictionary_words, glossary):
         if word not in glossary:
             count = article_words.count(word)
             word_counts += count
+            
+        ####################################################################
+        # for dis
+        global is_stemmed
+        global stemmed_text_matches
+        global matches
+        if is_stemmed:
+            stemmed_text_matches = stemmed_text_matches + word_counts
+        else:
+            matches = matches + word_counts
+        
+        ####################################################################
+        
     return word_counts
 
 # Calculate sentiment score for text
@@ -319,7 +339,20 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         for article in articles:
             try:
                 # Get sentiment scores
+                
+                ############################################################################################################################
+                # For dis
+                global is_stemmed
+                is_stemmed = True
+                ############################################################################################################################
+
                 pos_sentiment, neg_sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
+                
+                ############################################################################################################################
+                # For dis
+                is_stemmed = False
+                ############################################################################################################################
+                
                 stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
             
                 # Save score
@@ -342,9 +375,9 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
             pickle.dump(articles, file)
             
     return articles
-        
+
+# Save the Article objects to csv
 def save_article_data(articles, article_data_path):
-    # Define the field names
     field_names = ["Date", "Body", "Stemmed Body", "Source", "Headline",
                    "Positive Sentiment", "Negative Sentiment"]
     
@@ -430,13 +463,14 @@ def get_RYAAY_data(file_path, start_date, end_date):
         with open(file_path, 'r', newline='') as input_file:
             reader = csv.DictReader(input_file)
             
+            # Parse through the time series
             for row in reader:
                 date_str = row['Date']
                 date_object = datetime.strptime(date_str, '%Y-%m-%d')
                 close_price = float(row['Adj Close'])
                 volume.append(row['Volume'])
-
                 if start_date <= date_object <= end_date:
+                    
                     # Add the date before range for use in returns calculation
                     if range_reached == 0:
                         close_price_dict[prev_date] = prev_close
@@ -469,6 +503,7 @@ def get_VIX_data(file_path, start_date, end_date):
         with open(file_path, 'r', newline='') as input_file:
             reader = csv.DictReader(input_file)
             
+            # Parse through the time series
             for row in reader:
                 date_str = row['Date']
                 date_object = datetime.strptime(date_str, '%Y-%m-%d')
@@ -477,6 +512,7 @@ def get_VIX_data(file_path, start_date, end_date):
                 if row['Adj Close'] != "null":
                     close_price = float(row['Adj Close'])
                     if start_date <= date_object <= end_date:
+                        
                         # Add the date before range for use in returns calculation
                         if range_reached == 0:
                             close_price_dict[prev_date] = prev_close
@@ -587,7 +623,7 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
                                            pos_sentiment, neg_sentiment, stemmed_text_pos_sentiment, 
                                            stemmed_text_neg_sentiment, media_volume, monday, january, crash)
         
-    print("Financial Time Series compiled.\n")
+    print("Financial time series compiled.\n")
     return daily_data
 
 # Save collected data to csv
@@ -604,7 +640,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
 
-        print(f"Aggregated Time Series saved to {csv_file_path}")
+        print(f"Aggregated time series saved to {csv_file_path}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
