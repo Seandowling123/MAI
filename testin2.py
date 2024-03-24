@@ -40,8 +40,7 @@ def process_text(raw_article):
         body_upper = body_filtered.upper()
         return body_upper
     except Exception as e:
-        print("Error processing text")
-        return 0, 0
+        return ''
 
 # Count the number of dictionary words in an article
 def get_words(text_body, dictionary_words, glossary):
@@ -71,9 +70,9 @@ glossary = load_csv(glossary_path)
 
 raw_articles = load_articles_from_txt(article_data_path)
 
-for article in raw_articles:
+for article in raw_articles[1000:]:
     positive = get_words(process_text(str(article[:600])), positive_dict, glossary)
     negative = get_words(process_text(str(article[:600])), negative_dict, glossary)
-    if positive[0] > 5:
+    if positive[0] > 6:
         print(article.split("\n")[1])
 
