@@ -592,7 +592,7 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
     return daily_data
 
 # Save collected data to csv
-def save_daily_data_to_csv(daily_data, csv_file_path):
+def save_time_series_to_csv(daily_data, csv_file_path):
     try:
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
@@ -663,4 +663,4 @@ VIX_prices = get_VIX_data(VIX_data_path, start_date, end_date)
 daily_data = aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
 
 # Save data to csv
-save_daily_data_to_csv(daily_data, output_series_file_path)
+save_time_series_to_csv(daily_data, output_series_file_path)
