@@ -102,6 +102,7 @@ def load_articles_from_txt(file_path):
             content = file.read()
             content = content.replace('\xa0', '')
             articles = content.split('End of Document')
+            print(content)
             del articles[-1]
         return articles
     except FileNotFoundError:
@@ -644,8 +645,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
         print(f"An error occurred: {str(e)}")
 
 # Article file paths
-#article_data_path = 'Raw_Articles/Articles_combined.txt'
-article_data_path = 'Example_articles.txt'
+article_data_path = 'Raw_Articles/Articles_combined.txt'
 articles_backup_path = 'Article_Data/Articles_backup.pkl'
 seniment_backup_path = "Article_Data/Articles_backup_with_sentiment.pkl"
 article_data_path = "Article_Data/Article_Data.csv"

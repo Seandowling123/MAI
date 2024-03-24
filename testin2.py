@@ -70,7 +70,8 @@ glossary = load_csv(glossary_path)
 
 raw_articles = load_articles_from_txt(article_data_path)
 
-for article in raw_articles[1000:]:
+for article in raw_articles[:10]:
+    print(article)
     positive = get_words(process_text(str(article[:600])), positive_dict, glossary)
     negative = get_words(process_text(str(article[:600])), negative_dict, glossary)
     if positive[0] > 6:
