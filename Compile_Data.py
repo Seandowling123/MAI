@@ -267,11 +267,10 @@ def convert_to_zscore(articles):
 # Count the number of dictionary words in an article
 def get_word_count(text_body, dictionary_words, glossary):
     word_counts = 0
-    tokens = word_tokenize(text_body)
-    for word in dictionary_words: 
-        # Check if the word appears in the glossary
-        if word not in glossary:
-            count = tokens.count(word)
+    article_words = word_tokenize(text_body)
+    for word in dictionary_words:
+        if word in word and word not in glossary:
+            count = article_words.count(word)
             word_counts += count
     return word_counts
 
