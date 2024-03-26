@@ -368,21 +368,21 @@ def convert_article_count_to_zscore(daily_media_volume):
 def convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment):
     
     # Calculate the mean & standard deviations
-    mean_pos = statistics.mean(daily_pos_sentiment)
-    std_dev_pos = statistics.stdev(daily_pos_sentiment)
-    mean_neg = statistics.mean(daily_neg_sentiment)
-    std_dev_neg = statistics.stdev(daily_neg_sentiment)
-    mean_stemmed_text_pos = statistics.mean(daily_stemmed_text_pos_sentiment)
-    std_dev_stemmed_text_pos = statistics.stdev(daily_stemmed_text_pos_sentiment)
-    mean_stemmed_text_neg = statistics.mean(daily_stemmed_text_neg_sentiment)
-    std_dev_stemmed_text_neg = statistics.stdev(daily_stemmed_text_neg_sentiment)
+    mean_pos = statistics.mean(list(daily_pos_sentiment.values()))
+    std_dev_pos = statistics.stdev(list(daily_pos_sentiment.values()))
+    mean_neg = statistics.mean(list(daily_neg_sentiment.values()))
+    std_dev_neg = statistics.stdev(list(daily_neg_sentiment.values()))
+    mean_stemmed_text_pos = statistics.mean(list(daily_stemmed_text_pos_sentiment.values()))
+    std_dev_stemmed_text_pos = statistics.stdev(list(daily_stemmed_text_pos_sentiment.values()))
+    mean_stemmed_text_neg = statistics.mean(list(daily_stemmed_text_neg_sentiment.values()))
+    std_dev_stemmed_text_neg = statistics.stdev(list(daily_stemmed_text_neg_sentiment.values()))
     
     # Convert sentiments to Z-scores
-    for i in range(len(daily_pos_sentiment)):
-        daily_pos_sentiment[i] = (daily_pos_sentiment[i] - mean_pos) / std_dev_pos
-        daily_neg_sentiment[i] = (daily_neg_sentiment[i] - mean_neg) / std_dev_neg
-        daily_stemmed_text_pos_sentiment[i] = (daily_stemmed_text_pos_sentiment[i] - mean_stemmed_text_pos) / std_dev_stemmed_text_pos
-        daily_stemmed_text_neg_sentiment[i] = (daily_stemmed_text_neg_sentiment[i] - mean_stemmed_text_neg) / std_dev_stemmed_text_neg
+    for date in daily_pos_sentiment:
+        daily_pos_sentiment[date] = (daily_pos_sentiment[date] - mean_pos) / std_dev_pos
+        daily_neg_sentiment[date] = (daily_neg_sentiment[date] - mean_neg) / std_dev_neg
+        daily_stemmed_text_pos_sentiment[date] = (daily_stemmed_text_pos_sentiment[date] - mean_stemmed_text_pos) / std_dev_stemmed_text_pos
+        daily_stemmed_text_neg_sentiment[date] = (daily_stemmed_text_neg_sentiment[date] - mean_stemmed_text_neg) / std_dev_stemmed_text_neg
         
     return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment
 
