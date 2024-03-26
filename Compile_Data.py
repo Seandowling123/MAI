@@ -364,6 +364,28 @@ def convert_article_count_to_zscore(daily_media_volume):
     for day in daily_media_volume:
         daily_media_volume[day] = (daily_media_volume[day]-mean)/std_deviation
 
+# Convert the raw sentiments to Z-scores
+def convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment):
+    
+    # Calculate the mean & standard deviations
+    mean_pos = statistics.mean(daily_pos_sentiment)
+    std_dev_pos = statistics.stdev(daily_pos_sentiment)
+    mean_neg = statistics.mean(daily_neg_sentiment)
+    std_dev_neg = statistics.stdev(daily_neg_sentiment)
+    mean_stemmed_text_pos = statistics.mean(daily_stemmed_text_pos_sentiment)
+    std_dev_stemmed_text_pos = statistics.stdev(daily_stemmed_text_pos_sentiment)
+    mean_stemmed_text_neg = statistics.mean(daily_stemmed_text_neg_sentiment)
+    std_dev_stemmed_text_neg = statistics.stdev(daily_stemmed_text_neg_sentiment)
+    
+    # Convert sentiments to Z-scores
+    for i in range(len(daily_pos_sentiment)):
+        daily_pos_sentiment[i] = (daily_pos_sentiment[i] - mean_pos) / std_dev_pos
+        daily_neg_sentiment[i] = (daily_neg_sentiment[i] - mean_neg) / std_dev_neg
+        daily_stemmed_text_pos_sentiment[i] = (daily_stemmed_text_pos_sentiment[i] - mean_stemmed_text_pos) / std_dev_stemmed_text_pos
+        daily_stemmed_text_neg_sentiment[i] = (daily_stemmed_text_neg_sentiment[i] - mean_stemmed_text_neg) / std_dev_stemmed_text_neg
+        
+    return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment
+
 # Calculate a sentiment time series from the article sentiments
 def get_daily_sentiments(articles):
     daily_pos_sentiment = defaultdict(list)
@@ -391,29 +413,7 @@ def get_daily_sentiments(articles):
         daily_stemmed_text_pos_sentiment[article.date] = np.mean(daily_stemmed_text_pos_sentiment[article.date])
         daily_stemmed_text_neg_sentiment[article.date] = np.mean(daily_stemmed_text_neg_sentiment[article.date])
     
-    return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume
-
-# Convert the raw sentiments to Z-scores
-def convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment):
-    
-    # Calculate the mean & standard deviations
-    mean_pos = statistics.mean(daily_pos_sentiment)
-    std_dev_pos = statistics.stdev(daily_pos_sentiment)
-    mean_neg = statistics.mean(daily_neg_sentiment)
-    std_dev_neg = statistics.stdev(daily_neg_sentiment)
-    mean_stemmed_text_pos = statistics.mean(daily_stemmed_text_pos_sentiment)
-    std_dev_stemmed_text_pos = statistics.stdev(daily_stemmed_text_pos_sentiment)
-    mean_stemmed_text_neg = statistics.mean(daily_stemmed_text_neg_sentiment)
-    std_dev_stemmed_text_neg = statistics.stdev(daily_stemmed_text_neg_sentiment)
-    
-    # Convert sentiments to Z-scores
-    for i in range(len(daily_pos_sentiment)):
-        daily_pos_sentiment[i] = (daily_pos_sentiment[i] - mean_pos) / std_dev_pos
-        daily_neg_sentiment[i] = (daily_neg_sentiment[i] - mean_neg) / std_dev_neg
-        daily_stemmed_text_pos_sentiment[i] = (daily_stemmed_text_pos_sentiment[i] - mean_stemmed_text_pos) / std_dev_stemmed_text_pos
-        daily_stemmed_text_neg_sentiment[i] = (daily_stemmed_text_neg_sentiment[i] - mean_stemmed_text_neg) / std_dev_stemmed_text_neg
-        
-    return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment
+    return convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment), daily_media_volume
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
