@@ -290,7 +290,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
     if backedup_articles != None and len(backedup_articles) == len(articles):
         print("Loading sentiments from backup file.")
         articles = backedup_articles.copy()
-        print("Sentiments loaded from backup.")
+        print("Sentiments loaded from backup file.")
     else:
         # Iterate through each article
         for article in articles:
@@ -413,7 +413,9 @@ def get_daily_sentiments(articles):
         daily_stemmed_text_pos_sentiment[article.date] = np.mean(daily_stemmed_text_pos_sentiment[article.date])
         daily_stemmed_text_neg_sentiment[article.date] = np.mean(daily_stemmed_text_neg_sentiment[article.date])
     
-    return convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment), daily_media_volume
+    # Convert time series to Z-score
+    daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment = convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment)
+    return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
@@ -628,6 +630,7 @@ output_series_file_path = 'Aggregated_Time_Series.csv'
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
+    print("Loading articles from backup file.")
     with open(articles_backup_path, 'rb') as file:
         articles = pickle.load(file)
         print(f"Loaded {len(articles)} articles from backup file.")
