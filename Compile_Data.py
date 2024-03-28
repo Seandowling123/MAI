@@ -243,7 +243,7 @@ def get_word_count(text_body, dictionary_words, glossary):
     word_counts = 0
     article_words = word_tokenize(text_body)
     for word in dictionary_words:
-        if word in word and word not in glossary:
+        if word in article_words and word not in glossary:
             count = article_words.count(word)
             word_counts += count
     return word_counts

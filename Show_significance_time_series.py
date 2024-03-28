@@ -5,7 +5,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
 # Load data
-df = pd.read_csv('Rolling_VAR_Results/Returns_Rolling_VAR_T_Ratios.csv')
+df = pd.read_csv('Rolling_VAR_Results/Absolute_Returns_Rolling_VAR_T_Ratios.csv')
 df = df[252:]
 df.set_index('obs', inplace=True)
 
@@ -14,6 +14,7 @@ datetime_objs = [datetime.strptime(date_str.split(' ')[0], '%Y-%m-%d') for date_
 
 pos_sentiment_significance = []
 for value in df['pos_t_ratios']:
+    value = abs(value)
     if value > 2.576:
         pos_sentiment_significance.append(3)
     elif value > 1.96:
@@ -24,6 +25,7 @@ for value in df['pos_t_ratios']:
     
 neg_sentiment_significance = []
 for value in df['neg_t_ratios']:
+    value = abs(value)
     if value > 2.576:
         neg_sentiment_significance.append(3)
     elif value > 1.96:
@@ -34,6 +36,7 @@ for value in df['neg_t_ratios']:
 
 media_vol_significance = []
 for value in df['med_vol_t_ratios']:
+    value = abs(value)
     if value > 2.576:
         media_vol_significance.append(3)
     elif value > 1.96:
