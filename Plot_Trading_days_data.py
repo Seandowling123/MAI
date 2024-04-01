@@ -55,11 +55,11 @@ dates = trading_days_data.index.tolist()
 datetime_objs = [datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S') for date_str in dates]
 
 # Plot data
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(15, 5))
 # Calculate 60-period moving average
 ma_window = 60
-moving_average_sentiment = np.convolve(list(trading_days_data['Stemmed_text_Positive_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
-plt.plot(datetime_objs, trading_days_data['Stemmed_text_Positive_Sentiment'], label='Positive Sentiment', color='#2980b9', linewidth=1)
+moving_average_sentiment = np.convolve(list(trading_days_data['Positive_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
+plt.plot(datetime_objs, trading_days_data['Positive_Sentiment'], label='Positive Sentiment', color='#2980b9', linewidth=1)
 plt.plot(datetime_objs[ma_window//2:-ma_window//2], moving_average_sentiment[1:], label='60-day Moving Average', color='#e74c3c', linewidth=1)
 plt.title('Positive Sentiment Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -68,24 +68,24 @@ plt.xlabel('Date', fontsize=13, fontname='Times New Roman')
 plt.ylabel('Standard Deviations', fontsize=13, fontname='Times New Roman')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-#plt.savefig('Plots/Positive_Sentiment_Over_Time.png', bbox_inches='tight')
+plt.savefig('Plots/Positive_Sentiment_Over_Time.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(15, 5))
 # Calculate 60-period moving average
 ma_window = 60
-moving_average_sentiment = np.convolve(list(trading_days_data['Stemmed_text_Negative_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
-plt.plot(datetime_objs, trading_days_data['Stemmed_text_Negative_Sentiment'], label='Negative Sentiment', color='#2980b9', linewidth=1)
+moving_average_sentiment = np.convolve(list(trading_days_data['Negative_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
+plt.plot(datetime_objs, trading_days_data['Negative_Sentiment'], label='Negative Sentiment', color='#2980b9', linewidth=1)
 plt.plot(datetime_objs[ma_window//2:-ma_window//2], moving_average_sentiment[1:], label='60-day Moving Average', color='#e74c3c', linewidth=1)
-plt.title('Negative Sentiment Over Time', fontsize=14, fontfamily='serif')
+plt.title('Negative Sentiment Over Time', fontsize=20, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-plt.legend(loc='upper left', prop={'family': 'serif', 'size': 11})
-plt.xlabel('Date', fontsize=13, fontname='Times New Roman')
-plt.ylabel('Standard Deviations', fontsize=13, fontname='Times New Roman')
+plt.legend(loc='upper left', prop={'family': 'serif', 'size': 15})
+plt.xlabel('Date', fontsize=15, fontname='Times New Roman')
+plt.ylabel('Standard Deviations', fontsize=15, fontname='Times New Roman')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-#plt.savefig('Plots/Negative_Sentiment_Over_Time.png', bbox_inches='tight')
+plt.savefig('Plots/Negative_Sentiment_Over_Time.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
