@@ -7,6 +7,20 @@ import pandas as pd
 import numpy as np
 import pickle
 
+# Class containing info about each article
+class Article:
+    def __init__(self, date, body, stemmed_text_body, source, headline, pos_sentiment, neg_sentiment, 
+                 stemmed_text_pos_sentiment, stemmed_text_neg_sentiment):
+        self.date = date
+        self.body = body
+        self.stemmed_text_body = stemmed_text_body
+        self.source = source
+        self.headline = headline
+        self.pos_sentiment = pos_sentiment
+        self.neg_sentiment = neg_sentiment
+        self.stemmed_text_pos_sentiment = stemmed_text_pos_sentiment
+        self.stemmed_text_neg_sentiment = stemmed_text_neg_sentiment
+
 def get_trading_days_data(file_path):
     df = pd.read_csv(file_path)
     df.set_index('Date', inplace=True)
@@ -104,13 +118,13 @@ media_vol = get_media_vol(articles)
 yearly_counts = defaultdict(int)
 
 # Aggregate the counts for each year
-for date, count in media_vol:
+for date in media_vol:
     year = date.year
-    yearly_counts[year] += count
+    yearly_counts[year] += media_vol[date]
 
 # Print the total counts for each year
-for year, total_count in yearly_counts.items():
-    print(f'{total_count} & ', end='', flush=True)
+for year in range(2003, 2023 + 1):
+    print(f'{yearly_counts[year]} & ', end='', flush=True)
     
 # Create a bar chart
 years = list(yearly_counts.keys())
@@ -129,19 +143,20 @@ plt.tick_params(axis='both', which='major', labelsize=12)
 monthly_counts = defaultdict(int)
 
 # Aggregate the counts for each month
-for date, count in media_vol:
+for date in media_vol:
     month = date.month
     year = date.year
-    monthly_counts[(year,month)] += count
+    monthly_counts[(month,month)] += media_vol[date]
 
 # Print the total counts for each month
-for month, total_count in monthly_counts.items():
-    if month[1] == 1:
-        print(f'\\\\ \n\\textbf{{{month[0]}}} & ', end='', flush=True)
-    else: print(' & ', end='', flush=True)
-    print(f"{total_count}", end='', flush=True)
-    if month[1] == 12:
-        print(f" & {yearly_counts[month[0]]}", end='', flush=True)
+for year in range(2003, 2023 + 1):
+    for month in range(1, 12+1):
+        if month == 1:
+            print(f'\\\\ \n\\textbf{{{year}}} & ', end='', flush=True)
+        else: print(' & ', end='', flush=True)
+        print(f"{monthly_counts[(month,month)]}", end='', flush=True)
+        if month == 12:
+            print(f" & {yearly_counts[year]}", end='', flush=True)
     
 print("SUM", sum(list(monthly_counts.values())))
 ######################################
