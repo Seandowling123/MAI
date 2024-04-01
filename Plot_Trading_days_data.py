@@ -5,6 +5,7 @@ from collections import defaultdict
 import statistics
 import pandas as pd
 import numpy as np
+import pickle
 
 def get_trading_days_data(file_path):
     df = pd.read_csv(file_path)
@@ -24,6 +25,14 @@ def convert_to_zscore(returns):
         
     return z_score_returns
 
+def get_media_vol(articles):
+    daily_media_volume = {}
+    for article in articles:
+        if article.date in daily_media_volume:
+            daily_media_volume[article.date] = daily_media_volume[article.date]+1
+        else: daily_media_volume[article.date] = 1
+    return daily_media_volume
+
 trading_days_file_name = 'Aggregated_Time_Series.csv'
 trading_days_data = get_trading_days_data(trading_days_file_name)
 print(trading_days_data.head())
@@ -35,8 +44,8 @@ datetime_objs = [datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S') for date_str i
 plt.figure(figsize=(12, 6))
 # Calculate 60-period moving average
 ma_window = 60
-moving_average_sentiment = np.convolve(list(trading_days_data['Stemmed_Positive_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
-plt.plot(datetime_objs, trading_days_data['Stemmed_Positive_Sentiment'], label='Positive Sentiment', color='#2980b9', linewidth=1)
+moving_average_sentiment = np.convolve(list(trading_days_data['Stemmed_text_Positive_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
+plt.plot(datetime_objs, trading_days_data['Stemmed_text_Positive_Sentiment'], label='Positive Sentiment', color='#2980b9', linewidth=1)
 plt.plot(datetime_objs[ma_window//2:-ma_window//2], moving_average_sentiment[1:], label='60-day Moving Average', color='#e74c3c', linewidth=1)
 plt.title('Positive Sentiment Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -52,8 +61,8 @@ plt.tick_params(axis='both', which='major', labelsize=10)
 plt.figure(figsize=(12, 6))
 # Calculate 60-period moving average
 ma_window = 60
-moving_average_sentiment = np.convolve(list(trading_days_data['Stemmed_Negative_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
-plt.plot(datetime_objs, trading_days_data['Stemmed_Negative_Sentiment'], label='Negative Sentiment', color='#2980b9', linewidth=1)
+moving_average_sentiment = np.convolve(list(trading_days_data['Stemmed_text_Negative_Sentiment']), np.ones(ma_window)/ma_window, mode='valid')
+plt.plot(datetime_objs, trading_days_data['Stemmed_text_Negative_Sentiment'], label='Negative Sentiment', color='#2980b9', linewidth=1)
 plt.plot(datetime_objs[ma_window//2:-ma_window//2], moving_average_sentiment[1:], label='60-day Moving Average', color='#e74c3c', linewidth=1)
 plt.title('Negative Sentiment Over Time', fontsize=14, fontfamily='serif')
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -83,18 +92,25 @@ plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
 plt.close()
 
+
 ######################################
-# Get yearly article count breakdown
+# Get article count breakdown
+articles_backup_path = 'Article_Data/Articles_backup.pkl'
+with open(articles_backup_path, 'rb') as file:
+    articles = pickle.load(file)
+    print(f"Loaded {len(articles)} articles from backup file.")
+        
+media_vol = get_media_vol(articles)
 yearly_counts = defaultdict(int)
 
 # Aggregate the counts for each year
-for date, count in zip(datetime_objs, list(trading_days_data['Media_Volume'])):
+for date, count in media_vol:
     year = date.year
     yearly_counts[year] += count
 
 # Print the total counts for each year
 for year, total_count in yearly_counts.items():
-    print(f"Year {year}: {total_count}")
+    print(f'{total_count} & ', end='', flush=True)
     
 # Create a bar chart
 years = list(yearly_counts.keys())
@@ -107,8 +123,30 @@ plt.xticks(range(min(years), max(years)+1, 2))
 plt.title('Article Count Yearly Breakdown', fontsize=18, fontfamily='serif')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
-plt.savefig('Plots/Article_Count_Yearly_Breakdown.png', bbox_inches='tight')
+
 ######################################
+# Get monthly article count breakdown
+monthly_counts = defaultdict(int)
+
+# Aggregate the counts for each month
+for date, count in media_vol:
+    month = date.month
+    year = date.year
+    monthly_counts[(year,month)] += count
+
+# Print the total counts for each month
+for month, total_count in monthly_counts.items():
+    if month[1] == 1:
+        print(f'\\\\ \n\\textbf{{{month[0]}}} & ', end='', flush=True)
+    else: print(' & ', end='', flush=True)
+    print(f"{total_count}", end='', flush=True)
+    if month[1] == 12:
+        print(f" & {yearly_counts[month[0]]}", end='', flush=True)
+    
+print("SUM", sum(list(monthly_counts.values())))
+######################################
+    
+
 
 plt.figure(figsize=(12, 6))
 plt.plot(datetime_objs, list(trading_days_data['Returns']), label='RYAAY Returns', color='#2980b9', linewidth=1)
