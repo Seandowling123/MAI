@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+import pandas as pd
 from matplotlib import rcParams
 rcParams['font.family'] = 'sans-serif'
 rcParams['font.sans-serif'] = ['Tahoma']
@@ -134,7 +135,7 @@ def get_crash_dates_intervals():
 # Extract data
 start_date = "2003-01-01"
 end_date = "2023-12-31"
-close_prices, dates = ectract_close_prices("RYAAY.csv", datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
+close_prices, dates = ectract_close_prices("Financial_Data/RYAAY.csv", datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
 returns = []
 for i in range(len(close_prices)):
     if i != 0:
@@ -182,7 +183,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 #plt.show()
 # Save the plot as a PNG file
-plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
+#plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
 plt.close()
 
 ###########################
@@ -208,7 +209,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 #plt.show()
 # Save the plot as a PNG file
-plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
 plt.close()
 
 ###########################
@@ -237,7 +238,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 #plt.show()
 # Save the plot as a PNG file
-plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
 plt.close()
 
 
@@ -265,6 +266,31 @@ plt.legend(fontsize=10, prop={'family': 'serif', 'size': 10})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
 # Save the plot as a PNG file
-plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
 #plt.show()
 plt.close()
+
+
+#####################
+# Close and Volume
+#####################
+
+file_path = "Financial_Data/RYAAY.csv"
+df = pd.read_csv(file_path)
+df = df[1407:]
+
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.plot(dates, df['Adj Close'], color='#2e69c7', label='Close Price', linewidth=1)
+ax2 = ax.twinx()
+ax2.plot(dates, df['Volume'], color='#2980b9', label='Trading Volume', linewidth=0.4, alpha=0.4)
+ax2.fill_between(dates, df['Volume'], color='#2980b9', alpha=0.4)
+ax2.set_ylim(0, 15e+6)
+ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
+ax.set_ylabel('Close Price (USD)', fontsize=15, fontname='Times New Roman')
+ax2.set_ylabel('Trading Volume (e+7 Shares)', fontsize=13, fontname='Times New Roman')
+ax.set_title('RYAAY Trading Volume and Close Price', fontsize=18, fontfamily='serif')
+ax.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
+ax2.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tick_params(axis='both', which='major', labelsize=12)
+plt.show()
