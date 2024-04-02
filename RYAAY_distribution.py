@@ -259,7 +259,7 @@ plt.fill_between(range(1,num_lags), absolute_correlations, alpha=0.2, color='#29
 plt.plot(range(1,num_lags), correlations, color='#e74c3c', label='Returns Autocorrelation', linewidth=1)
 plt.fill_between(range(1,num_lags), correlations, alpha=0.2, color='#e74c3c')
 plt.xlabel('Lag (Trading Days)', fontsize=15, fontname='Times New Roman')
-plt.ylabel('Correlation Coefficient (R)', fontsize=15, fontname='Times New Roman')
+plt.ylabel('Correlation Coefficient (R^2)', fontsize=15, fontname='Times New Roman')
 plt.title('Autocorrelation of RYAAY Returns & Absolute Returns At Different Time Lags', fontsize=18, fontfamily='serif')
 plt.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
