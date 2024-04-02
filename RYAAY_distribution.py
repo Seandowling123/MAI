@@ -169,21 +169,20 @@ x_values = np.linspace(-4, 4, 100)
 normal_distribution = norm.pdf(x_values, mean_returns, 1)
 # Create histogram
 num_bins = 50
-plt.figure(figsize=(8.5, 6))
+plt.figure(figsize=(12, 5))
 plt.hist(returns_zscores, bins=num_bins, color='#2980b9', alpha=0.7, density=True, label='Daily RYAAY Returns Distribution', edgecolor='black', linewidth=0.5)
 plt.plot(x_values, normal_distribution, color='#e74c3c', label='Normal Distribution', linewidth=1)
 # Show histogram
 plt.fill_between(x_values, normal_distribution, alpha=0.2, color='#e74c3c')
-plt.xlabel('Returns', fontsize=12)
-plt.ylabel('Probability Density', fontsize=13, fontname='Times New Roman')
-plt.xlabel('Standard Deviations', fontsize=13, fontname='Times New Roman')
-plt.title('Distribution of RYAAY Returns and Normal Distribution', fontsize=14, fontfamily='serif')
-plt.legend(fontsize=10, prop={'family': 'serif', 'size': 10})
+plt.ylabel('Probability Density', fontsize=15, fontname='Times New Roman')
+plt.xlabel('Standard Deviations', fontsize=15, fontname='Times New Roman')
+plt.title('Distribution of RYAAY Returns and Normal Distribution', fontsize=18, fontfamily='serif')
+plt.legend(fontsize=10, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tick_params(axis='both', which='major', labelsize=10)
+plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
 # Save the plot as a PNG file
-#plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
+plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
 plt.close()
 
 ###########################
@@ -191,7 +190,7 @@ plt.close()
 ###########################
 
 # Create plot
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 5))
 plt.plot(dates[1:], returns, color='#2980b9', label='Daily RYAAY Returns', linewidth=1)
 
 # Adding crash data
@@ -206,10 +205,10 @@ plt.ylim(-0.3, 0.3)
 plt.title('RYAAY Returns Over Time', fontsize=18, fontfamily='serif')
 plt.legend(loc='upper left', prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tick_params(axis='both', which='major', labelsize=10)
+plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
 # Save the plot as a PNG file
-#plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
+plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
 plt.close()
 
 ###########################
@@ -220,7 +219,7 @@ plt.close()
 ma_window = 30
 moving_average = np.convolve(np.abs(returns), np.ones(ma_window)/ma_window, mode='valid')
 # Create plot
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 5))
 plt.plot(dates[1:], np.abs(returns), color='#2980b9', label='Daily Absolute Returns', linewidth=1)
 plt.plot(dates[ma_window//2:-ma_window//2], moving_average, color='#e74c3c', label='30-day Moving Average', linewidth=1)
 
@@ -230,15 +229,15 @@ for start_date, end_date in get_crash_dates_intervals():
 plt.text(get_crash_dates_intervals()[0][1], plt.ylim()[1] * 0.9, 'Global Financial Crisis', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
 plt.text(get_crash_dates_intervals()[1][1], plt.ylim()[1] * 0.9, 'COVID-19 Crash', horizontalalignment='center', fontname='Times New Roman', fontsize=11)
 
-plt.xlabel('Time (Trading Days)', fontsize=13, fontname='Times New Roman')
-plt.ylabel('Absolute Returns', fontsize=13, fontname='Times New Roman')
-plt.title('Absolute Returns Over Time', fontsize=14, fontfamily='serif')
-plt.legend(fontsize=10, loc='upper left', prop={'family': 'serif', 'size': 10})
+plt.xlabel('Time (Trading Days)', fontsize=15, fontname='Times New Roman')
+plt.ylabel('Absolute Returns', fontsize=15, fontname='Times New Roman')
+plt.title('Absolute Returns Over Time', fontsize=18, fontfamily='serif')
+plt.legend(fontsize=12, loc='upper left', prop={'family': 'serif', 'size': 12}, bbox_to_anchor=(0.01, 0.88))
 plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tick_params(axis='both', which='major', labelsize=10)
+plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
 # Save the plot as a PNG file
-#plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
+plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
 plt.close()
 
 
@@ -254,19 +253,19 @@ absolute_correlations = []
 for i in range(1,num_lags):
     absolute_correlations.append(np.corrcoef(np.abs(returns[i:]), np.abs(returns[:(len(returns)-i)]))[0, 1])
 # Create plot
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 5))
 plt.plot(range(1,num_lags), absolute_correlations, color='#2980b9', label='Absolute Returns Autocorrelation', linewidth=1)
 plt.fill_between(range(1,num_lags), absolute_correlations, alpha=0.2, color='#2980b9')
 plt.plot(range(1,num_lags), correlations, color='#e74c3c', label='Returns Autocorrelation', linewidth=1)
 plt.fill_between(range(1,num_lags), correlations, alpha=0.2, color='#e74c3c')
-plt.xlabel('Lag (Trading Days)', fontsize=13, fontname='Times New Roman')
-plt.ylabel('Correlation Coefficient (R)', fontsize=13, fontname='Times New Roman')
-plt.title('Autocorrelation of RYAAY Returns & Absolute Returns At Different Time Lags', fontsize=14, fontfamily='serif')
-plt.legend(fontsize=10, prop={'family': 'serif', 'size': 10})
+plt.xlabel('Lag (Trading Days)', fontsize=15, fontname='Times New Roman')
+plt.ylabel('Correlation Coefficient (R)', fontsize=15, fontname='Times New Roman')
+plt.title('Autocorrelation of RYAAY Returns & Absolute Returns At Different Time Lags', fontsize=18, fontfamily='serif')
+plt.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tick_params(axis='both', which='major', labelsize=10)
+plt.tick_params(axis='both', which='major', labelsize=12)
 # Save the plot as a PNG file
-#plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
+plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
 #plt.show()
 plt.close()
 
@@ -287,7 +286,7 @@ ax2.fill_between(dates, df['Volume'], color='#e74c3c', alpha=0.4)
 ax2.set_ylim(0, 15e+6)
 ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
 ax.set_ylabel('Close Price (USD)', fontsize=15, fontname='Times New Roman')
-ax2.set_ylabel('Trading Volume (e+7 Shares)', fontsize=13, fontname='Times New Roman')
+ax2.set_ylabel('Trading Volume (e+7 Shares)', fontsize=15, fontname='Times New Roman')
 ax.set_title('RYAAY Trading Volume and Close Price', fontsize=18, fontfamily='serif')
 ax.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 ax2.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
