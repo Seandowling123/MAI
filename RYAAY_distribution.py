@@ -10,6 +10,23 @@ import numpy as np
 from statistics import mode, median, variance
 from scipy.stats import norm, skew, kurtosis, jarque_bera
 
+def get_split_indices(returns, dates):
+    # Initialize variables
+    split_indices = []
+    current_year = dates[0].year
+    start_index = 0
+
+    # Iterate over the dates list
+    for i, date in enumerate(dates):
+        if date.year != current_year:
+            split_indices.append((start_index, i - 1))
+            current_year = date.year
+            start_index = i
+
+    # Add the last 2-year period
+    split_indices.append((start_index, len(dates) - 1))
+    return split_indices
+
 def get_distribution_data(returns):
     
     # Calculate mean and standard deviation of returns
@@ -133,7 +150,7 @@ def get_crash_dates_intervals():
     return [(gfc_start_date, gfc_end_date), (covid_start_date, covid_end_date)]
 
 # Extract data
-start_date = "2003-01-01"
+start_date = "2004-01-01"
 end_date = "2023-12-31"
 close_prices, dates = ectract_close_prices("Financial_Data/RYAAY.csv", datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
 returns = []
@@ -146,9 +163,18 @@ mean_returns = np.mean(returns)
 std_returns = np.std(returns)
 
 # Print the returns returns stats
+split_indices = get_split_indices(returns, dates)
+
+for start, end in split_indices:
+    returns[start:end + 1]
+    
 #get_distribution_data(returns)
 #get_descriptive_stats(returns)
 #get_descriptive_stats(np.abs(returns))
+
+####################################################################################
+# Plots
+####################################################################################
 
 ###################
 # Show Distribution
@@ -276,7 +302,7 @@ plt.close()
 
 file_path = "Financial_Data/RYAAY.csv"
 df = pd.read_csv(file_path)
-df = df[1407:]
+df = df[1659:]
 
 fig, ax = plt.subplots(figsize=(12, 5))
 ax.plot(dates, df['Adj Close'], color='#2e69c7', label='Close Price', linewidth=1)
