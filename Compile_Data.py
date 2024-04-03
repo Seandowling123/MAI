@@ -563,7 +563,8 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
         media_volume = 0
         monday = 0
         january = 0
-        crash = 0
+        gfc = 0
+        covid = 0
         
         # Skip the first trading day date
         if days_parsed == 0:
