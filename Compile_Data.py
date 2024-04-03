@@ -13,9 +13,6 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 
-total_words = 0
-overlapping_words = 0
-
 # Data to save for each trading day
 class Trading_Day:
     def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, pos_sentiment, neg_sentiment, 
@@ -251,14 +248,6 @@ def get_word_count(text_body, dictionary_words, glossary):
         if word in article_words and word not in glossary:
             count = article_words.count(word)
             word_counts += count
-            
-        #####################################################################
-        if word in article_words and word in glossary:
-            global overlapping_words
-            overlapping_words = overlapping_words + article_words.count(word)
-    global total_words
-    total_words = total_words + word_counts
-    #####################################################################
     return word_counts
 
 # Calculate sentiment score for text
@@ -687,6 +676,3 @@ daily_data = aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, dai
 
 # Save data to csv
 save_time_series_to_csv(daily_data, output_series_file_path)
-
-print("overlapping:", overlapping_words)
-print("total:", total_words)
