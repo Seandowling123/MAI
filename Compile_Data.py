@@ -202,16 +202,17 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
             # Check for valid date & source
             date = get_date_match(raw_articles[i])
             if isinstance(date, datetime):
-                source = get_source_match(raw_articles[i], sources)
-                if source:
-                    
-                    # Add to Articles list. Initialise sentiment to 0
-                    body = process_text(raw_articles[i])
-                    stemmed_text_body = stem_text(body)
-                    if body != 0:
-                        articles.append(Article(date, body, stemmed_text_body, source, headline, 0, 0, 0, 0))
-                    else: num_invalid_bodies = num_invalid_bodies+1
-                else: num_invalid_sources = num_invalid_sources+1
+                if date >= datetime(2004, 1, 1):
+                    source = get_source_match(raw_articles[i], sources)
+                    if source:
+                        
+                        # Add to Articles list. Initialise sentiment to 0
+                        body = process_text(raw_articles[i])
+                        stemmed_text_body = stem_text(body)
+                        if body != 0:
+                            articles.append(Article(date, body, stemmed_text_body, source, headline, 0, 0, 0, 0))
+                        else: num_invalid_bodies = num_invalid_bodies+1
+                    else: num_invalid_sources = num_invalid_sources+1
             else: num_invalid_dates = num_invalid_dates+1
         else: num_invalid_bodies = num_invalid_bodies+1
         
