@@ -167,6 +167,7 @@ get_distribution_data(returns)
 
 split_indices = get_split_indices(returns, dates)
 for start, end in split_indices:
+    print(f'Period: {dates[start]} - {dates[end + 1]}')
     get_descriptive_stats(returns[start:end + 1])
     
 #get_distribution_data(returns)
