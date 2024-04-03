@@ -224,6 +224,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
     print(f"\nReceived {len_orig} articles.")
     print(f"Removed {num_duplicates} duplicate articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
+    print(f"Removed {num_out_of_date_range} articles out of date range.")
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
     print(f"Removed {num_invalid_bodies} articles with invalid article bodies.\n")
     print(f"Loaded {len(articles)} articles.\n")
