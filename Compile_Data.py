@@ -164,12 +164,10 @@ def stem_text(text):
     words = word_tokenize(text)
     stemmed_text_text = ""
     
-    # Stem each word
+    """# Stem each word
     for word in words:
-        #stemmed_text_word = stemmer.stem(word)
         stemmed_text_word = stemmer.stem(word)
-        stemmed_text_text = stemmed_text_text + " " + stemmed_text_word
-    #print(text, stemmed_text_text)
+        stemmed_text_text = stemmed_text_text + " " + stemmed_text_word"""
     return stemmed_text_text.upper()
 
 # Print a progress bar during calculations
@@ -183,6 +181,7 @@ def print_progress_bar(iteration, total, caption="Loading", bar_length=50):
 def extract_article_data(raw_articles, sources, articles_backup_path):
     articles = []
     num_invalid_dates = 0
+    num_out_of_date_range = 0
     num_invalid_sources = 0
     num_invalid_bodies = 0
     calculated = 0
@@ -213,6 +212,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                             articles.append(Article(date, body, stemmed_text_body, source, headline, 0, 0, 0, 0))
                         else: num_invalid_bodies = num_invalid_bodies+1
                     else: num_invalid_sources = num_invalid_sources+1
+                else: num_out_of_date_range = num_out_of_date_range+1
             else: num_invalid_dates = num_invalid_dates+1
         else: num_invalid_bodies = num_invalid_bodies+1
         
@@ -222,7 +222,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
             print_progress_bar(calculated, len(raw_articles), caption="Processing Articles")
         
     # Print stats
-    print(f"\nReceived {len(raw_articles)} articles.")
+    print(f"\nReceived {len(raw_articles)-num_out_of_date_range} articles.")
     print(f"Removed {num_duplicates} duplicate articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
