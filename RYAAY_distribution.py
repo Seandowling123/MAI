@@ -101,20 +101,21 @@ def get_descriptive_stats(returns):
     
     # Print the stats
     print("\nRYAAY Descriptive Statistics", "\\\\")
-    print("textbf{Mean} & ", mean_returns, "\\\\")
-    print("textbf{Mode} & ", mode_returns, "\\\\")
-    print("textbf{Median} & ", median_returns, "\\\\")
-    print("textbf{Standard Deviation} & ", dev_returns, "\\\\")
-    print("textbf{Sample Variance} & ", sample_var_return, "\\\\")
-    print("textbf{Range} & ", data_range_return, "\\\\")
-    print("textbf{Skewness} & ", data_skewness, "\\\\")
-    print("textbf{Kurtosis} & ", data_kurtosis, "\\\\")
-    for lag, autocorr in zip(range(1, lag + 1), autocorrelations):
-        print("textbf{Autocorrelation at Lag", lag, "&", autocorr, "\\\\")
-    print("textbf{Minimum} & ", min_returns, "\\\\")
-    print("textbf{Maximum} & ", max_returns, "\\\\")
-    print("textbf{Count} & ", len(returns), "\\\\")
-    print("textbf{Jarque-Bera p-value} & ", p_value, "\\\\")
+    print("{:.4f} & ".format(mean_returns))
+    print("{:.4f} & ".format(mode_returns))
+    print("{:.4f} & ".format(median_returns))
+    print("{:.4f} & ".format(dev_returns))
+    print("{:.4f} & ".format(sample_var_return))
+    print("{:.4f} & ".format(data_range_return))
+    print("{:.4f} & ".format(data_skewness))
+    print("{:.4f} & ".format(data_kurtosis))
+    for autocorr in autocorrelations:
+        print("{:.4f} & ".format(autocorr))
+    print("{:.4f} & ".format(min_returns))
+    print("{:.4f} & ".format(max_returns))
+    print("{:.4f} & ".format(len(returns)))
+    print("{:.4f} & ".format(p_value))
+
 
 def ectract_close_prices(input_file_path, start_date, end_date):
     prices = []
@@ -163,12 +164,14 @@ mean_returns = np.mean(returns)
 std_returns = np.std(returns)
 
 # Print the returns returns stats
-get_distribution_data(returns)
+#get_distribution_data(returns)
 
 split_indices = get_split_indices(returns, dates)
-for start, end in split_indices:
-    print(f'Period: {dates[start]} - {dates[end + 1]}')
-    get_descriptive_stats(returns[start:end + 1])
+for i in range(10):
+    start = split_indices[i*2][0]
+    end = split_indices[i*2+1][1]
+    print(f'\nPeriod: {dates[start]} - {dates[end]}', end='', flush=True)
+    get_descriptive_stats(returns[start:end])
     
 #get_distribution_data(returns)
 #get_descriptive_stats(returns)

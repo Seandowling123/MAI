@@ -85,7 +85,7 @@ plt.xlabel('Date', fontsize=15, fontname='Times New Roman')
 plt.ylabel('Standard Deviations', fontsize=15, fontname='Times New Roman')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
-#plt.savefig('Plots/Negative_Sentiment_Over_Time.png', bbox_inches='tight')
+plt.savefig('Plots/Negative_Sentiment_Over_Time.png', bbox_inches='tight')
 #plt.show()
 
 # Plot data
@@ -163,7 +163,6 @@ print("SUM", sum(list(monthly_counts.values())))
 ######################################
     
 
-
 plt.figure(figsize=(13, 5))
 plt.plot(datetime_objs, list(trading_days_data['Returns']), label='RYAAY Returns', color='#2980b9', linewidth=1)
 plt.title('RYAAY Returns Over Time', fontsize=18, fontfamily='serif')
@@ -173,7 +172,7 @@ plt.xlabel('Date', fontsize=15, fontname='Times New Roman')
 plt.ylabel('Standard Deviations', fontsize=15, fontname='Times New Roman')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=10)
-plt.savefig('Plots/Returns_Over_Time.png', bbox_inches='tight')
+#plt.savefig('Plots/Returns_Over_Time.png', bbox_inches='tight')
 #plt.show()
 
 plt.figure(figsize=(11, 6))
