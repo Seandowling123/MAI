@@ -17,7 +17,7 @@ from collections import defaultdict
 # Data to save for each trading day
 class Trading_Day:
     def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, pos_sentiment, neg_sentiment, 
-                 stemmed_text_pos_sentiment, stemmed_text_neg_sentiment, media_volume, monday, january, crash):
+                 stemmed_text_pos_sentiment, stemmed_text_neg_sentiment, media_volume, monday, january, gfc, covid):
         self.date = date
         self.close = close
         self.returns = returns
@@ -32,7 +32,8 @@ class Trading_Day:
         self.media_volume = media_volume
         self.monday = monday
         self.january = january
-        self.crash = crash
+        self.gfc = gfc
+        self.covid = covid
     
     def to_csv_line(self): 
         return (f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},"
@@ -516,18 +517,25 @@ def is_january(date):
         return 1
     else: return 0
 
-# Check if a date is in a financial crash
-def is_crash(date):
-    # Set dates for global crashes
+# Check if a date occurs during global financial crisis
+def is_gfc(date):
+    # Set dates for global financial crisis
     gfc_start_date = datetime(2007, 12, 1)
     gfc_end_date = datetime(2009, 6, 30)
+    
+    # Check if date occurs during crash
+    if gfc_start_date <= date <= gfc_end_date:
+        return 1
+    return 0
+
+# Check if a date occurs during COVID-19 crash
+def is_covid(date):
+    # Set dates for COVID-19 crash
     covid_start_date = datetime(2020, 2, 1)
     covid_end_date = datetime(2020, 4, 30)
     
-    # Check if date is in a crash
-    if gfc_start_date <= date <= gfc_end_date:
-        return 1
-    elif covid_start_date <= date <= covid_end_date:
+    # Check if date occurs during crash
+    if covid_start_date <= date <= covid_end_date:
         return 1
     return 0
     
