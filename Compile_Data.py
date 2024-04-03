@@ -12,7 +12,9 @@ import pickle
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
-#nltk.download('punkt')
+
+
+overlapping_words = 0
 
 # Data to save for each trading day
 class Trading_Day:
@@ -249,6 +251,13 @@ def get_word_count(text_body, dictionary_words, glossary):
         if word in article_words and word not in glossary:
             count = article_words.count(word)
             word_counts += count
+            
+        ################################################################
+        if word in article_words and word in glossary:
+            global overlapping_words
+            overlapping_words = overlapping_words + 1
+        ################################################################
+        
     return word_counts
 
 # Calculate sentiment score for text
