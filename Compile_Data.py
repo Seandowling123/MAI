@@ -35,11 +35,12 @@ class Trading_Day:
         self.gfc = gfc
         self.covid = covid
     
+    # Write daily data to csv
     def to_csv_line(self): 
         return (f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},"
         f"{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.pos_sentiment)},"
         f"{str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},"
-        f"{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.crash)}")
+        f"{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.gfc)},{str(self.covid)}")
 
 # Class containing info about each article
 class Article:
@@ -581,7 +582,8 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
             # Collect calendar data
             monday = is_monday(date)
             january = is_january(date)
-            crash = is_crash(date)
+            gfc = is_gfc(date)
+            covid = is_covid(date)
             
             # Collect sentiment data
             if date in daily_pos_sentiment:
@@ -594,7 +596,7 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
             # Save all data 
             daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, 
                                            pos_sentiment, neg_sentiment, stemmed_text_pos_sentiment, 
-                                           stemmed_text_neg_sentiment, media_volume, monday, january, crash)
+                                           stemmed_text_neg_sentiment, media_volume, monday, january, gfc, covid)
         
     print("Financial time series compiled.\n")
     return daily_data
@@ -608,7 +610,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
             writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume",
                              "VIX_Close","VIX_Returns","Positive_Sentiment","Negative_Sentiment",
                              "Stemmed_text_Positive_Sentiment","Stemmed_text_Negative_Sentiment",
-                             "Media_Volume","Monday","January","Crash"])
+                             "Media_Volume","Monday","January","GFC","COVID"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
