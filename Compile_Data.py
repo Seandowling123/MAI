@@ -194,10 +194,10 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
     for i in range(len(raw_articles)):
         headline = raw_articles[i].split("\n")[1]
         
-        # Find date pattern
+        # Check for valid date & source
         if "\nBody\n" in raw_articles[i]:
             
-            # Check for valid date & source
+            # Find date pattern
             date = get_date_match(raw_articles[i])
             if isinstance(date, datetime):
                 if date >= datetime(2004, 1, 1):
@@ -221,7 +221,7 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
             print_progress_bar(calculated, len(raw_articles), caption="Processing Articles")
         
     # Print stats
-    print(f"\nReceived {len(raw_articles)-num_out_of_date_range} articles.")
+    print(f"\nReceived {len_orig} articles.")
     print(f"Removed {num_duplicates} duplicate articles.")
     print(f"Removed {num_invalid_dates} articles with invalid dates.")
     print(f"Removed {num_invalid_sources} articles with invalid sources.")
