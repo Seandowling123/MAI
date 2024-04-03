@@ -252,11 +252,11 @@ def get_word_count(text_body, dictionary_words, glossary):
             count = article_words.count(word)
             word_counts += count
             
-        ################################################################
+        #####################################################################
         if word in article_words and word in glossary:
             global overlapping_words
-            overlapping_words = overlapping_words + 1
-        ################################################################
+            overlapping_words = overlapping_words + article_words.count(word)
+        #####################################################################
         
     return word_counts
 
