@@ -308,12 +308,12 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         for article in articles:
             try:
                 # Get sentiment scores
-                pos_sentiment, neg_sentiment = calculate_sentiment(article.body, positive_dict, negative_dict, glossary)
-                stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
+                pos_sentiment, neg_sentiment = calculate_sentiment(article.body, [], negative_dict, glossary)
+                #stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
             
                 # Save score
                 save_sentiment_score(article, pos_sentiment, neg_sentiment)
-                save_stemmed_text_sentiment_score(article, stem_pos_sentiment, stem_neg_sentiment)
+                #save_stemmed_text_sentiment_score(article, stem_pos_sentiment, stem_neg_sentiment)
                     
                 # Progress tracker
                 calculated = calculated + 1
