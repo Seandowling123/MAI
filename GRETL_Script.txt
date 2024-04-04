@@ -8,16 +8,16 @@ series sliced_Returns
 series sliced_Negative_Sentiment
 series sliced_Media_Volume
 
-series neg_t_ratios_lag_one
-series neg_t_ratios_lag_two
-series neg_t_ratios_lag_three
-series neg_t_ratios_lag_four
-series neg_t_ratios_lag_five
-series count_t_ratios_lag_one
-series count_t_ratios_lag_two
-series count_t_ratios_lag_three
-series count_t_ratios_lag_four
-series count_t_ratios_lag_five
+series neg_p_values_lag_one
+series neg_p_values_lag_two
+series neg_p_values_lag_three
+series neg_p_values_lag_four
+series neg_p_values_lag_five
+series count_p_values_lag_one
+series count_p_values_lag_two
+series count_p_values_lag_three
+series count_p_values_lag_four
+series count_p_values_lag_five
     
 loop i=1..end_index
     print i
@@ -28,16 +28,16 @@ loop i=1..end_index
     
     # Fill in first values
     loop k=1..window
-		neg_t_ratios_lag_one[k] = 0
-		neg_t_ratios_lag_two[k] = 0
-		neg_t_ratios_lag_three[k] = 0
-		neg_t_ratios_lag_four[k] = 0
-		neg_t_ratios_lag_five[k] = 0
-		count_t_ratios_lag_one[k] = 0
-		count_t_ratios_lag_two[k] = 0
-		count_t_ratios_lag_three[k] = 0
-		count_t_ratios_lag_four[k] = 0
-		count_t_ratios_lag_five[k] = 0
+		neg_p_values_lag_one[k] = 0
+		neg_p_values_lag_two[k] = 0
+		neg_p_values_lag_three[k] = 0
+		neg_p_values_lag_four[k] = 0
+		neg_p_values_lag_five[k] = 0
+		count_p_values_lag_one[k] = 0
+		count_p_values_lag_two[k] = 0
+		count_p_values_lag_three[k] = 0
+		count_p_values_lag_four[k] = 0
+		count_p_values_lag_five[k] = 0
     endloop
     
     # Calculate VAR coefficents
@@ -49,35 +49,46 @@ loop i=1..end_index
     
     # Save sentiment T-ratios
     var 5 sliced_Returns sliced_Negative_Sentiment --robust-hac --silent
+
+	# Calculate degrees of freedom
+	scalar ncoeffs = nelem($coeff)
+	df = $nobs - ncoeffs
+
     t_ratio = abs($coeff[7,1] / $stderr[7,1])
-    neg_t_ratios_lag_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
+    neg_p_values_lag_one[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[8,1] / $stderr[8,1])
-	neg_t_ratios_lag_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
+	neg_p_values_lag_two[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[9,1] / $stderr[9,1])
-	neg_t_ratios_lag_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
+	neg_p_values_lag_three[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[10,1] / $stderr[10,1])
-	neg_t_ratios_lag_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
+	neg_p_values_lag_four[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[11,1] / $stderr[11,1])
-	neg_t_ratios_lag_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
+	neg_p_values_lag_five[i+window] = 2 * (pvalue(t, df, t_ratio))
     
-    print neg_t_ratios_lag_one[i+window]
-    print neg_t_ratios_lag_three[i+window]
-    print neg_t_ratios_lag_five[i+window]
+    print neg_p_values_lag_one[i+window]
+    print neg_p_values_lag_three[i+window]
+    print neg_p_values_lag_five[i+window]
     
     var 5 sliced_Returns sliced_Media_Volume --robust-hac --silent
+
+	# Calculate degrees of freedom
+	scalar ncoeffs = nelem($coeff)
+	df = $nobs - ncoeffs
+
+	# Calculate p-values for each coefficent
 	t_ratio = abs($coeff[7,1] / $stderr[7,1])
-    count_t_ratios_lag_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
+    count_p_values_lag_one[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[8,1] / $stderr[8,1])
-	count_t_ratios_lag_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
+	count_p_values_lag_two[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[9,1] / $stderr[9,1])
-	count_t_ratios_lag_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
+	count_p_values_lag_three[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[10,1] / $stderr[10,1])
-	count_t_ratios_lag_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
+	count_p_values_lag_four[i+window] = 2 * (pvalue(t, df, t_ratio))
 	t_ratio = abs($coeff[11,1] / $stderr[11,1])
-	count_t_ratios_lag_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
+	count_p_values_lag_five[i+window] = 2 * (pvalue(t, df, t_ratio))
 
     
 endloop
 
 # Save to csv file
-store C:\MAI_Results\Returns_Rolling_VAR_T_Ratios.csv neg_t_ratios_lag_one neg_t_ratios_lag_two neg_t_ratios_lag_three neg_t_ratios_lag_four neg_t_ratios_lag_five count_t_ratios_lag_one count_t_ratios_lag_two count_t_ratios_lag_three count_t_ratios_lag_four count_t_ratios_lag_five
+store C:\MAI_Results\Returns_Rolling_VAR_p_values.csv neg_p_values_lag_one neg_p_values_lag_two neg_p_values_lag_three neg_p_values_lag_four neg_p_values_lag_five count_p_values_lag_one count_p_values_lag_two count_p_values_lag_three count_p_values_lag_four count_p_values_lag_five
