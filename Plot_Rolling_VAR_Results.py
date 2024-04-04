@@ -14,27 +14,27 @@ dates = df.index.tolist()
 datetime_objs = [datetime.strptime(date_str.split(' ')[0], '%Y-%m-%d') for date_str in dates]
 
 # Calculate the negative sentiment significance levels 
-significance_levels = [[] for _ in range(5)]
+neg_significance_levels = [[] for _ in range(5)]
 for i, p_value_series in enumerate((df['neg_p_values_lag_one'], df['neg_p_values_lag_two'], df['neg_p_values_lag_three'], df['neg_p_values_lag_four'],df['neg_p_values_lag_five'])):
     for p_value in p_value_series:
         if p_value <= 0.01:
-            significance_levels[i].append(3)
+            neg_significance_levels[i].append(3)
         elif p_value <= 0.05:
-            significance_levels[i].append(2)
+            neg_significance_levels[i].append(2)
         elif p_value <= 0.1:
-            significance_levels[i].append(1)
+            neg_significance_levels[i].append(1)
         else:
-            significance_levels[i].append(0)
+            neg_significance_levels[i].append(0)
 
 # Plot negative sentiment significance
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
-ax1.plot(datetime_objs, significance_levels[0], label='Negative Sentiment Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
-ax2.plot(datetime_objs, significance_levels[1], label='Negative Sentiment Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
-ax3.plot(datetime_objs, significance_levels[2], label='Negative Sentiment Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
-ax4.plot(datetime_objs, significance_levels[3], label='Negative Sentiment Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
-ax5.plot(datetime_objs, significance_levels[4], label='Negative Sentiment Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
+ax1.plot(datetime_objs, neg_significance_levels[0], label='Negative Sentiment Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
+ax2.plot(datetime_objs, neg_significance_levels[1], label='Negative Sentiment Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
+ax3.plot(datetime_objs, neg_significance_levels[2], label='Negative Sentiment Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
+ax4.plot(datetime_objs, neg_significance_levels[3], label='Negative Sentiment Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
+ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
@@ -53,27 +53,27 @@ plt.savefig('Plots/Returns_Negative_Sentiment_Significance.png', bbox_inches='ti
 
 
 # Calculate the article count significance levels 
-significance_levels = [[] for _ in range(5)]
+count_significance_levels = [[] for _ in range(5)]
 for i, p_value_series in enumerate((df['count_p_values_lag_one'], df['count_p_values_lag_two'], df['count_p_values_lag_three'], df['count_p_values_lag_four'],df['count_p_values_lag_five'])):
     for p_value in p_value_series:
         if p_value <= 0.01:
-            significance_levels[i].append(3)
+            count_significance_levels[i].append(3)
         elif p_value <= 0.05:
-            significance_levels[i].append(2)
+            count_significance_levels[i].append(2)
         elif p_value <= 0.1:
-            significance_levels[i].append(1)
+            count_significance_levels[i].append(1)
         else:
-            significance_levels[i].append(0)
+            count_significance_levels[i].append(0)
 
 # Plot article count significance
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
-ax1.plot(datetime_objs, significance_levels[0], label='Article Count Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
-ax2.plot(datetime_objs, significance_levels[1], label='Article Count Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
-ax3.plot(datetime_objs, significance_levels[2], label='Article Count Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
-ax4.plot(datetime_objs, significance_levels[3], label='Article Count Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
-ax5.plot(datetime_objs, significance_levels[4], label='Article Count Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
+ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
+ax2.plot(datetime_objs, count_significance_levels[1], label='Article Count Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
+ax3.plot(datetime_objs, count_significance_levels[2], label='Article Count Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
+ax4.plot(datetime_objs, count_significance_levels[3], label='Article Count Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
+ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
