@@ -5,25 +5,19 @@ scalar window = 252
 scalar end_index = nobs(Returns) - window
 
 series sliced_Returns
-series sliced_Positive_Sentiment
 series sliced_Negative_Sentiment
 series sliced_Media_Volume
 
-series pos_t_ratios_one
-series pos_t_ratios_two
-series pos_t_ratios_three
-series pos_t_ratios_four
-series pos_t_ratios_five
-series neg_t_ratios_one
-series neg_t_ratios_two
-series neg_t_ratios_three
-series neg_t_ratios_four
-series neg_t_ratios_five
-series med_vol_t_ratios_one
-series med_vol_t_ratios_two
-series med_vol_t_ratios_three
-series med_vol_t_ratios_four
-series med_vol_t_ratios_five
+series neg_t_ratios_lag_one
+series neg_t_ratios_lag_two
+series neg_t_ratios_lag_three
+series neg_t_ratios_lag_four
+series neg_t_ratios_lag_five
+series count_t_ratios_lag_one
+series count_t_ratios_lag_two
+series count_t_ratios_lag_three
+series count_t_ratios_lag_four
+series count_t_ratios_lag_five
     
 loop i=1..end_index
     print i
@@ -34,60 +28,56 @@ loop i=1..end_index
     
     # Fill in first values
     loop k=1..window
-        pos_t_ratios_one[k] = 0
-		pos_t_ratios_two[k] = 0
-		pos_t_ratios_three[k] = 0
-		pos_t_ratios_four[k] = 0
-		pos_t_ratios_five[k] = 0
-		neg_t_ratios_one[k] = 0
-		neg_t_ratios_two[k] = 0
-		neg_t_ratios_three[k] = 0
-		neg_t_ratios_four[k] = 0
-		neg_t_ratios_five[k] = 0
-		med_vol_t_ratios_one[k] = 0
-		med_vol_t_ratios_two[k] = 0
-		med_vol_t_ratios_three[k] = 0
-		med_vol_t_ratios_four[k] = 0
-		med_vol_t_ratios_five[k] = 0
+		neg_t_ratios_lag_one[k] = 0
+		neg_t_ratios_lag_two[k] = 0
+		neg_t_ratios_lag_three[k] = 0
+		neg_t_ratios_lag_four[k] = 0
+		neg_t_ratios_lag_five[k] = 0
+		count_t_ratios_lag_one[k] = 0
+		count_t_ratios_lag_two[k] = 0
+		count_t_ratios_lag_three[k] = 0
+		count_t_ratios_lag_four[k] = 0
+		count_t_ratios_lag_five[k] = 0
     endloop
     
     # Calculate VAR coefficents
 	loop j=lower_window..upper_window
 	    sliced_Returns[j-lower_window+1] = Returns[j]
-        sliced_Positive_Sentiment[j-lower_window+1] = Stemmed_Positive_Sentiment[j]
         sliced_Negative_Sentiment[j-lower_window+1] = Stemmed_Negative_Sentiment[j]
         sliced_Media_Volume[j-lower_window+1] = Media_Volume[j]
     endloop
     
     # Save sentiment T-ratios
-    var 5 sliced_Returns sliced_Positive_Sentiment --robust-hac #--silent
-    pos_t_ratios_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
-	pos_t_ratios_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
-	pos_t_ratios_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
-	pos_t_ratios_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
-	pos_t_ratios_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
-	    
-    print pos_t_ratios_one[i+window]
-    print pos_t_ratios_three[i+window]
-    print pos_t_ratios_five[i+window]
-    
     var 5 sliced_Returns sliced_Negative_Sentiment --robust-hac --silent
-    neg_t_ratios_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
-	neg_t_ratios_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
-	neg_t_ratios_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
-	neg_t_ratios_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
-	neg_t_ratios_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
+    t_ratio = abs($coeff[7,1] / $stderr[7,1])
+    neg_t_ratios_lag_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
+	t_ratio = abs($coeff[8,1] / $stderr[8,1])
+	neg_t_ratios_lag_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
+	t_ratio = abs($coeff[9,1] / $stderr[9,1])
+	neg_t_ratios_lag_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
+	t_ratio = abs($coeff[10,1] / $stderr[10,1])
+	neg_t_ratios_lag_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
+	t_ratio = abs($coeff[11,1] / $stderr[11,1])
+	neg_t_ratios_lag_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
+    
+    print neg_t_ratios_lag_one[i+window]
+    print neg_t_ratios_lag_three[i+window]
+    print neg_t_ratios_lag_five[i+window]
     
     var 5 sliced_Returns sliced_Media_Volume --robust-hac --silent
-    med_vol_t_ratios_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
-	med_vol_t_ratios_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
-	med_vol_t_ratios_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
-	med_vol_t_ratios_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
-	med_vol_t_ratios_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
+	t_ratio = abs($coeff[7,1] / $stderr[7,1])
+    count_t_ratios_lag_one[i+window] = abs($coeff[7,1] / $stderr[7,1])
+	t_ratio = abs($coeff[8,1] / $stderr[8,1])
+	count_t_ratios_lag_two[i+window] = abs($coeff[8,1] / $stderr[8,1])
+	t_ratio = abs($coeff[9,1] / $stderr[9,1])
+	count_t_ratios_lag_three[i+window] = abs($coeff[9,1] / $stderr[9,1])
+	t_ratio = abs($coeff[10,1] / $stderr[10,1])
+	count_t_ratios_lag_four[i+window] = abs($coeff[10,1] / $stderr[10,1])
+	t_ratio = abs($coeff[11,1] / $stderr[11,1])
+	count_t_ratios_lag_five[i+window] = abs($coeff[11,1] / $stderr[11,1])
 
     
 endloop
 
 # Save to csv file
-store C:\MAI_Results\Returns_Rolling_VAR_T_Ratios.csv pos_t_ratios_one pos_t_ratios_two pos_t_ratios_three pos_t_ratios_four pos_t_ratios_five neg_t_ratios_one neg_t_ratios_two neg_t_ratios_three neg_t_ratios_four neg_t_ratios_five med_vol_t_ratios_one med_vol_t_ratios_two med_vol_t_ratios_three med_vol_t_ratios_four med_vol_t_ratios_five
-
+store C:\MAI_Results\Returns_Rolling_VAR_T_Ratios.csv neg_t_ratios_lag_one neg_t_ratios_lag_two neg_t_ratios_lag_three neg_t_ratios_lag_four neg_t_ratios_lag_five count_t_ratios_lag_one count_t_ratios_lag_two count_t_ratios_lag_three count_t_ratios_lag_four count_t_ratios_lag_five
