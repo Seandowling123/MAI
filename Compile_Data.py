@@ -322,8 +322,7 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
 
 # Save the Article objects to csv
 def save_article_data(articles, article_data_path):
-    field_names = ["Date", "Body", "Stemmed Body", "Source", "Headline",
-                   "Positive Sentiment", "Negative Sentiment"]
+    field_names = ["Date", "Source", "Headline", "Body", "Negative Sentiment"]
     
     # Write articles to CSV file
     with open(article_data_path, mode='w', newline='', encoding='utf-8') as file:
@@ -336,12 +335,10 @@ def save_article_data(articles, article_data_path):
         for article in articles:
             writer.writerow([
                 article.date,
-                re.sub(r'\s{2,}', ' ', article.body),
-                re.sub(r'\s{2,}', ' ', article.stemmed_text_body),
                 article.source,
                 article.headline,
-                article.stemmed_text_pos_sentiment,
-                article.stemmed_text_neg_sentiment
+                re.sub(r'\s{2,}', ' ', article.body),
+                article.neg_sentiment
             ]) 
 
 # Compute log of each value in a list   
