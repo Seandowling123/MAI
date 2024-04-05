@@ -69,11 +69,11 @@ for i, p_value_series in enumerate((df['count_p_values_lag_one'], df['count_p_va
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
-ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
-ax2.plot(datetime_objs, count_significance_levels[1], label='Article Count Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
-ax3.plot(datetime_objs, count_significance_levels[2], label='Article Count Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
-ax4.plot(datetime_objs, count_significance_levels[3], label='Article Count Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
-ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
+ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1 Statistical Significance', color='#e74c3c', linewidth=1)
+ax2.plot(datetime_objs, count_significance_levels[1], label='Article Count Lag-2 Statistical Significance', color='#e74c3c', linewidth=1)
+ax3.plot(datetime_objs, count_significance_levels[2], label='Article Count Lag-3 Statistical Significance', color='#e74c3c', linewidth=1)
+ax4.plot(datetime_objs, count_significance_levels[3], label='Article Count Lag-4 Statistical Significance', color='#e74c3c', linewidth=1)
+ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5  Statistical Significance', color='#e74c3c', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
