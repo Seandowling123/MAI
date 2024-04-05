@@ -554,7 +554,8 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
     days_parsed = 0
     
     # Calculate sentiment for missing data days
-    base_sentiment = zero_match_sentiment(daily_neg_sentiment)
+    #base_sentiment = zero_match_sentiment(daily_neg_sentiment)
+    base_sentiment = min(daily_neg_sentiment.values())
     
     # Iterate through dates and compile the data
     for date in close_prices:
