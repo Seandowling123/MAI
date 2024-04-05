@@ -503,6 +503,13 @@ def get_previous_trading_day(day, trading_data):
     while previous_day not in trading_data:
         previous_day -= timedelta(days=1)
     return previous_day
+
+# Get the sentiment z-score of days with no sentiment oriented words
+def zero_match_sentiment(daily_neg_sentiment):
+    mean = statistics.mean(list(daily_neg_sentiment.values()))
+    std_dev = statistics.stdev(list(daily_neg_sentiment.values()))
+    zero_match_z_score = (0 - mean) / std_dev
+    return zero_match_z_score
     
 # Check if a date is a Monday
 def is_monday(date):
@@ -546,6 +553,9 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
     returns_list = []
     days_parsed = 0
     
+    # Calculate sentiment for missing data days
+    base_sentiment = zero_match_sentiment(daily_neg_sentiment)
+    
     # Iterate through dates and compile the data
     for date in close_prices:
         close = 0
@@ -555,7 +565,7 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
         vix_returns = 0
         vix_close = 0
         pos_sentiment= 0
-        neg_sentiment = 0
+        neg_sentiment = base_sentiment
         stemmed_text_pos_sentiment = 0
         stemmed_text_neg_sentiment = 0
         media_volume = 0

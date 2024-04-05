@@ -65,11 +65,11 @@ def get_distribution_data(returns):
     for deviation in deviations:
         returns_cdf_delta = returns_cdf[deviation]-returns_cdf_prev
         norm_cdf_delta = normal_cdf[deviation]-norm_cdf_prev
-        print(f"textbf{{Std. Deviation: {float(prev_deviation):.2f} - {float(deviation):.2f}}} & {returns_cdf_delta:.2f} & {norm_cdf_delta:.2f} & {(returns_cdf_delta-norm_cdf_delta):.2f} \\\\")
+        print(f"textbf{{Std. Deviations: {float(prev_deviation):.2f} - {float(deviation):.2f}}} & {returns_cdf_delta:.2f}\\% & {norm_cdf_delta:.2f}\\% & {(returns_cdf_delta-norm_cdf_delta):.2f}\\% \\\\")
         prev_deviation = deviation
         returns_cdf_prev = returns_cdf[deviation]
         norm_cdf_prev = normal_cdf[deviation]
-    print(f"textbf{{Std. Deviation: > 6}}         & {100-returns_cdf[6]:.2f} & {100-normal_cdf[6]:.2f} & {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f} \\\\")
+    print(f"textbf{{Std. Deviations: > 6}}         & {100-returns_cdf[6]:.2f}\\% & {100-normal_cdf[6]:.2f}\\% & {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}\\% \\\\")
 
 def get_descriptive_stats(returns):
     
@@ -173,7 +173,7 @@ for i in range(10):
     print(f'\nPeriod: {dates[start]} - {dates[end]}', end='', flush=True)
     get_descriptive_stats(returns[start:end])
     
-#get_distribution_data(returns)
+get_distribution_data(returns)
 #get_descriptive_stats(returns)
 #get_descriptive_stats(np.abs(returns))
 
@@ -212,8 +212,7 @@ plt.legend(fontsize=10, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
-# Save the plot as a PNG file
-plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
+#plt.savefig('Plots/NormalDistributionRYAAYAdjustedReturns.png', bbox_inches='tight')
 plt.close()
 
 ###########################
@@ -238,8 +237,7 @@ plt.legend(loc='upper left', prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
-# Save the plot as a PNG file
-plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/Returns_over_time_plot.png', bbox_inches='tight')
 plt.close()
 
 ###########################
@@ -267,8 +265,7 @@ plt.legend(fontsize=12, loc='upper left', prop={'family': 'serif', 'size': 12}, 
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
-# Save the plot as a PNG file
-plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/absolute_returns_plot.png', bbox_inches='tight')
 plt.close()
 
 
@@ -295,8 +292,7 @@ plt.title('Autocorrelation of RYAAY Returns & Absolute Returns At Different Time
 plt.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
-# Save the plot as a PNG file
-plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
 #plt.show()
 plt.close()
 
@@ -323,4 +319,4 @@ ax.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 ax2.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
-plt.savefig('Plots/RYAAY_close_and_vol_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/RYAAY_close_and_vol_plot.png', bbox_inches='tight')
