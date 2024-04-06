@@ -31,7 +31,7 @@ for i, p_value_series in enumerate((df['neg_p_values_lag_one'], df['neg_p_values
             neg_significance_levels[i].append(0)
 
 # Plot negative sentiment significance
-fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
+fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
 ax1.plot(datetime_objs, neg_significance_levels[0], label='Negative Sentiment Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
@@ -51,7 +51,7 @@ for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     ax.tick_params(axis='both', which='major', labelsize=13)
 
-plt.subplots_adjust(hspace=.5)
+plt.subplots_adjust(hspace=.6)
 plt.savefig('Plots/Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
@@ -70,7 +70,7 @@ for i, p_value_series in enumerate((df['count_p_values_lag_one'], df['count_p_va
             count_significance_levels[i].append(0)
 
 # Plot article count significance
-fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
+fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
 ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1 Statistical Significance', color='#e74c3c', linewidth=1)
@@ -90,7 +90,7 @@ for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     ax.tick_params(axis='both', which='major', labelsize=13)
 
-plt.subplots_adjust(hspace=.5)
+plt.subplots_adjust(hspace=.6)
 plt.savefig('Plots/Returns_Article_Count_Significance.png', bbox_inches='tight')
 #plt.show()
 
@@ -121,7 +121,7 @@ for i, p_value_series in enumerate((df['neg_p_values_lag_one'], df['neg_p_values
             neg_significance_levels[i].append(0)
 
 # Plot negative sentiment significance
-fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
+fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
 ax1.plot(datetime_objs, neg_significance_levels[0], label='Negative Sentiment Lag-1 Statistical Significance', color='#2980b9', linewidth=1)
@@ -141,7 +141,7 @@ for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     ax.tick_params(axis='both', which='major', labelsize=13)
 
-plt.subplots_adjust(hspace=.5)
+plt.subplots_adjust(hspace=.6)
 plt.savefig('Plots/Absolute_Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
 #plt.show()
 
@@ -160,7 +160,7 @@ for i, p_value_series in enumerate((df['count_p_values_lag_one'], df['count_p_va
             count_significance_levels[i].append(0)
 
 # Plot article count significance
-fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 14), sharex=False, sharey=True)
+fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
 
 # Plot each line plot on the same axis
 ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1 Statistical Significance', color='#e74c3c', linewidth=1)
@@ -180,6 +180,6 @@ for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     ax.tick_params(axis='both', which='major', labelsize=13)
 
-plt.subplots_adjust(hspace=.5)
+plt.subplots_adjust(hspace=.6)
 plt.savefig('Plots/Absolute_Returns_Article_Count_Significance.png', bbox_inches='tight')
 #plt.show()
