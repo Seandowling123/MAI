@@ -1,15 +1,52 @@
-         Returns Detrended_Volu~       VIX_Close Positive_Senti~
-          1.0000          0.0001         -0.0578          0.0208 Returns
-                          1.0000          0.0210         -0.0172 Detrended_Volu~
-                                          1.0000         -0.0781 VIX_Close
-                                                          1.0000 Positive_Senti~
+Correlation Coefficients, using the observations 1960-01-01 - 1979-04-16
+Two-tailed critical values for n = 5032: 5% 0.0276, 1% 0.0363
 
- Negative_Senti~ Stemmed_text_P~ Stemmed_text_N~          Monday
-         -0.0250          0.0237         -0.0304         -0.0450 Returns
-         -0.0019         -0.0181          0.0229         -0.0562 Detrended_Volu~
-          0.0760         -0.0970          0.0474          0.0132 VIX_Close
-         -0.0843          0.7374         -0.1923          0.0084 Positive_Senti~
-          1.0000         -0.1053          0.7885         -0.0121 Negative_Senti~
-                          1.0000         -0.1528          0.0082 Stemmed_text_P~
-                                          1.0000         -0.0195 Stemmed_text_N~
+         Returns Negative_Senti~    Media_Volume          Monday
+          1.0000         -0.0225         -0.0012         -0.0479 Returns
+                          1.0000          0.2002         -0.0579 Negative_Senti~
+                                          1.0000          0.0117 Media_Volume
                                                           1.0000 Monday
+
+         January             GFC           COVID
+         -0.0097         -0.0154         -0.0250 Returns
+          0.0135          0.0805          0.0080 Negative_Senti~
+         -0.0160          0.0481          0.0315 Media_Volume
+         -0.0227          0.0035          0.0019 Monday
+          1.0000          0.0252         -0.0329 January
+                          1.0000         -0.0327 GFC
+                                          1.0000 COVID
+
+
+Correlation Coefficients, using the observations 1960-01-01 - 1979-04-16
+Two-tailed critical values for n = 5032: 5% 0.0276, 1% 0.0363
+
+ Absolute_Retur~ Negative_Senti~    Media_Volume          Monday
+          1.0000          0.0411          0.2058          0.0423 Absolute_Retur~
+                          1.0000          0.2002         -0.0579 Negative_Senti~
+                                          1.0000          0.0117 Media_Volume
+                                                          1.0000 Monday
+
+         January             GFC           COVID
+          0.0223          0.2746          0.1231 Absolute_Retur~
+          0.0135          0.0805          0.0080 Negative_Senti~
+         -0.0160          0.0481          0.0315 Media_Volume
+         -0.0227          0.0035          0.0019 Monday
+          1.0000          0.0252         -0.0329 January
+                          1.0000         -0.0327 GFC
+                                          1.0000 COVID
+
+
+
+-0.0225
+-0.0012
+-0.0479
+-0.0097
+-0.0154
+-0.0250
+
+0.0411          
+0.2058          
+0.0423
+0.0223          
+0.2746          
+0.1231

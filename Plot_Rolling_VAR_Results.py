@@ -42,14 +42,14 @@ ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment La
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.set_title(f'Statistical Significance of Negative Sentiment at Lag-{i+1} on Returns Over Time', fontsize=14, fontfamily='serif')
+    ax.set_title(f'Statistical Significance of Negative Sentiment at Lag-{i+1} on Returns Over Time', fontsize=18, fontfamily='serif')
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-    ax.legend(fontsize=11, loc='upper left', prop={'family': 'serif', 'size': 11})
-    ax.set_xlabel('Date', fontsize=11, fontname='Times New Roman')
-    ax.set_ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Roman')
+    ax.legend(fontsize=13, loc='upper left', prop={'family': 'serif', 'size': 13})
+    ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
+    ax.set_ylabel('Significance Level', fontsize=15, fontname='Times New Roman')
     ax.set_yticks([1, 2, 3], ['10%', '5%', '1%'])
     ax.grid(axis='y', linestyle='--', alpha=0.7)
-    ax.tick_params(axis='both', which='major', labelsize=10)
+    ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.subplots_adjust(hspace=.5)
 plt.savefig('Plots/Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
@@ -81,14 +81,14 @@ ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.set_title(f'Statistical Significance of Article Count at Lag-{i+1} on Returns Over Time', fontsize=14, fontfamily='serif')
+    ax.set_title(f'Statistical Significance of Article Count at Lag-{i+1} on Returns Over Time', fontsize=18, fontfamily='serif')
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-    ax.legend(fontsize=11, loc='upper left', prop={'family': 'serif', 'size': 11})
-    ax.set_xlabel('Date', fontsize=11, fontname='Times New Roman')
-    ax.set_ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Roman')
+    ax.legend(fontsize=13, loc='upper left', prop={'family': 'serif', 'size': 13})
+    ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
+    ax.set_ylabel('Significance Level', fontsize=15, fontname='Times New Roman')
     ax.set_yticks([1, 2, 3], ['10%', '5%', '1%'])
     ax.grid(axis='y', linestyle='--', alpha=0.7)
-    ax.tick_params(axis='both', which='major', labelsize=10)
+    ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.subplots_adjust(hspace=.5)
 plt.savefig('Plots/Returns_Article_Count_Significance.png', bbox_inches='tight')
@@ -132,14 +132,14 @@ ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment La
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.set_title(f'Statistical Significance of Negative Sentiment at Lag-{i+1} on Absolute_Returns Over Time', fontsize=14, fontfamily='serif')
+    ax.set_title(f'Statistical Significance of Negative Sentiment at Lag-{i+1} on Absolute_Returns Over Time', fontsize=18, fontfamily='serif')
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-    ax.legend(fontsize=11, loc='upper left', prop={'family': 'serif', 'size': 11})
-    ax.set_xlabel('Date', fontsize=11, fontname='Times New Roman')
-    ax.set_ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Roman')
+    ax.legend(fontsize=13, loc='upper left', prop={'family': 'serif', 'size': 13})
+    ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
+    ax.set_ylabel('Significance Level', fontsize=15, fontname='Times New Roman')
     ax.set_yticks([1, 2, 3], ['10%', '5%', '1%'])
     ax.grid(axis='y', linestyle='--', alpha=0.7)
-    ax.tick_params(axis='both', which='major', labelsize=10)
+    ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.subplots_adjust(hspace=.5)
 plt.savefig('Plots/Absolute_Returns_Negative_Sentiment_Significance.png', bbox_inches='tight')
@@ -171,14 +171,14 @@ ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.set_title(f'Statistical Significance of Article Count at Lag-{i+1} on Absolute_Returns Over Time', fontsize=14, fontfamily='serif')
+    ax.set_title(f'Statistical Significance of Article Count at Lag-{i+1} on Absolute_Returns Over Time', fontsize=18, fontfamily='serif')
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-    ax.legend(fontsize=11, loc='upper left', prop={'family': 'serif', 'size': 11})
-    ax.set_xlabel('Date', fontsize=11, fontname='Times New Roman')
-    ax.set_ylabel('Statistical Significance Level', fontsize=11, fontname='Times New Roman')
+    ax.legend(fontsize=13, loc='upper left', prop={'family': 'serif', 'size': 13})
+    ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
+    ax.set_ylabel('Significance Level', fontsize=15, fontname='Times New Roman')
     ax.set_yticks([1, 2, 3], ['10%', '5%', '1%'])
     ax.grid(axis='y', linestyle='--', alpha=0.7)
-    ax.tick_params(axis='both', which='major', labelsize=10)
+    ax.tick_params(axis='both', which='major', labelsize=13)
 
 plt.subplots_adjust(hspace=.5)
 plt.savefig('Plots/Absolute_Returns_Article_Count_Significance.png', bbox_inches='tight')

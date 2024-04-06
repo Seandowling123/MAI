@@ -88,9 +88,10 @@ def get_descriptive_stats(returns):
     data_kurtosis = kurtosis(returns)
     
     # Autocorrelation
-    lag = 10
+    lag = 5
     lags = range(1, lag + 1)
-    autocorrelations = [np.corrcoef(returns[:-lag], returns[lag:])[0, 1] for lag in lags]
+    df = pd.DataFrame(returns, columns=['Returns'])
+    autocorrelations = [df['Returns'].autocorr(lag=lag) for lag in lags]
     
     # Min / Max
     min_returns = min(returns)
@@ -208,7 +209,7 @@ plt.fill_between(x_values, normal_distribution, alpha=0.2, color='#e74c3c')
 plt.ylabel('Probability Density', fontsize=15, fontname='Times New Roman')
 plt.xlabel('Standard Deviations', fontsize=15, fontname='Times New Roman')
 plt.title('Distribution of RYAAY Returns and Normal Distribution', fontsize=18, fontfamily='serif')
-plt.legend(fontsize=10, prop={'family': 'serif', 'size': 12})
+plt.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
 #plt.show()
