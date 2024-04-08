@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+from collections import Counter
 
 #################################
 # Plot significance for Returns #
@@ -12,6 +13,7 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('Rolling_VAR_Results/Returns_Rolling_VAR_P_Values.csv')
 df = df[252:]
 df.set_index('obs', inplace=True)
+confidence_levels = {0: 'Insignificant', 1: '10%', 2: '5%', 3: '1%'}
 
 # Convert dates to objects
 dates = df.index.tolist()
@@ -29,6 +31,16 @@ for i, p_value_series in enumerate((df['neg_p_values_lag_one'], df['neg_p_values
             neg_significance_levels[i].append(1)
         else:
             neg_significance_levels[i].append(0)
+            
+# Print portion of significant models
+print('Modelling Returns')
+for i, significance_series in enumerate(neg_significance_levels):
+    counts = Counter(significance_series)
+    total_count = len(significance_series)
+    percentage_counts = {num: count / total_count * 100 for num, count in counts.items()}
+    print(f'Portion of Siginificant Models for Negative Sentiment Lag-{i+1}:')
+    for num in confidence_levels.keys():
+        print(f"{confidence_levels[num]}: {percentage_counts[num]:.2f}%")
 
 # Plot negative sentiment significance
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
@@ -119,6 +131,16 @@ for i, p_value_series in enumerate((df['neg_p_values_lag_one'], df['neg_p_values
             neg_significance_levels[i].append(1)
         else:
             neg_significance_levels[i].append(0)
+            
+# Print portion of significant models
+print('\nModelling Absolute Returns')
+for i, significance_series in enumerate(neg_significance_levels):
+    counts = Counter(significance_series)
+    total_count = len(significance_series)
+    percentage_counts = {num: count / total_count * 100 for num, count in counts.items()}
+    print(f'Portion of Siginificant Models for Negative Sentiment Lag-{i+1}:')
+    for num in confidence_levels.keys():
+        print(f"{confidence_levels[num]}: {percentage_counts[num]:.2f}%")
 
 # Plot negative sentiment significance
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
