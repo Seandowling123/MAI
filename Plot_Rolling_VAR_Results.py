@@ -50,7 +50,7 @@ ax1.plot(datetime_objs, neg_significance_levels[0], label='Negative Sentiment La
 ax2.plot(datetime_objs, neg_significance_levels[1], label='Negative Sentiment Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
 ax3.plot(datetime_objs, neg_significance_levels[2], label='Negative Sentiment Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
 ax4.plot(datetime_objs, neg_significance_levels[3], label='Negative Sentiment Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
-ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
+ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment Lag-5 Statistical Significance', color='#2980b9', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
@@ -89,7 +89,7 @@ ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1
 ax2.plot(datetime_objs, count_significance_levels[1], label='Article Count Lag-2 Statistical Significance', color='#e74c3c', linewidth=1)
 ax3.plot(datetime_objs, count_significance_levels[2], label='Article Count Lag-3 Statistical Significance', color='#e74c3c', linewidth=1)
 ax4.plot(datetime_objs, count_significance_levels[3], label='Article Count Lag-4 Statistical Significance', color='#e74c3c', linewidth=1)
-ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5  Statistical Significance', color='#e74c3c', linewidth=1)
+ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5 Statistical Significance', color='#e74c3c', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
@@ -150,11 +150,11 @@ ax1.plot(datetime_objs, neg_significance_levels[0], label='Negative Sentiment La
 ax2.plot(datetime_objs, neg_significance_levels[1], label='Negative Sentiment Lag-2 Statistical Significance', color='#2980b9', linewidth=1)
 ax3.plot(datetime_objs, neg_significance_levels[2], label='Negative Sentiment Lag-3 Statistical Significance', color='#2980b9', linewidth=1)
 ax4.plot(datetime_objs, neg_significance_levels[3], label='Negative Sentiment Lag-4 Statistical Significance', color='#2980b9', linewidth=1)
-ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment Lag-5  Statistical Significance', color='#2980b9', linewidth=1)
+ax5.plot(datetime_objs, neg_significance_levels[4], label='Negative Sentiment Lag-5 Statistical Significance', color='#2980b9', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.set_title(f'Statistical Significance of Negative Sentiment at Lag-{i+1} on Absolute_Returns Over Time', fontsize=18, fontfamily='serif')
+    ax.set_title(f'Statistical Significance of Negative Sentiment at Lag-{i+1} on Absolute Returns Over Time', fontsize=18, fontfamily='serif')
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
     ax.legend(fontsize=13, loc='upper left', prop={'family': 'serif', 'size': 13})
     ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
@@ -189,11 +189,11 @@ ax1.plot(datetime_objs, count_significance_levels[0], label='Article Count Lag-1
 ax2.plot(datetime_objs, count_significance_levels[1], label='Article Count Lag-2 Statistical Significance', color='#e74c3c', linewidth=1)
 ax3.plot(datetime_objs, count_significance_levels[2], label='Article Count Lag-3 Statistical Significance', color='#e74c3c', linewidth=1)
 ax4.plot(datetime_objs, count_significance_levels[3], label='Article Count Lag-4 Statistical Significance', color='#e74c3c', linewidth=1)
-ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5  Statistical Significance', color='#e74c3c', linewidth=1)
+ax5.plot(datetime_objs, count_significance_levels[4], label='Article Count Lag-5 Statistical Significance', color='#e74c3c', linewidth=1)
 
 # Plot settings
 for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
-    ax.set_title(f'Statistical Significance of Article Count at Lag-{i+1} on Absolute_Returns Over Time', fontsize=18, fontfamily='serif')
+    ax.set_title(f'Statistical Significance of Article Count at Lag-{i+1} on Absoluten Returns Over Time', fontsize=18, fontfamily='serif')
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
     ax.legend(fontsize=13, loc='upper left', prop={'family': 'serif', 'size': 13})
     ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
