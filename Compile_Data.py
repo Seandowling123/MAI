@@ -213,21 +213,29 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
         
     return articles
 
-# Count the number of dictionary words in an article
+# Count the number of base and domain dictionary words in an article
 def get_word_count(text_body, dictionary_words, glossary):
-    word_counts = 0
+    base_freq = 0
+    domain_freq = 0
     article_words = word_tokenize(text_body)
-    for word in dictionary_words:
-        if word in article_words and word not in glossary:
-            count = article_words.count(word)
-            word_counts += count
-    return word_counts
+    for word in list(set(dictionary_words + glossary)):
+        if word in article_words:
+            if word in dictionary_words and word in glossary:
+                count = article_words.count(word)
+                domain_freq += count
+            elif word in dictionary_words and word not in glossary:
+                count = article_words.count(word)
+                base_freq += count
+            elif word not in dictionary_words and word in glossary:
+                count = article_words.count(word)
+                domain_freq += count
+    return base_freq, domain_freq
 
 # Calculate sentiment score for text
 def calculate_sentiment(text_body, negative_dict, glossary):
     # Get counts
     num_words = len(word_tokenize(text_body))
-    neg_word_count = get_word_count(text_body, negative_dict, glossary)
+    neg_word_count, airline_term_count = get_word_count(text_body, negative_dict, glossary)
     
     # Calculate relative word frequencies
     neg_score = neg_word_count/num_words
