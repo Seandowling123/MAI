@@ -1,2 +1,0 @@
-The Article_Data directory is used by Compile_Data.py.
-This file acts as a placeholder and can be ignored.
