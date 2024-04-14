@@ -1,14 +1,39 @@
+"""
+Title: Get Returns Summary Stats
+Author: Sean Dowling
+Date: 15/04/2024
+
+Description:
+This script splits the 20-year investigation period into 10 2-year intervals and prints the summary statistics for returns during each one
+
+Usage:
+The script can be run without interaction, povided that the relevant inputs are available.
+
+Inputs:
+- Historical stock data (stored as Financial_Data/RYAAY.csv)
+
+Outputs:
+- Summary statistics for each 2-year interval are printed in the terminal
+
+Dependencies:
+- csv
+- datetime from the datetime module
+- pandas (imported as pd)
+- math
+- numpy (imported as np)
+- mode and median from the statistics module
+- variance from the statistics module
+- skew and kurtosis from the scipy.stats module
+
+"""
+
 import csv
 from datetime import datetime
 import pandas as pd
-from matplotlib import rcParams
-rcParams['font.family'] = 'sans-serif'
-rcParams['font.sans-serif'] = ['Tahoma']
-import matplotlib.pyplot as plt
 import math
 import numpy as np
 from statistics import mode, median, variance
-from scipy.stats import norm, skew, kurtosis
+from scipy.stats import skew, kurtosis
 
 # Get the indicies to split the time series into 2-year intervals
 def get_split_indices(dates):
