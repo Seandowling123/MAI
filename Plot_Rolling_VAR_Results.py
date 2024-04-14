@@ -1,5 +1,5 @@
 """
-Title: Compile Data
+Title: Plot Rolling VAR Results
 Author: Sean Dowling
 Date: 15/04/2024
 

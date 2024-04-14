@@ -405,7 +405,7 @@ def get_RYAAY_data(file_path, start_date, end_date):
         with open(file_path, 'r', newline='') as input_file:
             reader = csv.DictReader(input_file)
             
-            # Calculate a returns time series
+            # Calculate a closing price time series
             for row in reader:
                 date_str = row['Date']
                 date_object = datetime.strptime(date_str, '%Y-%m-%d')

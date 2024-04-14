@@ -8,9 +8,10 @@ import matplotlib.pyplot as plt
 import math
 import numpy as np
 from statistics import mode, median, variance
-from scipy.stats import norm, skew, kurtosis, jarque_bera
+from scipy.stats import norm, skew, kurtosis
 
-def get_split_indices(returns, dates):
+# Get the indicies to split the time series into 2-year intervals
+def get_split_indices(dates):
     # Initialize variables
     split_indices = []
     current_year = dates[0].year
@@ -27,6 +28,7 @@ def get_split_indices(returns, dates):
     split_indices.append((start_index, len(dates) - 1))
     return split_indices
 
+# Calculate the distribution of the returns time series & compare with normal distribution
 def get_distribution_data(returns):
     
     # Calculate mean and standard deviation of returns
@@ -42,34 +44,18 @@ def get_distribution_data(returns):
         normal_cdf[deviation] = (norm.cdf(deviation, 0, 1) - norm.cdf(-deviation, 0, 1))*100
     
     # Get return stats
-    for daily_return in returns:
-        z_score = (daily_return-mean_returns)/std_returns
-        for deviation in deviations:
-            if np.abs(z_score) < deviation:
-                (norm.cdf(-deviation, 1, 1) - norm.cdf(deviation, 1, 1))*100
-                if deviation in returns_cdf:
-                    returns_cdf[deviation] = returns_cdf[deviation]+1
-                else: returns_cdf[deviation] = 0
-    
-    for deviation in returns_cdf:
-        returns_cdf[deviation] = (returns_cdf[deviation] / len(returns))*100
-    
-    print("\nCDF Data (cum):")
-    for deviation in deviations:
-        print(f"Std. Deviation: {float(deviation):.2f} | RYAAY: {returns_cdf[deviation]:.2f} | Normal: {normal_cdf[deviation]:.2f} | Disc.: {(returns_cdf[deviation]-normal_cdf[deviation]):.2f}")
-    
-    print("\nCDF Data: (range)")
+    print("\nCDF Data:")
     prev_deviation = 0
     returns_cdf_prev = 0
     norm_cdf_prev = 0
     for deviation in deviations:
         returns_cdf_delta = returns_cdf[deviation]-returns_cdf_prev
         norm_cdf_delta = normal_cdf[deviation]-norm_cdf_prev
-        print(f"textbf{{Std. Deviations: {float(prev_deviation):.2f} - {float(deviation):.2f}}} & {returns_cdf_delta:.2f}\\% & {norm_cdf_delta:.2f}\\% & {(returns_cdf_delta-norm_cdf_delta):.2f}\\% \\\\")
+        print(f"textbf{{Std. Deviations: {float(prev_deviation):.2f} - {float(deviation):.2f}}} | RYAAY: {returns_cdf_delta:.2f} | Normal: {norm_cdf_delta:.2f} | Disc.: {(returns_cdf_delta-norm_cdf_delta):.2f}")
         prev_deviation = deviation
         returns_cdf_prev = returns_cdf[deviation]
         norm_cdf_prev = normal_cdf[deviation]
-    print(f"textbf{{Std. Deviations: > 6}}         & {100-returns_cdf[6]:.2f}\\% & {100-normal_cdf[6]:.2f}\\% & {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}\\% \\\\")
+    print(f"textbf{{Std. Deviations: > 6}}         | RYAAY: {100-returns_cdf[6]:.2f} | Normal: {100-normal_cdf[6]:.2f} | Disc.: {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}")
 
 def get_descriptive_stats(returns):
     
@@ -98,7 +84,6 @@ def get_descriptive_stats(returns):
     max_returns = max(returns)
     
     # Jarque-Bera
-    test_statistic, p_value = jarque_bera(returns)
     
     # Print the stats
     print("\nRYAAY Descriptive Statistics", "\\\\")
@@ -115,10 +100,8 @@ def get_descriptive_stats(returns):
     print("{:.4f} & ".format(min_returns))
     print("{:.4f} & ".format(max_returns))
     print("{:.4f} & ".format(len(returns)))
-    print("{:.4f} & ".format(p_value))
 
-
-def ectract_close_prices(input_file_path, start_date, end_date):
+def get_close_prices(input_file_path, start_date, end_date):
     prices = []
     dates = []
     try:
@@ -154,7 +137,7 @@ def get_crash_dates_intervals():
 # Extract data
 start_date = "2004-01-01"
 end_date = "2023-12-31"
-close_prices, dates = ectract_close_prices("Financial_Data/RYAAY.csv", datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
+close_prices, dates = get_close_prices("Financial_Data/RYAAY.csv", datetime.strptime(start_date, '%Y-%m-%d'), datetime.strptime(end_date, '%Y-%m-%d'))
 returns = []
 for i in range(len(close_prices)):
     if i != 0:
@@ -190,7 +173,7 @@ get_distribution_data(returns)
 num_outliers = 0
 returns_zscores = []
 
-# Remove outliers
+# Remove outliers for the plot
 for i in range(len(returns)):
     if np.abs(returns[i]) < 4*std_returns:
         returns_zscores.append((returns[i]-mean_returns)/std_returns)
