@@ -7,8 +7,7 @@ rcParams['font.sans-serif'] = ['Tahoma']
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-from statistics import mode, median, variance
-from scipy.stats import norm, skew, kurtosis
+from scipy.stats import norm
 
 # Calculate the distribution of the returns time series & compare with normal distribution
 def get_distribution_data(returns):
@@ -99,8 +98,6 @@ mean_returns = np.mean(returns)
 std_returns = np.std(returns)
 
 # Print the returns returns stats
-#get_distribution_data(returns)
-    
 get_distribution_data(returns)
 
 ####################################################################################
@@ -218,31 +215,6 @@ plt.title('Autocorrelation of RYAAY Returns & Absolute Returns At Different Time
 plt.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tick_params(axis='both', which='major', labelsize=12)
-plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
+#plt.savefig('Plots/absolute_returns_correlation_plot.png', bbox_inches='tight')
 #plt.show()
 plt.close()
-
-
-#####################
-# Close and Volume
-#####################
-
-file_path = "Financial_Data/RYAAY.csv"
-df = pd.read_csv(file_path)
-df = df[1659:]
-
-fig, ax = plt.subplots(figsize=(12, 5))
-ax.plot(dates, df['Adj Close'], color='#2e69c7', label='Close Price', linewidth=1)
-ax2 = ax.twinx()
-ax2.plot(dates, df['Volume'], color='#e74c3c', label='Trading Volume', linewidth=0.5, alpha=0.4)
-ax2.fill_between(dates, df['Volume'], color='#e74c3c', alpha=0.4)
-ax2.set_ylim(0, 15e+6)
-ax.set_xlabel('Date', fontsize=15, fontname='Times New Roman')
-ax.set_ylabel('Close Price (USD)', fontsize=15, fontname='Times New Roman')
-ax2.set_ylabel('Trading Volume (e+7 Shares)', fontsize=15, fontname='Times New Roman')
-ax.set_title('RYAAY Trading Volume and Close Price', fontsize=18, fontfamily='serif')
-ax.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
-ax2.legend(fontsize=12, prop={'family': 'serif', 'size': 12})
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tick_params(axis='both', which='major', labelsize=12)
-#plt.savefig('Plots/RYAAY_close_and_vol_plot.png', bbox_inches='tight')
