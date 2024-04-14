@@ -4,10 +4,27 @@ Author: Sean Dowling
 Date: 15/04/2024
 
 Description:
-This script creates and aggregates time series 
+This script creates and aggregates the time series data required for the project. Its primary functions are to filter and process news
+articles, calculate a time series of negative sentiment and calculate a time series of financial returns. These time series are aggregated
+into a csv file and saved in the current directory.
 
 Usage:
-[Instructions on how to use the code, including any parameters or inputs it requires.]
+The script can be run without interaction, povided that the relevant inputs are available.
+
+Inputs:
+- News text data (stored as Raw_Articles/Articles_combined.txt)
+- A list of valid sources (stored as Article_Data/News_Source_Names.csv) 
+- Historical stock data (stored as Financial_Data/RYAAY.csv)
+- Sentiment dictionary category and doamin-specific glossary (stored as Dictionaries_and_Glossaries/GI_Negative.csv 
+    and Dictionaries_and_Glossaries/Combined_Glossary.csv)
+  
+  (Optional)
+- Cached processed Article objects (stored as Article_Data/Articles_backup.pkl)
+- Cached processed Article objects with a calculated sentiment proxy value (stored as Article_Data/Articles_backup_with_sentiment.pkl)
+
+Outputs:
+- Aggregated time series data (stored as Aggregated_Time_Series.csv)
+- Extracted news article data (stored as Article_Data/Article_Data.csv) 
 
 Dependencies:
 - numpy (imported as np)
@@ -535,14 +552,13 @@ sources_data_path = "Article_Data/News_Source_Names.csv"
 
 # Financial data file paths
 RYAAY_data_path = "Financial_Data/RYAAY.csv"
-VIX_data_path = "Financial_Data/VIX.csv"
 
 # Dictionaries file paths
 negative_dict_path = "Dictionaries_and_Glossaries/GI_Negative.csv"
 glossary_path = "Dictionaries_and_Glossaries/Combined_Glossary.csv"
 
 # Output time series file path
-output_series_file_path = 'Aggregated_Time_Series.csv'
+output_series_file_path = "Aggregated_Time_Series.csv"
 
 # Check for backup and load files
 if os.path.exists(articles_backup_path):
