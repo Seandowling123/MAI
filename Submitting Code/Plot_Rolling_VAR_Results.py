@@ -69,11 +69,9 @@ for i, significance_series in enumerate(neg_significance_levels):
     counts = Counter(significance_series)
     total_count = len(significance_series)
     percentage_counts = {num: count / total_count * 100 for num, count in counts.items()}
-    #print(f'Portion of Siginificant Models for Negative Sentiment Lag-{i+1}:')
+    print(f'Portion of Siginificant Models for Negative Sentiment Lag-{i+1}:')
     for num in confidence_levels.keys():
-        print(f" & {percentage_counts[num]:.2f}\%", end='', flush=True)
-    print("\\\\")
-        #print(f"{confidence_levels[num]}: {percentage_counts[num]:.2f}%")
+        print(f"{confidence_levels[num]}: {percentage_counts[num]:.2f}%")
 
 # Plot negative sentiment significance
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
@@ -133,11 +131,9 @@ for i, significance_series in enumerate(neg_significance_levels):
     counts = Counter(significance_series)
     total_count = len(significance_series)
     percentage_counts = {num: count / total_count * 100 for num, count in counts.items()}
-    #print(f'Portion of Siginificant Models for Negative Sentiment Lag-{i+1}:')
+    print(f'Portion of Siginificant Models for Negative Sentiment Lag-{i+1}:')
     for num in confidence_levels.keys():
-        print(f" & {percentage_counts[num]:.2f}\%", end='', flush=True)
-    print("\\\\")
-        #print(f"{confidence_levels[num]}: {percentage_counts[num]:.2f}%")
+        print(f"{confidence_levels[num]}: {percentage_counts[num]:.2f}%")
 
 # Plot negative sentiment significance
 fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(16, 16), sharex=False, sharey=True)
