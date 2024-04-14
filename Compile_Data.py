@@ -59,12 +59,12 @@ from collections import defaultdict
 # Data to save for each trading day
 class Trading_Day:
     def __init__(self, date, close, returns, neg_sentiment, 
-                 media_volume, monday, january, gfc, covid):
+                 article_count, monday, january, gfc, covid):
         self.date = date
         self.close = close
         self.returns = returns
         self.neg_sentiment = neg_sentiment
-        self.media_volume = media_volume
+        self.article_count = article_count
         self.monday = monday
         self.january = january
         self.gfc = gfc
@@ -73,7 +73,7 @@ class Trading_Day:
     # Write daily data to csv
     def to_csv_line(self): 
         return (f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},"
-        f"{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.gfc)},"
+        f"{str(self.neg_sentiment)},{str(self.article_count)},{str(self.monday)},{str(self.january)},{str(self.gfc)},"
         f"{str(self.covid)}")
 
 # Class containing info about each article
@@ -377,16 +377,16 @@ def convert_to_zscore(daily_neg_sentiment):
 # Calculate a sentiment time series from the article sentiments
 def get_daily_sentiments(articles):
     daily_neg_sentiment = defaultdict(list)
-    daily_media_volume = {}
+    daily_article_count = {}
 
     # Add sentiments for each day
     for article in articles:
         daily_neg_sentiment[article.date].append(article.neg_sentiment)
         
         # Update media volume for that day
-        if article.date in daily_media_volume:
-            daily_media_volume[article.date] = daily_media_volume[article.date]+1
-        else: daily_media_volume[article.date] = 1
+        if article.date in daily_article_count:
+            daily_article_count[article.date] = daily_article_count[article.date]+1
+        else: daily_article_count[article.date] = 1
         
     # Average sentiments for each day
     for article in articles:
@@ -394,7 +394,7 @@ def get_daily_sentiments(articles):
     
     # Convert time series to Z-score
     daily_neg_sentiment = convert_to_zscore(daily_neg_sentiment)
-    return daily_neg_sentiment, daily_media_volume
+    return daily_neg_sentiment, daily_article_count
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
@@ -480,7 +480,7 @@ def is_covid(date):
     return 0
     
 # Collect data for each trading day start_date, end_date
-def aggregate_time_series(daily_neg_sentiment, daily_media_volume, close_prices):
+def aggregate_time_series(daily_neg_sentiment, daily_article_count, close_prices):
     daily_data = {}
     returns_list = []
     days_parsed = 0
@@ -494,7 +494,7 @@ def aggregate_time_series(daily_neg_sentiment, daily_media_volume, close_prices)
         close = 0
         returns = 0
         neg_sentiment = base_sentiment
-        media_volume = 0
+        article_count = 0
         monday = 0
         january = 0
         gfc = 0
@@ -518,11 +518,11 @@ def aggregate_time_series(daily_neg_sentiment, daily_media_volume, close_prices)
             # Collect sentiment data
             if date in daily_neg_sentiment:
                 neg_sentiment = daily_neg_sentiment[date]
-                media_volume = daily_media_volume[date]
+                article_count = daily_article_count[date]
                 
             # Save all data 
             daily_data[date] = Trading_Day(date, close, returns, neg_sentiment,
-                                           media_volume, monday, january, gfc, covid)
+                                           article_count, monday, january, gfc, covid)
         
     print("Financial time series compiled.\n")
     return daily_data
@@ -534,7 +534,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
             writer = csv.writer(csv_file)
             # Header
             writer.writerow(["Date","Close","Returns","Absolute_Returns","Negative_Sentiment",
-                             "Media_Volume","Monday","January","GFC","COVID"])
+                             "Article_Count","Monday","January","GFC","COVID"])
             # Save data
             for date, trading_day in daily_data.items():
                 writer.writerow(trading_day.to_csv_line().split(','))
@@ -581,7 +581,7 @@ articles = get_sentiment_scores(articles, negative_dict, glossary, seniment_back
 save_article_data(articles, article_data_backup_path)
 
 # Get sentiment time series    
-daily_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
+daily_neg_sentiment, daily_article_count = get_daily_sentiments(articles)
 
 # Get the time period
 dates = [article.date for article in articles]
@@ -591,7 +591,7 @@ print(f"\nTime series start date: {start_date}, end date: {end_date}\n")
 
 # Extract financial data from the time period
 close_prices= get_RYAAY_data(RYAAY_data_path, start_date, end_date)
-daily_data = aggregate_time_series(daily_neg_sentiment, daily_media_volume, close_prices)
+daily_data = aggregate_time_series(daily_neg_sentiment, daily_article_count, close_prices)
 
 # Save data to csv
 save_time_series_to_csv(daily_data, output_series_file_path)

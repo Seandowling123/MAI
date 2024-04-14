@@ -1,0 +1,24 @@
+# This is a text version of the Run_Returns_VAR GRETL script for easier viewing.
+
+open C:\Users\Aggregated_Time_Series.csv # load data from disk
+
+# Model 1
+var 5 Returns --robust-hac
+
+# Model 2
+var 5 Returns Negative_Sentiment --robust-hac
+
+# Model 3
+var 5 Returns Media_Volume --robust-hac
+
+# Model 4
+var 5 Returns Negative_Sentiment Article_Count --robust-hac
+
+# Model 5
+var 5 Returns Negative_Sentiment Article_Count; Monday January --robust-hac
+
+# Model 6
+var 5 Returns Negative_Sentiment Article_Count; Monday January GFC --robust-hac
+
+# Model 7
+var 5 Returns Negative_Sentiment Article_Count; Monday January GFC COVID --robust-hac
