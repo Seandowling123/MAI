@@ -1,3 +1,31 @@
+"""
+Title: Compile Data
+Author: Sean Dowling
+Date: 15/04/2024
+
+Description:
+This script creates and aggregates time series 
+
+Usage:
+[Instructions on how to use the code, including any parameters or inputs it requires.]
+
+Dependencies:
+- numpy (imported as np)
+- pandas (imported as pd)
+- math
+- csv
+- time
+- re
+- os
+- statistics
+- datetime and timedelta from the datetime module
+- pickle
+- word_tokenize from the nltk.tokenize module
+- defaultdict from the collections module
+
+"""
+
+
 import numpy as np
 import pandas as pd
 import math
@@ -270,7 +298,7 @@ def get_sentiment_scores(articles, negative_dict, glossary, seniment_backup_path
         for article in articles:
             try:
                 # Get sentiment scores
-                neg_sentiment = calculate_sentiment(article.body, [], negative_dict, glossary)
+                neg_sentiment = calculate_sentiment(article.body, negative_dict, glossary)
             
                 # Save score
                 save_sentiment_score(article, neg_sentiment)
