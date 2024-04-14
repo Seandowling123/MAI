@@ -1,6 +1,31 @@
+"""
+Title: Get Returns Distribution
+Author: Sean Dowling
+Date: 15/04/2024
+
+Description:
+This script analyses the distribution of returns over the investigation period. This distribution is also compared to the normal distribution.
+
+Usage:
+The script can be run without interaction, povided that the relevant inputs are available.
+
+Inputs:
+- Historical stock data (stored as Financial_Data/RYAAY.csv)
+
+Outputs:
+- A comparison of the distribution or returns and the normal distribution is printed in the terminal
+
+Dependencies:
+- csv
+- datetime from the datetime module
+- math
+- numpy (imported as np)
+- norm from the scipy.stats module
+
+"""
+
 import csv
 from datetime import datetime
-import matplotlib.pyplot as plt
 import math
 import numpy as np
 from scipy.stats import norm
@@ -33,7 +58,7 @@ def get_distribution_data(returns):
     for deviation in returns_cdf:
         returns_cdf[deviation] = (returns_cdf[deviation] / len(returns))*100
     
-    # Get return stats
+    # Print return stats
     print("\nCDF Data:")
     prev_deviation = 0
     returns_cdf_prev = 0
@@ -47,6 +72,7 @@ def get_distribution_data(returns):
         norm_cdf_prev = normal_cdf[deviation]
     print(f"textbf{{Std. Deviations: > 6}}         | RYAAY: {100-returns_cdf[6]:.2f} | Normal: {100-normal_cdf[6]:.2f} | Disc.: {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}")
 
+# Get the historical stock closing prices
 def get_close_prices(input_file_path, start_date, end_date):
     prices = []
     dates = []
