@@ -7,27 +7,18 @@ import re
 import os
 import statistics
 from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
 import pickle
 from nltk.tokenize import word_tokenize
-from nltk.stem.snowball import PorterStemmer
 from collections import defaultdict
 
 # Data to save for each trading day
 class Trading_Day:
-    def __init__(self, date, close, returns, volatility, volume, vix_returns, vix_close, pos_sentiment, neg_sentiment, 
-                 stemmed_text_pos_sentiment, stemmed_text_neg_sentiment, media_volume, monday, january, gfc, covid):
+    def __init__(self, date, close, returns, neg_sentiment, 
+                 media_volume, monday, january, gfc, covid):
         self.date = date
         self.close = close
         self.returns = returns
-        self.volatility = volatility
-        self.volume = volume
-        self.vix_returns = vix_returns
-        self.vix_close = vix_close
-        self.pos_sentiment = pos_sentiment
         self.neg_sentiment = neg_sentiment
-        self.stemmed_text_pos_sentiment = stemmed_text_pos_sentiment
-        self.stemmed_text_neg_sentiment = stemmed_text_neg_sentiment
         self.media_volume = media_volume
         self.monday = monday
         self.january = january
@@ -37,23 +28,17 @@ class Trading_Day:
     # Write daily data to csv
     def to_csv_line(self): 
         return (f"{str(self.date)},{str(self.close)},{str(10000*self.returns)},{str(abs(10000*self.returns))},"
-        f"{str(self.volatility)},{str(self.volume)},{str(self.vix_close)},{str(self.vix_returns)},{str(self.pos_sentiment)},"
-        f"{str(self.neg_sentiment)},{str(self.stemmed_text_pos_sentiment)},{str(self.stemmed_text_neg_sentiment)},"
-        f"{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.gfc)},{str(self.covid)}")
+        f"{str(self.neg_sentiment)},{str(self.media_volume)},{str(self.monday)},{str(self.january)},{str(self.gfc)},"
+        f"{str(self.covid)}")
 
 # Class containing info about each article
 class Article:
-    def __init__(self, date, body, stemmed_text_body, source, headline, pos_sentiment, neg_sentiment, 
-                 stemmed_text_pos_sentiment, stemmed_text_neg_sentiment):
+    def __init__(self, date, body, source, headline, neg_sentiment):
         self.date = date
         self.body = body
-        self.stemmed_text_body = stemmed_text_body
         self.source = source
         self.headline = headline
-        self.pos_sentiment = pos_sentiment
         self.neg_sentiment = neg_sentiment
-        self.stemmed_text_pos_sentiment = stemmed_text_pos_sentiment
-        self.stemmed_text_neg_sentiment = stemmed_text_neg_sentiment
         
 # Class containing info about each news source
 class Source:
@@ -157,18 +142,6 @@ def get_source_match(article, sources):
 def remove_duplicates(articles):
     return list(set(articles))
 
-# Converts words in an article body to their stems
-def stem_text(text):
-    stemmer = PorterStemmer()
-    words = word_tokenize(text)
-    stemmed_text_text = ""
-    
-    """# Stem each word
-    for word in words:
-        stemmed_text_word = stemmer.stem(word)
-        stemmed_text_text = stemmed_text_text + " " + stemmed_text_word"""
-    return stemmed_text_text.upper()
-
 # Print a progress bar during calculations
 def print_progress_bar(iteration, total, caption="Loading", bar_length=50):
     progress = iteration/total
@@ -206,9 +179,8 @@ def extract_article_data(raw_articles, sources, articles_backup_path):
                         
                         # Add to Articles list. Initialise sentiment to 0
                         body = process_text(raw_articles[i])
-                        stemmed_text_body = stem_text(body)
                         if body != 0:
-                            articles.append(Article(date, body, stemmed_text_body, source, headline, 0, 0, 0, 0))
+                            articles.append(Article(date, body, source, headline, 0))
                         else: num_invalid_bodies = num_invalid_bodies+1
                     else: num_invalid_sources = num_invalid_sources+1
                 else: num_out_of_date_range = num_out_of_date_range+1
@@ -252,27 +224,19 @@ def get_word_count(text_body, dictionary_words, glossary):
     return word_counts
 
 # Calculate sentiment score for text
-def calculate_sentiment(text_body, positive_dict, negative_dict, glossary):
+def calculate_sentiment(text_body, negative_dict, glossary):
     # Get counts
     num_words = len(word_tokenize(text_body))
-    pos_word_count = get_word_count(text_body, positive_dict, glossary)
     neg_word_count = get_word_count(text_body, negative_dict, glossary)
     
     # Calculate relative word frequencies
-    pos_score = pos_word_count/num_words
     neg_score = neg_word_count/num_words
     
-    return pos_score, neg_score
+    return neg_score
 
 # Save sentiment score for an article
-def save_sentiment_score(article, pos_sentiment, neg_sentiment):
-    article.pos_sentiment = pos_sentiment
+def save_sentiment_score(article, neg_sentiment):
     article.neg_sentiment = neg_sentiment
-    
-# Save stemmed sentiment score for an article
-def save_stemmed_text_sentiment_score(article, pos_sentiment, neg_sentiment):
-    article.stemmed_text_pos_sentiment = pos_sentiment
-    article.stemmed_text_neg_sentiment = neg_sentiment
     
 def get_sentiment_backup(seniment_backup_path):
     if os.path.exists(seniment_backup_path):
@@ -284,7 +248,7 @@ def get_sentiment_backup(seniment_backup_path):
         return None
 
 # Calculate sentiment score
-def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path):
+def get_sentiment_scores(articles, negative_dict, glossary, seniment_backup_path):
     calculated = 0
     num_articles = len(articles)
     
@@ -299,12 +263,10 @@ def get_sentiment_scores(articles, positive_dict, negative_dict, glossary, senim
         for article in articles:
             try:
                 # Get sentiment scores
-                pos_sentiment, neg_sentiment = calculate_sentiment(article.body, [], negative_dict, glossary)
-                #stem_pos_sentiment, stem_neg_sentiment  = calculate_sentiment(article.stemmed_text_body, positive_dict, negative_dict, glossary)
+                neg_sentiment = calculate_sentiment(article.body, [], negative_dict, glossary)
             
                 # Save score
-                save_sentiment_score(article, pos_sentiment, neg_sentiment)
-                #save_stemmed_text_sentiment_score(article, stem_pos_sentiment, stem_neg_sentiment)
+                save_sentiment_score(article, neg_sentiment)
                     
                 # Progress tracker
                 calculated = calculated + 1
@@ -348,58 +310,26 @@ def get_logs(input_list):
         logs.append(math.log10(int(num)))
     return logs
 
-# Calculate detrended daily trading volume
-def get_detrended_volume(volume, index):
-    log_vol = get_logs(volume)
-    mean_vol = np.mean(log_vol[index-60:index])
-    detrended_vol = log_vol[index] - mean_vol
-    return detrended_vol
-
-def convert_article_count_to_zscore(daily_media_volume):
-    # Calculate the mean & standard deviation
-    mean = np.mean(list(daily_media_volume.values()))
-    std_deviation = np.std(list(daily_media_volume.values()))
-    
-    # Convert to z-score
-    for day in daily_media_volume:
-        daily_media_volume[day] = (daily_media_volume[day]-mean)/std_deviation
-
 # Convert the raw sentiments to Z-scores
-def convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment):
+def convert_to_zscore(daily_neg_sentiment):
     
-    # Calculate the mean & standard deviations
-    mean_pos = statistics.mean(list(daily_pos_sentiment.values()))
-    std_dev_pos = statistics.stdev(list(daily_pos_sentiment.values()))
+    # Calculate the mean & standard deviation
     mean_neg = statistics.mean(list(daily_neg_sentiment.values()))
     std_dev_neg = statistics.stdev(list(daily_neg_sentiment.values()))
-    mean_stemmed_text_pos = statistics.mean(list(daily_stemmed_text_pos_sentiment.values()))
-    std_dev_stemmed_text_pos = statistics.stdev(list(daily_stemmed_text_pos_sentiment.values()))
-    mean_stemmed_text_neg = statistics.mean(list(daily_stemmed_text_neg_sentiment.values()))
-    std_dev_stemmed_text_neg = statistics.stdev(list(daily_stemmed_text_neg_sentiment.values()))
     
     # Convert sentiments to Z-scores
-    for date in daily_pos_sentiment:
-        daily_pos_sentiment[date] = (daily_pos_sentiment[date] - mean_pos) / std_dev_pos
+    for date in daily_neg_sentiment:
         daily_neg_sentiment[date] = (daily_neg_sentiment[date] - mean_neg) / std_dev_neg
-        daily_stemmed_text_pos_sentiment[date] = (daily_stemmed_text_pos_sentiment[date] - mean_stemmed_text_pos) / std_dev_stemmed_text_pos
-        daily_stemmed_text_neg_sentiment[date] = (daily_stemmed_text_neg_sentiment[date] - mean_stemmed_text_neg) / std_dev_stemmed_text_neg
-        
-    return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment
+    return daily_neg_sentiment
 
 # Calculate a sentiment time series from the article sentiments
 def get_daily_sentiments(articles):
-    daily_pos_sentiment = defaultdict(list)
     daily_neg_sentiment = defaultdict(list)
-    daily_stemmed_text_pos_sentiment = defaultdict(list)
-    daily_stemmed_text_neg_sentiment = defaultdict(list)
     daily_media_volume = {}
 
     # Add sentiments for each day
     for article in articles:
-        daily_pos_sentiment[article.date].append(article.pos_sentiment)
         daily_neg_sentiment[article.date].append(article.neg_sentiment)
-        daily_stemmed_text_pos_sentiment[article.date].append(article.stemmed_text_pos_sentiment)
-        daily_stemmed_text_neg_sentiment[article.date].append(article.stemmed_text_neg_sentiment)
         
         # Update media volume for that day
         if article.date in daily_media_volume:
@@ -408,32 +338,26 @@ def get_daily_sentiments(articles):
         
     # Average sentiments for each day
     for article in articles:
-        daily_pos_sentiment[article.date] = np.mean(daily_pos_sentiment[article.date])
         daily_neg_sentiment[article.date] = np.mean(daily_neg_sentiment[article.date])
-        daily_stemmed_text_pos_sentiment[article.date] = np.mean(daily_stemmed_text_pos_sentiment[article.date])
-        daily_stemmed_text_neg_sentiment[article.date] = np.mean(daily_stemmed_text_neg_sentiment[article.date])
     
     # Convert time series to Z-score
-    daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment = convert_to_zscore(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment)
-    return daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume
+    daily_neg_sentiment = convert_to_zscore(daily_neg_sentiment)
+    return daily_neg_sentiment, daily_media_volume
 
 # Extract Ryanair financial data 
 def get_RYAAY_data(file_path, start_date, end_date):
     close_price_dict = {}
-    trading_vol_dict = {}
-    volume = []
     range_reached = 0
     index = 0
     try:
         with open(file_path, 'r', newline='') as input_file:
             reader = csv.DictReader(input_file)
             
-            # Parse through the time series
+            # Calculate a returns time series
             for row in reader:
                 date_str = row['Date']
                 date_object = datetime.strptime(date_str, '%Y-%m-%d')
                 close_price = float(row['Adj Close'])
-                volume.append(row['Volume'])
                 if start_date <= date_object <= end_date:
                     
                     # Add the date before range for use in returns calculation
@@ -442,16 +366,12 @@ def get_RYAAY_data(file_path, start_date, end_date):
                         range_reached = 1
                     close_price_dict[date_object] = close_price
                     
-                    # Get detrended trading volume
-                    detrended_vol = get_detrended_volume(volume, index)
-                    trading_vol_dict[date_object] = detrended_vol
-                    
                 prev_date = date_object
                 prev_close = close_price
                 index = index+1
                 
         print("RYAAY data compiled.\n")
-        return close_price_dict, trading_vol_dict
+        return close_price_dict
     except FileNotFoundError:
         print(f"File not found: {file_path}")
         return None
@@ -459,44 +379,6 @@ def get_RYAAY_data(file_path, start_date, end_date):
         print(f"An error occurred. RYAAY data: {str(e)}")
         return None
 
-# Extract VIX financial data
-def get_VIX_data(file_path, start_date, end_date):
-    close_price_dict = {}
-    prev_date = 0
-    range_reached = 0
-    try:
-        with open(file_path, 'r', newline='') as input_file:
-            reader = csv.DictReader(input_file)
-            
-            # Parse through the time series
-            for row in reader:
-                date_str = row['Date']
-                date_object = datetime.strptime(date_str, '%Y-%m-%d')
-                
-                # If there is data for this day, then add it to the dict
-                if row['Adj Close'] != "null":
-                    close_price = float(row['Adj Close'])
-                    if start_date <= date_object <= end_date:
-                        
-                        # Add the date before range for use in returns calculation
-                        if range_reached == 0:
-                            close_price_dict[prev_date] = prev_close
-                            range_reached = 1
-                        close_price_dict[date_object] = close_price
-                        
-                    prev_date = date_object
-                    prev_close = close_price
-                else: close_price_dict[date_object] = prev_close
-                
-        print("VIX data compiled.\n")
-        return close_price_dict
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        return None
-    except Exception as e:
-        print(f"An error occurred. VIX data: {str(e)}")
-        return None
-    
 # Get the date of the previous trading day
 def get_previous_trading_day(day, trading_data):
     previous_day = day - timedelta(days=1)
@@ -546,9 +428,7 @@ def is_covid(date):
     return 0
     
 # Collect data for each trading day start_date, end_date
-def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, 
-                          daily_stemmed_text_neg_sentiment, daily_media_volume, close_prices, 
-                          trading_volume, VIX_prices):
+def aggregate_time_series(daily_neg_sentiment, daily_media_volume, close_prices):
     daily_data = {}
     returns_list = []
     days_parsed = 0
@@ -561,14 +441,7 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
     for date in close_prices:
         close = 0
         returns = 0
-        volatility = 0
-        volume = 0
-        vix_returns = 0
-        vix_close = 0
-        pos_sentiment= 0
         neg_sentiment = base_sentiment
-        stemmed_text_pos_sentiment = 0
-        stemmed_text_neg_sentiment = 0
         media_volume = 0
         monday = 0
         january = 0
@@ -583,11 +456,6 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
             close = close_prices[date]
             returns = math.log(close_prices[date]/close_prices[get_previous_trading_day(date, close_prices)])
             returns_list.append(returns)
-            if len(returns_list) >= 30:
-                volatility = statistics.stdev(returns_list[-30:])
-            volume = trading_volume[date]
-            vix_close = VIX_prices[date]
-            vix_returns = math.log(VIX_prices[date]/VIX_prices[get_previous_trading_day(date, VIX_prices)])
             
             # Collect calendar data
             monday = is_monday(date)
@@ -596,17 +464,13 @@ def aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemme
             covid = is_covid(date)
             
             # Collect sentiment data
-            if date in daily_pos_sentiment:
-                pos_sentiment = daily_pos_sentiment[date]
+            if date in daily_neg_sentiment:
                 neg_sentiment = daily_neg_sentiment[date]
-                stemmed_text_pos_sentiment = daily_stemmed_text_pos_sentiment[date]
-                stemmed_text_neg_sentiment = daily_stemmed_text_neg_sentiment[date]
                 media_volume = daily_media_volume[date]
                 
             # Save all data 
-            daily_data[date] = Trading_Day(date, close, returns, volatility, volume, vix_returns, vix_close, 
-                                           pos_sentiment, neg_sentiment, stemmed_text_pos_sentiment, 
-                                           stemmed_text_neg_sentiment, media_volume, monday, january, gfc, covid)
+            daily_data[date] = Trading_Day(date, close, returns, neg_sentiment,
+                                           media_volume, monday, january, gfc, covid)
         
     print("Financial time series compiled.\n")
     return daily_data
@@ -617,9 +481,7 @@ def save_time_series_to_csv(daily_data, csv_file_path):
         with open(csv_file_path, 'w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             # Header
-            writer.writerow(["Date","Close","Returns","Absolute_Returns","Volatility","Detrended_Volume",
-                             "VIX_Close","VIX_Returns","Positive_Sentiment","Negative_Sentiment",
-                             "Stemmed_text_Positive_Sentiment","Stemmed_text_Negative_Sentiment",
+            writer.writerow(["Date","Close","Returns","Absolute_Returns","Negative_Sentiment",
                              "Media_Volume","Monday","January","GFC","COVID"])
             # Save data
             for date, trading_day in daily_data.items():
@@ -641,7 +503,6 @@ RYAAY_data_path = "Financial_Data/RYAAY.csv"
 VIX_data_path = "Financial_Data/VIX.csv"
 
 # Dictionaries file paths
-positive_dict_path = "Dictionaries_and_Glossaries/GI_Positive.csv"
 negative_dict_path = "Dictionaries_and_Glossaries/GI_Negative.csv"
 glossary_path = "Dictionaries_and_Glossaries/Combined_Glossary.csv"
 
@@ -661,16 +522,15 @@ else:
     articles = extract_article_data(raw_articles, sources, articles_backup_path)
 
 # Load dictionaries & calculate sentiments
-positive_dict = load_csv(positive_dict_path)
 negative_dict = load_csv(negative_dict_path)
 glossary = load_csv(glossary_path)
-articles = get_sentiment_scores(articles, positive_dict, negative_dict, glossary, seniment_backup_path)
+articles = get_sentiment_scores(articles, negative_dict, glossary, seniment_backup_path)
 
 # Save the article data to csv
 save_article_data(articles, article_data_backup_path)
 
 # Get sentiment time series    
-daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
+daily_neg_sentiment, daily_media_volume = get_daily_sentiments(articles)
 
 # Get the time period
 dates = [article.date for article in articles]
@@ -679,9 +539,8 @@ end_date = max(dates)
 print(f"\nTime series start date: {start_date}, end date: {end_date}\n")
 
 # Extract financial data from the time period
-close_prices, trading_volume = get_RYAAY_data(RYAAY_data_path, start_date, end_date)
-VIX_prices = get_VIX_data(VIX_data_path, start_date, end_date)
-daily_data = aggregate_time_series(daily_pos_sentiment, daily_neg_sentiment, daily_stemmed_text_pos_sentiment, daily_stemmed_text_neg_sentiment, daily_media_volume, close_prices, trading_volume, VIX_prices)
+close_prices= get_RYAAY_data(RYAAY_data_path, start_date, end_date)
+daily_data = aggregate_time_series(daily_neg_sentiment, daily_media_volume, close_prices)
 
 # Save data to csv
 save_time_series_to_csv(daily_data, output_series_file_path)
