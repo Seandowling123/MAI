@@ -1,4 +1,4 @@
-open C:\Users\XX_daily_data.csv # load data from disk
+open C:\Users\Aggregated_Time_Series.csv # load data from disk
 
 scalar start_index = 1
 scalar window = 252
