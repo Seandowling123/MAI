@@ -8,9 +8,6 @@ This script creates and aggregates the time series data required for the project
 articles, calculate a time series of negative sentiment and calculate a time series of financial returns. These time series are aggregated
 into a csv file and saved in the current directory.
 
-Usage:
-The script can be run without interaction, povided that the relevant inputs are available.
-
 Inputs:
 - News text data (stored as Raw_Articles/Articles_combined.txt)
 - A list of valid sources (stored as Article_Data/News_Source_Names.csv) 

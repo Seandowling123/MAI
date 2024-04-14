@@ -6,9 +6,6 @@ Date: 15/04/2024
 Description:
 This script analyses the distribution of returns over the investigation period. This distribution is also compared to the normal distribution.
 
-Usage:
-The script can be run without interaction, povided that the relevant inputs are available.
-
 Inputs:
 - Historical stock data (stored as Financial_Data/RYAAY.csv)
 

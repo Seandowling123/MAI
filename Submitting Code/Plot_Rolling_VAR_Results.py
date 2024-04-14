@@ -8,9 +8,6 @@ This script creates plots to show the statistical significance of negative senti
 It takes the p-values of the rolling VAR models coefficients and classifies them as significant at the 10%, 5% and 1% confidence levels or insignificant.
 The significance of these coefficients is then plotted.
 
-Usage:
-The script can be run without interaction, povided that the relevant inputs are available.
-
 Inputs:
 - P-values for the statistical significance of negative sentiment on returns (stored as Rolling_VAR_Results/Returns_Rolling_VAR_P_Values.csv)
 - P-values for the statistical significance of negative sentiment on absolute returns (stored as Rolling_VAR_Results/Absolute_Returns_Rolling_VAR_P_Values.csv)

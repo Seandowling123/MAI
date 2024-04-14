@@ -6,9 +6,6 @@ Date: 15/04/2024
 Description:
 This script splits the 20-year investigation period into 10 2-year intervals and prints the summary statistics for returns during each one
 
-Usage:
-The script can be run without interaction, povided that the relevant inputs are available.
-
 Inputs:
 - Historical stock data (stored as Financial_Data/RYAAY.csv)
 
