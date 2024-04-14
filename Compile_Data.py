@@ -239,7 +239,6 @@ def calculate_sentiment(text_body, negative_dict, glossary):
     
     # Calculate relative word frequencies
     neg_score = neg_word_count/num_words
-    
     return neg_score
 
 # Save sentiment score for an article
