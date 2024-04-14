@@ -10,24 +10,6 @@ import numpy as np
 from statistics import mode, median, variance
 from scipy.stats import norm, skew, kurtosis
 
-# Get the indicies to split the time series into 2-year intervals
-def get_split_indices(dates):
-    # Initialize variables
-    split_indices = []
-    current_year = dates[0].year
-    start_index = 0
-
-    # Iterate over the dates list
-    for i, date in enumerate(dates):
-        if date.year != current_year:
-            split_indices.append((start_index, i - 1))
-            current_year = date.year
-            start_index = i
-
-    # Add the last 2-year period
-    split_indices.append((start_index, len(dates) - 1))
-    return split_indices
-
 # Calculate the distribution of the returns time series & compare with normal distribution
 def get_distribution_data(returns):
     
@@ -42,6 +24,19 @@ def get_distribution_data(returns):
     # Get normal distribution stats
     for deviation in deviations:
         normal_cdf[deviation] = (norm.cdf(deviation, 0, 1) - norm.cdf(-deviation, 0, 1))*100
+        
+    # Get returns distribution stats
+    for daily_return in returns:
+        z_score = (daily_return-mean_returns)/std_returns
+        for deviation in deviations:
+            if np.abs(z_score) < deviation:
+                (norm.cdf(-deviation, 1, 1) - norm.cdf(deviation, 1, 1))*100
+                if deviation in returns_cdf:
+                    returns_cdf[deviation] = returns_cdf[deviation]+1
+                else: returns_cdf[deviation] = 0
+    
+    for deviation in returns_cdf:
+        returns_cdf[deviation] = (returns_cdf[deviation] / len(returns))*100
     
     # Get return stats
     print("\nCDF Data:")
@@ -56,50 +51,6 @@ def get_distribution_data(returns):
         returns_cdf_prev = returns_cdf[deviation]
         norm_cdf_prev = normal_cdf[deviation]
     print(f"textbf{{Std. Deviations: > 6}}         | RYAAY: {100-returns_cdf[6]:.2f} | Normal: {100-normal_cdf[6]:.2f} | Disc.: {(100-returns_cdf[6]-(100-normal_cdf[6])):.2f}")
-
-def get_descriptive_stats(returns):
-    
-    # Central tendancy
-    mean_returns = np.mean(returns)
-    mode_returns = mode(returns)
-    median_returns = median(returns)
-    
-    # Spread
-    dev_returns = np.std(returns)
-    sample_var_return = variance(returns)
-    data_range_return = max(returns) - min(returns)
-    
-    # Skewness / Kurtosis
-    data_skewness = skew(returns)
-    data_kurtosis = kurtosis(returns)
-    
-    # Autocorrelation
-    lag = 5
-    lags = range(1, lag + 1)
-    df = pd.DataFrame(returns, columns=['Returns'])
-    autocorrelations = [df['Returns'].autocorr(lag=lag) for lag in lags]
-    
-    # Min / Max
-    min_returns = min(returns)
-    max_returns = max(returns)
-    
-    # Jarque-Bera
-    
-    # Print the stats
-    print("\nRYAAY Descriptive Statistics", "\\\\")
-    print("{:.4f} & ".format(mean_returns))
-    print("{:.4f} & ".format(mode_returns))
-    print("{:.4f} & ".format(median_returns))
-    print("{:.4f} & ".format(dev_returns))
-    print("{:.4f} & ".format(sample_var_return))
-    print("{:.4f} & ".format(data_range_return))
-    print("{:.4f} & ".format(data_skewness))
-    print("{:.4f} & ".format(data_kurtosis))
-    for autocorr in autocorrelations:
-        print("{:.4f} & ".format(autocorr))
-    print("{:.4f} & ".format(min_returns))
-    print("{:.4f} & ".format(max_returns))
-    print("{:.4f} & ".format(len(returns)))
 
 def get_close_prices(input_file_path, start_date, end_date):
     prices = []
@@ -149,17 +100,8 @@ std_returns = np.std(returns)
 
 # Print the returns returns stats
 #get_distribution_data(returns)
-
-split_indices = get_split_indices(returns, dates)
-for i in range(10):
-    start = split_indices[i*2][0]
-    end = split_indices[i*2+1][1]
-    print(f'\nPeriod: {dates[start]} - {dates[end]}', end='', flush=True)
-    get_descriptive_stats(returns[start:end])
     
 get_distribution_data(returns)
-#get_descriptive_stats(returns)
-#get_descriptive_stats(np.abs(returns))
 
 ####################################################################################
 # Plots
