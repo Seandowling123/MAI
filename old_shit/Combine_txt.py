@@ -1,3 +1,22 @@
+"""
+Title: Combine Txt
+Author: Sean Dowling
+Date: 15/04/2024
+
+Description:
+This script combines news article data stored as .txt files into one large .txt file.
+
+Inputs:
+- News article .txt files (stored in Articles_txt)
+
+Outputs:
+- Combined article .txt file (stored as Raw_Articles/Articles_combined.txt)
+
+Dependencies:
+- os
+
+"""
+
 import os
 
 def combine_txt_files_in_folder(output_file, folder_path):
@@ -9,10 +28,10 @@ def combine_txt_files_in_folder(output_file, folder_path):
                     with open(file_path, 'r', encoding='utf-8', errors='ignore') as input_file:
                         content = input_file.read()
                         output.write(content)
-                        output.write('\n')  # Add a newline between the content of each file
+                        output.write('\n')
         print(f"Files in '{folder_path}' combined successfully. Result saved to '{output_file}'.")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 # Example usage:
-combine_txt_files_in_folder('Articles_txt_combined/Articles_combined.txt', 'Articles_txt')
+combine_txt_files_in_folder('Raw_Articles/Articles_combined.txt', 'Articles_txt')
