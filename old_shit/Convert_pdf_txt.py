@@ -1,6 +1,27 @@
+"""
+Title: Convert pdf to Txt
+Author: Sean Dowling
+Date: 15/04/2024
+
+Description:
+This script converts news article data stored as .pdf files into .txt files.
+
+Inputs:
+- News article .pdf files (stored in Articles_pdf)
+
+Outputs:
+- News article .txt files (stored in Articles_txt)
+
+Dependencies:
+- os
+- fitz
+
+"""
+
 import os
 import fitz
 
+# Convert the PDFs to TXT
 def convert_pdf_to_text(pdf_path):
     try:
         doc = fitz.open(pdf_path)

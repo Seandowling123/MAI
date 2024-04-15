@@ -312,11 +312,16 @@ def get_sentiment_scores(articles, negative_dict, glossary, seniment_backup_path
         print("Sentiments loaded from backup file.")
     else:
         # Iterate through each article
+        total_time = 0
         for article in articles:
             try:
                 # Get sentiment scores
+                start_time = time.time()
                 neg_sentiment = calculate_sentiment(article.body, negative_dict, glossary)
-            
+                end_time = time.time()
+                elapsed_time = end_time - start_time
+                total_time = total_time+elapsed_time
+                
                 # Save score
                 save_sentiment_score(article, neg_sentiment)
                     
@@ -327,6 +332,8 @@ def get_sentiment_scores(articles, negative_dict, glossary, seniment_backup_path
                 
             except Exception as e:
                 print(f" A sentiment calculation error occurred: {str(e)}\n")
+        
+        print("AVERAGE TIME:", total_time/len(articles))
         
         # Save the article data with sentiments to the backup file
         with open(seniment_backup_path, 'wb') as file:
